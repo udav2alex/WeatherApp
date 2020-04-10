@@ -7,4 +7,8 @@
     <string name="feels_like">Ощущается как +4˚C</string>
     <string name="pressureValue">750 мм. рт. ст.</string>
     <string name="now">Сейчас</string>
+    <string name="wind">Ветер</string>
+    <string name="windSpeed">3 м/сек СЗ</string>
+    <string name="todayDate">9 апреля</string>
+    <string name="today">Сегодня</string>
 </resources>
