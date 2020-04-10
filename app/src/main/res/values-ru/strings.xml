@@ -5,6 +5,6 @@
     <string name="site">Хорошево-Мневники</string>
     <string name="cloudy">Облачно</string>
     <string name="feels_like">Ощущается как +4˚C</string>
-    <string name="pressureValue">750 mmHg</string>
-    <string name="now">Now</string>
+    <string name="pressureValue">750 мм. рт. ст.</string>
+    <string name="now">Сейчас</string>
 </resources>
