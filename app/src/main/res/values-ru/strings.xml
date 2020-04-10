@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="hello_world">Привет мир!</string>
+    <string name="town">Москва</string>
+    <string name="site">Хорошево-Мневники</string>
+    <string name="cloudy">Облачно</string>
+    <string name="feels_like">Ощущается как +4˚C</string>
+    <string name="pressureValue">750 mmHg</string>
+    <string name="now">Now</string>
+</resources>
