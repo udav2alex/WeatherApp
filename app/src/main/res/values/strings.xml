@@ -3,15 +3,38 @@
     <string name="hello_world">Hello World!</string>
     <string name="town">Moscow</string>
     <string name="site">Khoroshevo-Mnevniki</string>
-    <string name="current_temperature">+8˚C</string>
     <string name="cloud_image">cloud image</string>
     <string name="cloudy">Cloudy</string>
-    <string name="feels_like">Feels like +4˚C</string>
+    <string name="feels_like">Feels like %1$s</string>
     <string name="wind">Wind</string>
-    <string name="windSpeed">3 m/sec. NW</string>
-    <string name="pressureValue">750 mmHg</string>
-    <string name="humidityValue">64%</string>
+    <string name="windSpeed">"%1$d m/sec."</string>
+    <string name="pressureValue">%1$d mmHg</string>
+    <string name="humidityValue">"%1$d%%"</string>
     <string name="now">Now</string>
     <string name="todayDate">April 9</string>
     <string name="today">Today</string>
+    <string name="select_town">Select town</string>
+    <string name="enter_town_or_region">Enter town or region</string>
+    <string name="no_town_selected">Enter or select town!</string>
+    <string name="not_available">n/a</string>
+
+    <string-array name="town_list">
+        <item>Arkhangelsk</item>
+        <item>Cheliabinsk</item>
+        <item>Ekaterinburg</item>
+        <item>Kazan</item>
+        <item>Khabarovsk</item>
+        <item>Krasnoyarsk</item>
+        <item>Kurgan</item>
+        <item>Moscow</item>
+        <item>Novosibirsk</item>
+        <item>Omsk</item>
+        <item>Pskov</item>
+        <item>Riazan</item>
+        <item>Rostov</item>
+        <item>St.Petersburg</item>
+        <item>Tomsk</item>
+        <item>Ulan-Ude</item>
+        <item>Vladivostok</item>
+    </string-array>
 </resources>
