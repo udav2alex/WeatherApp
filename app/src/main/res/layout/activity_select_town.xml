@@ -22,9 +22,11 @@
         android:id="@+id/editTextTown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginTop="16dp"
+        android:layout_weight="1"
         android:hint="@string/enter_town_or_region"
+        android:inputType="text"
+        android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@+id/imageViewClear"
         app:layout_constraintStart_toEndOf="@+id/imageViewBack"
         app:layout_constraintTop_toTopOf="parent" />

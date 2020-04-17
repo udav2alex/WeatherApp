@@ -30,6 +30,8 @@ public class SelectTown extends AppCompatActivity {
 
         ImageView imageViewBack = findViewById(R.id.imageViewBack);
         imageViewBack.setOnClickListener(imageViewBackOnClickListener);
+
+        EditText editTextTown = findViewById(R.id.editTextTown);
     }
 
     private void initTownList() {
@@ -74,7 +76,8 @@ public class SelectTown extends AppCompatActivity {
         }
 
         Intent intent = new Intent();
-        intent.putExtra("town", result);
+        DestinationPoint destinationPoint = new DestinationPoint(result, "");
+        intent.putExtra("destinationPoint", destinationPoint);
         setResult(RESULT_OK, intent);
         finish();
     };

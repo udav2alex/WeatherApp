@@ -12,7 +12,13 @@
     <string name="windSpeed">"%1$d м/сек"</string>
     <string name="todayDate">9 апреля</string>
     <string name="today">Сегодня</string>
+    <string name="condition_image">Картника погоды</string>
+    <string name="error_unknown_scale">Ошибка! Неизвестная шкала!</string>
     <string name="cloud_image">Картника погоды</string>
+    <string name="enter_town_or_region">Укажите город или регион</string>
+    <string name="select_town">Выбрать город</string>
+    <string name="not_available">н/д</string>
+    <string name="no_town_selected">Укажите город или регион!</string>
 
     <string-array name="town_list">
         <item>Архангельск</item>
@@ -33,8 +39,4 @@
         <item>Хабаровск</item>
         <item>Челябинск</item>
     </string-array>
-    <string name="enter_town_or_region">Укажите город или регион</string>
-    <string name="select_town">Выбрать город</string>
-    <string name="not_available">н/д</string>
-    <string name="no_town_selected">Укажите город или регион!</string>
 </resources>
