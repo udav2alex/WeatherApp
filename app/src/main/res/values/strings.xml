@@ -17,6 +17,7 @@
     <string name="not_available">n/a</string>
     <string name="error_unknown_scale">Error! Unknown scale!</string>
     <string name="condition_image">Condition image</string>
+    <string name="weather">Weather</string>
 
     <string-array name="town_list">
         <item>Arkhangelsk</item>
@@ -39,4 +40,6 @@
     </string-array>
     <string name="enter_town_or_region">Enter town or region</string>
     <string name="cloud_image">Weather image</string>
+    <string name="more_details_on_website">More details in web…</string>
+
 </resources>

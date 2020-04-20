@@ -1,6 +1,9 @@
 package ru.gressor.weatherapp;
 
-public class WeatherState {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class WeatherState implements Parcelable {
     private int temperature;
     private int tempFeelsLike;
     private int clouds;
@@ -16,6 +19,41 @@ public class WeatherState {
     public WeatherState(int temperature) {
         this.temperature = temperature;
     }
+
+    protected WeatherState(Parcel parcel) {
+        temperature = parcel.readInt();
+        tempFeelsLike = parcel.readInt();
+        clouds = parcel.readInt();
+        windSpeed = parcel.readInt();
+        windDirection = parcel.readInt();
+        pressure = parcel.readInt();
+        humidity = parcel.readInt();
+        conditions = parcel.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(temperature);
+        parcel.writeInt(tempFeelsLike);
+        parcel.writeInt(clouds);
+        parcel.writeInt(windSpeed);
+        parcel.writeInt(windDirection);
+        parcel.writeInt(pressure);
+        parcel.writeInt(humidity);
+        parcel.writeInt(conditions);
+    }
+
+    public static final Creator<WeatherState> CREATOR = new Creator<WeatherState>() {
+        @Override
+        public WeatherState createFromParcel(Parcel parcel) {
+            return new WeatherState(parcel);
+        }
+
+        @Override
+        public WeatherState[] newArray(int size) {
+            return new WeatherState[size];
+        }
+    };
 
     public static WeatherState generateRandom() {
         WeatherState weatherState = new WeatherState();
@@ -94,5 +132,10 @@ public class WeatherState {
 
     public void setConditions(int conditions) {
         this.conditions = conditions;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

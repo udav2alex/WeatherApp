@@ -1,5 +1,6 @@
 package ru.gressor.weatherapp;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewTempNext3H;
     private TextView textViewTempNext6H;
 
-//    WeatherState currentWeather;
+    WeatherState currentWeather;
     DestinationPoint currentDestination;
 
     @Override
@@ -35,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         logIt("protected void onCreate");
 
+        if (savedInstanceState == null) {
+            currentWeather = getCurrentWeather();
+        }
+
         init();
-        populateNow();
-        populateToday();
-        populateForecast();
     }
 
     private void init() {
@@ -54,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         textViewTempNext6H = findViewById(R.id.tempNext6H);
 
         textViewTown.setOnClickListener(textViewTownOnClickListener);
-
-//        currentWeather = getCurrentWeather();
+        findViewById(R.id.linkToSite).setOnClickListener(textLinkToSiteOnClickListener);
 
         currentDestination = new DestinationPoint(
                 getApplicationContext().getString(R.string.town),
@@ -67,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         textViewTown.setText(currentDestination.getTown());
         textViewSite.setText(currentDestination.getSite());
-
-        WeatherState currentWeather = MainPresenter.getInstance().getWeatherState();
 
         textViewCurrentTemperature.setText(fromCelsius(
                 currentWeather.getTemperature()));
@@ -108,12 +107,26 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, SelectTown.GET_TOWN);
     };
 
+    private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
+//        ACTION_VIEW
+        logIt("textLinkToSiteOnClickListener");
+
+        String query = String.format("%s %s",
+                getResources().getString(R.string.weather),
+                currentDestination.getTown());
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, query);
+
+        startActivity(intent);
+    };
+
     private void townChanged() {
         textViewTown.setText(currentDestination.getTown());
         textViewSite.setText(currentDestination.getSite());
     }
 
     private WeatherState getCurrentWeather() {
+        logIt("getCurrentWeather");
         return WeatherState.generateRandom();
     }
 
@@ -129,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         logIt("protected void onResume");
+
+        populateNow();
+        populateToday();
+        populateForecast();
     }
 
     @Override
@@ -145,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         logIt("protected void onSaveInstanceState");
 
         outState.putParcelable("currentDestination", currentDestination);
+        outState.putParcelable("currentWeather", currentWeather);
     }
 
     @Override
@@ -154,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         logIt("protected void onRestoreInstanceState");
 
         currentDestination = savedInstanceState.getParcelable("currentDestination");
+        currentWeather = savedInstanceState.getParcelable("currentWeather");
         populateNow();
     }
 
@@ -172,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logIt(String logString) {
-        Toast.makeText(getApplicationContext(), logString, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), logString, Toast.LENGTH_SHORT).show();
         Log.v(LOG_VERBOSE, logString);
     }
 

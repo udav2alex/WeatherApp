@@ -5,7 +5,7 @@
     <string name="site">Хорошево-Мневники</string>
     <string name="cloudy">Облачно</string>
     <string name="feels_like">Ощущается как %1$s</string>
-    <string name="pressureValue">%1$d мм. рт. ст.</string>
+    <string name="pressureValue">%1$d мм рт. ст.</string>
     <string name="now">Сейчас</string>
     <string name="wind">Ветер</string>
     <string name="humidityValue">"%1$d%%"</string>
@@ -19,6 +19,7 @@
     <string name="select_town">Выбрать город</string>
     <string name="not_available">н/д</string>
     <string name="no_town_selected">Укажите город или регион!</string>
+    <string name="weather">Погода</string>
 
     <string-array name="town_list">
         <item>Архангельск</item>
@@ -39,4 +40,5 @@
         <item>Хабаровск</item>
         <item>Челябинск</item>
     </string-array>
+    <string name="more_details_on_website">Подробности в интернете…</string>
 </resources>
