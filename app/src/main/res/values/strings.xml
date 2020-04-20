@@ -3,7 +3,6 @@
     <string name="hello_world">Hello World!</string>
     <string name="town">Moscow</string>
     <string name="site">Khoroshevo-Mnevniki</string>
-    <string name="cloud_image">cloud image</string>
     <string name="cloudy">Cloudy</string>
     <string name="feels_like">Feels like %1$s</string>
     <string name="wind">Wind</string>
@@ -14,9 +13,11 @@
     <string name="todayDate">April 9</string>
     <string name="today">Today</string>
     <string name="select_town">Select town</string>
-    <string name="enter_town_or_region">Enter town or region</string>
-    <string name="no_town_selected">Enter or select town!</string>
+    <string name="no_town_selected">Enter town or region</string>
     <string name="not_available">n/a</string>
+    <string name="error_unknown_scale">Error! Unknown scale!</string>
+    <string name="condition_image">Condition image</string>
+    <string name="weather">Weather</string>
 
     <string-array name="town_list">
         <item>Arkhangelsk</item>
@@ -37,4 +38,8 @@
         <item>Ulan-Ude</item>
         <item>Vladivostok</item>
     </string-array>
+    <string name="enter_town_or_region">Enter town or region</string>
+    <string name="cloud_image">Weather image</string>
+    <string name="more_details_on_website">More details in web…</string>
+
 </resources>

@@ -1,63 +1,104 @@
 package ru.gressor.weatherapp;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private TScale tScale;
+    private static final String LOG_VERBOSE = "MY_LOG";
+    private TScale tScale = TScale.CELSIUS;
+
+    private TextView textViewTown;
+    private TextView textViewSite;
+    private TextView textViewCurrentTemperature;
+    private TextView textViewFeelsLike;
+    private TextView textViewWindSpeed;
+    private TextView textViewPressureValue;
+    private TextView textViewHumidityValue;
+    private TextView textViewTempNow;
+    private TextView textViewTempNext3H;
+    private TextView textViewTempNext6H;
+
+    WeatherState currentWeather;
+    DestinationPoint currentDestination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logIt("protected void onCreate");
+
+        if (savedInstanceState == null) {
+            currentWeather = getCurrentWeather();
+        }
+
         init();
     }
 
     private void init() {
-        tScale = TScale.CELSIUS;
+        textViewTown = findViewById(R.id.textViewTown);
+        textViewSite = findViewById(R.id.textViewSite);
+        textViewCurrentTemperature = findViewById(R.id.currentTemperature);
+        textViewFeelsLike = findViewById(R.id.feelsLike);
+        textViewWindSpeed = findViewById(R.id.windSpeed);
+        textViewPressureValue = findViewById(R.id.pressureValue);
+        textViewHumidityValue = findViewById(R.id.humidityValue);
+        textViewTempNow = findViewById(R.id.tempNow);
+        textViewTempNext3H = findViewById(R.id.tempNext3H);
+        textViewTempNext6H = findViewById(R.id.tempNext6H);
 
-        TextView textViewTown = findViewById(R.id.textViewTown);
         textViewTown.setOnClickListener(textViewTownOnClickListener);
+        findViewById(R.id.linkToSite).setOnClickListener(textLinkToSiteOnClickListener);
 
-        TextView textViewCurrentTemperature = findViewById(R.id.currentTemperature);
-        textViewCurrentTemperature.setText(tScale.fromCelsius(8));
+        currentDestination = new DestinationPoint(
+                getApplicationContext().getString(R.string.town),
+                getApplicationContext().getString(R.string.site));
+    }
 
-        TextView textViewFeelsLike = findViewById(R.id.feelsLike);
-        textViewFeelsLike.setText(
-                getApplicationContext().getString(R.string.feels_like,
-                tScale.fromCelsius(6)));
+    private void populateNow() {
+        Context context = getApplicationContext();
 
-        TextView textViewWindSpeed = findViewById(R.id.windSpeed);
-        textViewWindSpeed.setText(
-                getApplicationContext().getString(R.string.windSpeed, 7));
+        textViewTown.setText(currentDestination.getTown());
+        textViewSite.setText(currentDestination.getSite());
 
-        TextView textViewPressureValue = findViewById(R.id.pressureValue);
-        textViewPressureValue.setText(
-                getApplicationContext().getString(R.string.pressureValue, 755));
+        textViewCurrentTemperature.setText(fromCelsius(
+                currentWeather.getTemperature()));
+        textViewFeelsLike.setText(context.getString(R.string.feels_like, fromCelsius(
+                currentWeather.getTempFeelsLike())));
+        textViewWindSpeed.setText(context.getString(R.string.windSpeed,
+                currentWeather.getWindSpeed()));
+        textViewPressureValue.setText(context.getString(R.string.pressureValue,
+                currentWeather.getPressure()));
+        textViewHumidityValue.setText(context.getString(R.string.humidityValue,
+                currentWeather.getHumidity()));
+        textViewTempNow.setText(fromCelsius(
+                currentWeather.getTemperature()));
+    }
 
-        TextView textViewHumidityValue = findViewById(R.id.humidityValue);
-        textViewHumidityValue.setText(
-                getApplicationContext().getString(R.string.humidityValue, 55));
+    private void populateToday() {
+        Context context = getApplicationContext();
 
-        TextView textViewTempNow = findViewById(R.id.tempNow);
-        textViewTempNow.setText(tScale.fromCelsius(8));
+        textViewTempNext3H.setText(fromCelsius(7));
+        textViewTempNext6H.setText(fromCelsius(5));
+    }
 
-        TextView textViewTempNext3H = findViewById(R.id.tempNext3H);
-        textViewTempNext3H.setText(tScale.fromCelsius(7));
-
-        TextView textViewTempNext6H = findViewById(R.id.tempNext6H);
-        textViewTempNext6H.setText(tScale.fromCelsius(5));
+    private void populateForecast() {
+        Context context = getApplicationContext();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == SelectTown.GET_TOWN && resultCode == RESULT_OK && data != null) {
-            townChanged(data.getStringExtra("town"));
+            currentDestination = data.getParcelableExtra("destinationPoint");
+            townChanged();
         }
     }
 
@@ -66,13 +107,102 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, SelectTown.GET_TOWN);
     };
 
-    private void townChanged(String town) {
-        TextView textViewTown = findViewById(R.id.textViewTown);
-        textViewTown.setText(town);
+    private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
+//        ACTION_VIEW
+        logIt("textLinkToSiteOnClickListener");
+
+        String query = String.format("%s %s",
+                getResources().getString(R.string.weather),
+                currentDestination.getTown());
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, query);
+
+        startActivity(intent);
+    };
+
+    private void townChanged() {
+        textViewTown.setText(currentDestination.getTown());
+        textViewSite.setText(currentDestination.getSite());
     }
 
-    private String getTemp() {
-        return null;
+    private WeatherState getCurrentWeather() {
+        logIt("getCurrentWeather");
+        return WeatherState.generateRandom();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        logIt("protected void onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        logIt("protected void onResume");
+
+        populateNow();
+        populateToday();
+        populateForecast();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        logIt("protected void onPause");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        logIt("protected void onSaveInstanceState");
+
+        outState.putParcelable("currentDestination", currentDestination);
+        outState.putParcelable("currentWeather", currentWeather);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        logIt("protected void onRestoreInstanceState");
+
+        currentDestination = savedInstanceState.getParcelable("currentDestination");
+        currentWeather = savedInstanceState.getParcelable("currentWeather");
+        populateNow();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        logIt("protected void onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        logIt("protected void onDestroy");
+    }
+
+    private void logIt(String logString) {
+//        Toast.makeText(getApplicationContext(), logString, Toast.LENGTH_SHORT).show();
+        Log.v(LOG_VERBOSE, logString);
+    }
+
+    private String fromCelsius(int value) {
+        String result = tScale.fromCelsius(value);
+
+        if (result == null) {
+            return getApplicationContext().getString(R.string.error_unknown_scale);
+        } else {
+            return result;
+        }
     }
 
     public enum TScale {
@@ -88,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 return  (converted < 0 ? "–" : "+") + converted + " ℉";
             }
 
-            return "Error! Unknown scale!";
+            return null;
         }
     }
 }
