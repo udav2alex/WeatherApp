@@ -20,7 +20,7 @@ public class WeatherState implements Parcelable {
         this.temperature = temperature;
     }
 
-    protected WeatherState(Parcel parcel) {
+    private WeatherState(Parcel parcel) {
         temperature = parcel.readInt();
         tempFeelsLike = parcel.readInt();
         clouds = parcel.readInt();

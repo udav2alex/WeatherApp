@@ -30,8 +30,6 @@ public class SelectTown extends AppCompatActivity {
 
         ImageView imageViewBack = findViewById(R.id.imageViewBack);
         imageViewBack.setOnClickListener(imageViewBackOnClickListener);
-
-        EditText editTextTown = findViewById(R.id.editTextTown);
     }
 
     private void initTownList() {
@@ -56,21 +54,18 @@ public class SelectTown extends AppCompatActivity {
     };
 
     private View.OnClickListener buttonSelectTownOnClickListener = (v) -> {
-        String result = null;
-
         EditText editTextTown = findViewById(R.id.editTextTown);
         String text = editTextTown.getText().toString().trim();
-        if (!text.equals("")) {
-            result = text;
+
+        if (text.equals("")) {
+            passResult(getTownFromList());
         } else {
-            ListView townList = findViewById(R.id.townList);
-            int position = townList.getCheckedItemPosition();
-
-            if (position != AdapterView.INVALID_POSITION)
-                result = townList.getAdapter().getItem(position).toString();
+            passResult(text);
         }
+    };
 
-        if (result == null || result.equals("")) {
+    private void passResult(String result) {
+        if (result == null) {
             Toast.makeText(this, R.string.no_town_selected, Toast.LENGTH_LONG).show();
             return;
         }
@@ -80,5 +75,15 @@ public class SelectTown extends AppCompatActivity {
         intent.putExtra("destinationPoint", destinationPoint);
         setResult(RESULT_OK, intent);
         finish();
-    };
+    }
+
+    private String getTownFromList() {
+        ListView townList = findViewById(R.id.townList);
+        int position = townList.getCheckedItemPosition();
+
+        if (position != AdapterView.INVALID_POSITION)
+            return townList.getAdapter().getItem(position).toString();
+
+        return null;
+    }
 }

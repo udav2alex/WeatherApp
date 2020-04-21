@@ -83,14 +83,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateToday() {
-        Context context = getApplicationContext();
-
         textViewTempNext3H.setText(fromCelsius(7));
         textViewTempNext6H.setText(fromCelsius(5));
     }
 
     private void populateForecast() {
-        Context context = getApplicationContext();
     }
 
     @Override
@@ -107,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
-//        ACTION_VIEW
         logIt("textLinkToSiteOnClickListener");
 
         String query = String.format("%s %s",
@@ -172,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
         currentDestination = savedInstanceState.getParcelable("currentDestination");
         currentWeather = savedInstanceState.getParcelable("currentWeather");
-        populateNow();
     }
 
     @Override
@@ -190,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logIt(String logString) {
-//        Toast.makeText(getApplicationContext(), logString, Toast.LENGTH_SHORT).show();
         Log.v(LOG_VERBOSE, logString);
     }
 
@@ -201,23 +195,6 @@ public class MainActivity extends AppCompatActivity {
             return getApplicationContext().getString(R.string.error_unknown_scale);
         } else {
             return result;
-        }
-    }
-
-    public enum TScale {
-        CELSIUS, FAHRENHEIT;
-
-        public String fromCelsius(int value) {
-            if (this == CELSIUS) {
-                return (value < 0 ? "–" : "+") + value + " ℃";
-            }
-
-            if (this == FAHRENHEIT) {
-                int converted = (int)((value - 32)/1.8);
-                return  (converted < 0 ? "–" : "+") + converted + " ℉";
-            }
-
-            return null;
         }
     }
 }
