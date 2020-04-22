@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TownWeatherNow extends Fragment {
+public class fragmentWeatherToday extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -16,7 +16,7 @@ public class TownWeatherNow extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TownWeatherNow() {
+    public fragmentWeatherToday() {
         // Required empty public constructor
     }
 
@@ -26,11 +26,11 @@ public class TownWeatherNow extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TownWeatherNow.
+     * @return A new instance of fragment fragmentWeatherToday.
      */
     // TODO: Rename and change types and number of parameters
-    public static TownWeatherNow newInstance(String param1, String param2) {
-        TownWeatherNow fragment = new TownWeatherNow();
+    public static fragmentWeatherToday newInstance(String param1, String param2) {
+        fragmentWeatherToday fragment = new fragmentWeatherToday();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
