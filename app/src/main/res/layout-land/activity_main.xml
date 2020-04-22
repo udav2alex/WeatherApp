@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         app:layout_constraintHorizontal_weight="11"
         android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,10 +21,10 @@
 
         <fragment
             android:id="@+id/fragmentWeatherToday"
-            android:name="ru.gressor.weatherapp.fragmentWeatherToday"
+            android:name="ru.gressor.weatherapp.FragmentWeatherToday"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            tools:layout="@layout/fragment_town_weather_now" />
+            tools:layout="@layout/fragment_weather_today" />
     </FrameLayout>
 
     <FrameLayout
@@ -39,7 +40,7 @@
 
         <fragment
             android:id="@+id/fragmentWeatherForecast"
-            android:name="ru.gressor.weatherapp.fragmentForecast"
+            android:name="ru.gressor.weatherapp.FragmentForecast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_forecast" />

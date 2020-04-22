@@ -6,14 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class fragmentForecast extends Fragment {
+public class FragmentWeatherToday extends Fragment {
 
-    public fragmentForecast() {
+    public FragmentWeatherToday() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_forecast, container, false);
+        return inflater.inflate(R.layout.fragment_weather_today, container, false);
     }
 }

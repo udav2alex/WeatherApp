@@ -15,10 +15,10 @@
 
         <fragment
             android:id="@+id/fragmentWeatherToday"
-            android:name="ru.gressor.weatherapp.fragmentWeatherToday"
+            android:name="ru.gressor.weatherapp.FragmentWeatherToday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_town_weather_now" />
+            tools:layout="@layout/fragment_weather_today" />
     </FrameLayout>
 
     <FrameLayout
@@ -30,7 +30,7 @@
 
         <fragment
             android:id="@+id/fragmentWeatherForecast"
-            android:name="ru.gressor.weatherapp.fragmentForecast"
+            android:name="ru.gressor.weatherapp.FragmentForecast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_forecast" />
