@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         textViewTempNext6H = findViewById(R.id.tempNext6H);
 
         textViewTown.setOnClickListener(textViewTownOnClickListener);
-        findViewById(R.id.linkToSite).setOnClickListener(textLinkToSiteOnClickListener);
 
         currentDestination = new DestinationPoint(
                 getApplicationContext().getString(R.string.town),
@@ -87,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
         textViewTempNext6H.setText(fromCelsius(5));
     }
 
-    private void populateForecast() {
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == SelectTown.GET_TOWN && resultCode == RESULT_OK && data != null) {
@@ -101,18 +98,6 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener textViewTownOnClickListener = (v) -> {
         Intent intent = new Intent(this, SelectTown.class);
         startActivityForResult(intent, SelectTown.GET_TOWN);
-    };
-
-    private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
-        logIt("textLinkToSiteOnClickListener");
-
-        String query = String.format("%s %s",
-                getResources().getString(R.string.weather),
-                currentDestination.getTown());
-        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-        intent.putExtra(SearchManager.QUERY, query);
-
-        startActivity(intent);
     };
 
     private void townChanged() {
@@ -140,7 +125,19 @@ public class MainActivity extends AppCompatActivity {
 
         populateNow();
         populateToday();
-        populateForecast();
+        setFragmentForecast();
+    }
+
+    private void setFragmentForecast() {
+        FragmentForecast fragment = (FragmentForecast)
+                getSupportFragmentManager().findFragmentById(R.id.fragmentForecast);
+
+        if (fragment == null || fragment.getDestinationPoint() != currentDestination) {
+            fragment = FragmentForecast.create(currentDestination);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentForecast, fragment).commit();
+        }
     }
 
     @Override

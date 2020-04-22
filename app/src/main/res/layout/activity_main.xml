@@ -26,14 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/fragmentToday">
-
-        <fragment
-            android:id="@+id/fragmentWeatherForecast"
-            android:name="ru.gressor.weatherapp.FragmentForecast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_forecast" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/fragmentToday" />
 
 </android.support.constraint.ConstraintLayout>
