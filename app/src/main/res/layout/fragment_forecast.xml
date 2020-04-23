@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragmentToday">
+            app:layout_constraintTop_toBottomOf="@id/fragmentWeatherToday">
 
             <TableLayout
                 android:layout_width="match_parent"

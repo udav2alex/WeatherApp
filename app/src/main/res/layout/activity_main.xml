@@ -8,24 +8,17 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/fragmentToday"
+        android:id="@+id/fragmentWeatherToday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <fragment
-            android:id="@+id/fragmentWeatherToday"
-            android:name="ru.gressor.weatherapp.FragmentWeatherToday"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_weather_today" />
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragmentForecast"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/fragmentToday" />
+        app:layout_constraintTop_toBottomOf="@id/fragmentWeatherToday"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

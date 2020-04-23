@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class SelectTown extends AppCompatActivity {
-    public static final int GET_TOWN = 1;
+    public static final int GET_TOWN = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SelectTown extends AppCompatActivity {
     }
 
     private View.OnClickListener imageViewBackOnClickListener = (v) -> {
-        setResult(RESULT_OK, null);
+        setResult(RESULT_CANCELED, null);
         finish();
     };
 

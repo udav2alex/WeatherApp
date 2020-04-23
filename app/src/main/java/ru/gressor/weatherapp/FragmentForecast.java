@@ -24,7 +24,7 @@ public class FragmentForecast extends Fragment {
         return fragmentForecast;
     }
 
-    public DestinationPoint getDestinationPoint() {
+    public DestinationPoint getCurrentDestination() {
         if (getArguments() != null) {
             return getArguments().getParcelable(CURRENT_DESTINATION);
         } else {
@@ -36,13 +36,14 @@ public class FragmentForecast extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View result = inflater.inflate(R.layout.fragment_forecast, container, false);
+
         result.findViewById(R.id.linkToSite).setOnClickListener(textLinkToSiteOnClickListener);
 
         return result;
     }
 
     private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
-        DestinationPoint currentDestination = getDestinationPoint();
+        DestinationPoint currentDestination = getCurrentDestination();
 
         if (currentDestination != null) {
             String query = String.format("%s %s %s",

@@ -3,7 +3,7 @@ package ru.gressor.weatherapp;
 public enum TScale {
     CELSIUS, FAHRENHEIT;
 
-    public String fromCelsius(int value) {
+    public String fromCelsius(int value, String errorMessage) {
         if (this == CELSIUS) {
             return (value < 0 ? "–" : "+") + value + " ℃";
         }
@@ -13,6 +13,6 @@ public enum TScale {
             return  (converted < 0 ? "–" : "+") + converted + " ℉";
         }
 
-        return null;
+        return errorMessage;
     }
 }

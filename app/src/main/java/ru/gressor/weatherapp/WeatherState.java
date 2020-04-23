@@ -3,6 +3,8 @@ package ru.gressor.weatherapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class WeatherState implements Parcelable {
     private int temperature;
     private int tempFeelsLike;
@@ -137,5 +139,25 @@ public class WeatherState implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WeatherState)) return false;
+        WeatherState that = (WeatherState) o;
+        return temperature == that.temperature &&
+                tempFeelsLike == that.tempFeelsLike &&
+                clouds == that.clouds &&
+                windSpeed == that.windSpeed &&
+                windDirection == that.windDirection &&
+                pressure == that.pressure &&
+                humidity == that.humidity &&
+                conditions == that.conditions;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(temperature, tempFeelsLike, clouds, windSpeed, windDirection, pressure, humidity, conditions);
     }
 }
