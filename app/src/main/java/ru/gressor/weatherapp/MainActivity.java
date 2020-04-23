@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (resultCode == RESULT_OK && data != null) {
+        if (requestCode == SelectTown.GET_TOWN && resultCode == RESULT_OK && data != null) {
             currentDestination = data.getParcelableExtra("destinationPoint");
             logIt("onActivityResult, requestCode: " + requestCode);
         }

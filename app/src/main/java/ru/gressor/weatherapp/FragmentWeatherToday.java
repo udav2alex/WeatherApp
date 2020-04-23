@@ -106,7 +106,9 @@ public class FragmentWeatherToday extends Fragment {
 
     private View.OnClickListener textViewTownOnClickListener = (v) -> {
         Intent intent = new Intent(fragmentView.getContext(), SelectTown.class);
-        startActivityForResult(intent, SelectTown.GET_TOWN);
+        if (getActivity() != null) {
+            getActivity().startActivityForResult(intent, SelectTown.GET_TOWN);
+        }
     };
 
     public WeatherState getCurrentWeather() {

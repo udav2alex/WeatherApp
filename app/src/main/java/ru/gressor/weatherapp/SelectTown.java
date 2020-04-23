@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class SelectTown extends AppCompatActivity {
-    public static final int GET_TOWN = 10;
+    public static final int GET_TOWN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
