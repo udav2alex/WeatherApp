@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.data_types;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,6 +6,10 @@ import android.os.Parcelable;
 import java.util.Objects;
 
 public class WeatherState implements Parcelable {
+    public static final String CURRENT_WEATHER = "currentWeather";
+
+    private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
+
     private int temperature;
     private int tempFeelsLike;
     private int clouds;
@@ -72,6 +76,14 @@ public class WeatherState implements Parcelable {
         return weatherState;
     }
 
+    public static TemperatureScale getTemperatureScale() {
+        return temperatureScale;
+    }
+
+    public static void setTemperatureScale(TemperatureScale temperatureScale) {
+        WeatherState.temperatureScale = temperatureScale;
+    }
+
     public int getTemperature() {
         return temperature;
     }
@@ -98,42 +110,6 @@ public class WeatherState implements Parcelable {
 
     public int getHumidity() {
         return humidity;
-    }
-
-    public int getConditions() {
-        return conditions;
-    }
-
-    public void setTemperature(int temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setTempFeelsLike(int tempFeelsLike) {
-        this.tempFeelsLike = tempFeelsLike;
-    }
-
-    public void setClouds(int clouds) {
-        this.clouds = clouds;
-    }
-
-    public void setWindSpeed(int windSpeed) {
-        this.windSpeed = windSpeed;
-    }
-
-    public void setWindDirection(int windDirection) {
-        this.windDirection = windDirection;
-    }
-
-    public void setPressure(int pressure) {
-        this.pressure = pressure;
-    }
-
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
-    }
-
-    public void setConditions(int conditions) {
-        this.conditions = conditions;
     }
 
     @Override

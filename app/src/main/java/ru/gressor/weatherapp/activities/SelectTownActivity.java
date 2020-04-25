@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SelectTown extends AppCompatActivity {
+import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.data_types.PositionPoint;
+
+public class SelectTownActivity extends AppCompatActivity {
     public static final int GET_TOWN = 1;
 
     @Override
@@ -21,15 +22,7 @@ public class SelectTown extends AppCompatActivity {
         setContentView(R.layout.activity_select_town);
 
         initTownList();
-
-        Button buttonSelectTown = findViewById(R.id.buttonSelectTown);
-        buttonSelectTown.setOnClickListener(buttonSelectTownOnClickListener);
-
-        ImageView imageViewClear = findViewById(R.id.imageViewClear);
-        imageViewClear.setOnClickListener(imageViewClearOnClickListener);
-
-        ImageView imageViewBack = findViewById(R.id.imageViewBack);
-        imageViewBack.setOnClickListener(imageViewBackOnClickListener);
+        initClickListeners();
     }
 
     private void initTownList() {
@@ -41,6 +34,11 @@ public class SelectTown extends AppCompatActivity {
                 android.R.layout.simple_list_item_single_choice);
 
         townList.setAdapter(adapter);
+    }
+    private void initClickListeners() {
+        findViewById(R.id.buttonSelectTown).setOnClickListener(buttonSelectTownOnClickListener);
+        findViewById(R.id.imageViewClear).setOnClickListener(imageViewClearOnClickListener);
+        findViewById(R.id.imageViewBack).setOnClickListener(imageViewBackOnClickListener);
     }
 
     private View.OnClickListener imageViewBackOnClickListener = (v) -> {
@@ -71,8 +69,8 @@ public class SelectTown extends AppCompatActivity {
         }
 
         Intent intent = new Intent();
-        DestinationPoint destinationPoint = new DestinationPoint(result, "");
-        intent.putExtra("destinationPoint", destinationPoint);
+        PositionPoint selectedPosition = new PositionPoint(result, "");
+        intent.putExtra(PositionPoint.CURRENT_POSITION, selectedPosition);
         setResult(RESULT_OK, intent);
         finish();
     }

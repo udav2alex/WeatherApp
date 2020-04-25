@@ -1,20 +1,21 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.data_types;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Objects;
 
-public class DestinationPoint implements Parcelable {
+public class PositionPoint implements Parcelable {
+    public static final String CURRENT_POSITION = "currentPosition";
     private String town;
     private String site;
 
-    public DestinationPoint(String town, String site) {
+    public PositionPoint(String town, String site) {
         this.town = town;
         this.site = site;
     }
 
-    public DestinationPoint(Parcel parcel) {
+    public PositionPoint(Parcel parcel) {
         this.town = parcel.readString();
         this.site = parcel.readString();
     }
@@ -27,14 +28,14 @@ public class DestinationPoint implements Parcelable {
         return site;
     }
 
-    public static final Parcelable.Creator<DestinationPoint> CREATOR
-            = new Parcelable.Creator<DestinationPoint>() {
-        public DestinationPoint createFromParcel(Parcel parcel) {
-            return new DestinationPoint(parcel);
+    public static final Parcelable.Creator<PositionPoint> CREATOR
+            = new Parcelable.Creator<PositionPoint>() {
+        public PositionPoint createFromParcel(Parcel parcel) {
+            return new PositionPoint(parcel);
         }
 
-        public DestinationPoint[] newArray(int size) {
-            return new DestinationPoint[size];
+        public PositionPoint[] newArray(int size) {
+            return new PositionPoint[size];
         }
     };
 
@@ -52,8 +53,8 @@ public class DestinationPoint implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DestinationPoint)) return false;
-        DestinationPoint that = (DestinationPoint) o;
+        if (!(o instanceof PositionPoint)) return false;
+        PositionPoint that = (PositionPoint) o;
         return getTown().equals(that.getTown()) &&
                 getSite().equals(that.getSite());
     }

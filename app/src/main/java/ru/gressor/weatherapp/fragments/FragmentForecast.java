@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.fragments;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -8,25 +8,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.R;
+
 public class FragmentForecast extends Fragment {
-    public static final String CURRENT_DESTINATION = "currentDestination";
 
     public FragmentForecast() {
     }
 
-    public static FragmentForecast create(DestinationPoint currentDestination) {
+    public static FragmentForecast create(PositionPoint currentDestination) {
         FragmentForecast fragmentForecast = new FragmentForecast();
 
         Bundle args = new Bundle();
-        args.putParcelable(CURRENT_DESTINATION, currentDestination);
+        args.putParcelable(PositionPoint.CURRENT_POSITION, currentDestination);
         fragmentForecast.setArguments(args);
 
         return fragmentForecast;
     }
 
-    public DestinationPoint getCurrentDestination() {
+    public PositionPoint getCurrentPosition() {
         if (getArguments() != null) {
-            return getArguments().getParcelable(CURRENT_DESTINATION);
+            return getArguments().getParcelable(PositionPoint.CURRENT_POSITION);
         } else {
             return null;
         }
@@ -43,7 +45,7 @@ public class FragmentForecast extends Fragment {
     }
 
     private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
-        DestinationPoint currentDestination = getCurrentDestination();
+        PositionPoint currentDestination = getCurrentPosition();
 
         if (currentDestination != null) {
             String query = String.format("%s %s %s",
