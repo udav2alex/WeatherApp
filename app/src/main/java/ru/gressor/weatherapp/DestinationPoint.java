@@ -3,6 +3,8 @@ package ru.gressor.weatherapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class DestinationPoint implements Parcelable {
     private String town;
     private String site;
@@ -45,5 +47,19 @@ public class DestinationPoint implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(town);
         parcel.writeString(site);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DestinationPoint)) return false;
+        DestinationPoint that = (DestinationPoint) o;
+        return getTown().equals(that.getTown()) &&
+                getSite().equals(that.getSite());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTown(), getSite());
     }
 }
