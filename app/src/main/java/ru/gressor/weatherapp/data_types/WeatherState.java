@@ -3,6 +3,7 @@ package ru.gressor.weatherapp.data_types;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class WeatherState implements Parcelable {
@@ -10,6 +11,7 @@ public class WeatherState implements Parcelable {
 
     private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
 
+    private Calendar actualAt;
     private int temperature = -1000;
     private int tempFeelsLike = -1000;
     private int clouds = -1;
@@ -27,6 +29,12 @@ public class WeatherState implements Parcelable {
         this.tempFeelsLike = tempFeelsLike;
     }
 
+    public WeatherState(int temperature, int tempFeelsLike, Calendar actualAt) {
+        this.temperature = temperature;
+        this.tempFeelsLike = tempFeelsLike;
+        this.actualAt = actualAt;
+    }
+
     private WeatherState(Parcel parcel) {
         temperature = parcel.readInt();
         tempFeelsLike = parcel.readInt();
@@ -36,6 +44,13 @@ public class WeatherState implements Parcelable {
         pressure = parcel.readInt();
         humidity = parcel.readInt();
         conditions = parcel.readInt();
+
+        boolean actualAtIsPresent = parcel.readInt() == 1;
+        long millis = parcel.readLong();
+        if (actualAtIsPresent) {
+            actualAt = Calendar.getInstance();
+            actualAt.setTimeInMillis(millis);
+        }
     }
 
     @Override
@@ -48,6 +63,14 @@ public class WeatherState implements Parcelable {
         parcel.writeInt(pressure);
         parcel.writeInt(humidity);
         parcel.writeInt(conditions);
+
+        if (actualAt == null) {
+            parcel.writeInt(0);
+            parcel.writeLong(0);
+        } else {
+            parcel.writeInt(1);
+            parcel.writeLong(actualAt.getTimeInMillis());
+        }
     }
 
     public static final Creator<WeatherState> CREATOR = new Creator<WeatherState>() {
@@ -83,6 +106,10 @@ public class WeatherState implements Parcelable {
 
     public static void setTemperatureScale(TemperatureScale temperatureScale) {
         WeatherState.temperatureScale = temperatureScale;
+    }
+
+    public Calendar getActualAt() {
+        return actualAt;
     }
 
     public int getTemperature() {
