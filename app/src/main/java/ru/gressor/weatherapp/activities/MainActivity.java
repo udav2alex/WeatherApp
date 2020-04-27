@@ -8,7 +8,7 @@ import android.os.Bundle;
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
-import ru.gressor.weatherapp.fragments.FragmentForecast;
+import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
 import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,15 +1,21 @@
-package ru.gressor.weatherapp.fragments;
+package ru.gressor.weatherapp.fragments.forecast;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Objects;
+
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.weather.ForecastData;
 
 public class FragmentForecast extends Fragment {
 
@@ -37,11 +43,28 @@ public class FragmentForecast extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View result = inflater.inflate(R.layout.fragment_forecast, container, false);
+        View view = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        result.findViewById(R.id.linkToSite).setOnClickListener(textLinkToSiteOnClickListener);
+        view.findViewById(R.id.linkToSite).setOnClickListener(textLinkToSiteOnClickListener);
 
-        return result;
+        RecyclerView recyclerViewForecast = view.findViewById(R.id.recyclerViewForecast);
+        recyclerViewForecast.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewForecast.setLayoutManager(layoutManager);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(
+                Objects.requireNonNull(getActivity()),  LinearLayoutManager.VERTICAL);
+
+        itemDecoration.setDrawable(
+                Objects.requireNonNull(getActivity().getDrawable(R.drawable.forecast_separator)));
+        recyclerViewForecast.addItemDecoration(itemDecoration);
+
+
+        ForecastListAdapter adapter = new ForecastListAdapter(new ForecastData());
+        recyclerViewForecast.setAdapter(adapter);
+
+        return view;
     }
 
     private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {

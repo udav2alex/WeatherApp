@@ -10,20 +10,21 @@ public class WeatherState implements Parcelable {
 
     private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
 
-    private int temperature;
-    private int tempFeelsLike;
-    private int clouds;
-    private int windSpeed;
-    private int windDirection;
+    private int temperature = -1000;
+    private int tempFeelsLike = -1000;
+    private int clouds = -1;
+    private int windSpeed = -1;
+    private int windDirection = -1;
     private int pressure = -1;
     private int humidity = -1;
     private int conditions = -1;
 
-    public WeatherState() {
+    private WeatherState() {
     }
 
-    public WeatherState(int temperature) {
+    public WeatherState(int temperature, int tempFeelsLike) {
         this.temperature = temperature;
+        this.tempFeelsLike = tempFeelsLike;
     }
 
     private WeatherState(Parcel parcel) {
@@ -88,8 +89,16 @@ public class WeatherState implements Parcelable {
         return temperature;
     }
 
+    public String getTemperatureScaled(String errorMessage) {
+        return temperatureScale.fromCelsius(temperature, errorMessage);
+    }
+
     public int getTempFeelsLike() {
         return tempFeelsLike;
+    }
+
+    public String getTempFeelsLikeScaled(String errorMessage) {
+        return temperatureScale.fromCelsius(temperature, errorMessage);
     }
 
     public int getClouds() {
