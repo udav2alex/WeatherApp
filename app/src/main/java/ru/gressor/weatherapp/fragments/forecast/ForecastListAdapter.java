@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import ru.gressor.weatherapp.weather.ForecastData;
 import ru.gressor.weatherapp.R;
 
@@ -31,10 +35,13 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
     public void onBindViewHolder(@NonNull ForecastListAdapter.ViewHolder viewHolder, int i) {
         String errorMessage = viewHolder.getTextViewTempHi()
                 .getResources().getString(R.string.error_unknown_scale);
+        DateFormat dateDF = DateFormat.getDateInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
 
-        // TODO task with dates and weekdays
-        viewHolder.getTextViewDate().setText("2020-04-26");
-        viewHolder.getTextViewDay().setText("Воскресенье");
+        Calendar actualAt = forecastData.getForecastFor(i).getActualAt();
+
+        viewHolder.getTextViewDate().setText(dateDF.format(actualAt.getTimeInMillis()));
+        viewHolder.getTextViewDay().setText(sdf.format(actualAt.getTimeInMillis()));
         viewHolder.getTextViewTempHi().setText(
                 forecastData.getForecastFor(i).getTemperatureScaled(errorMessage));
         viewHolder.getTextViewTempLow().setText(

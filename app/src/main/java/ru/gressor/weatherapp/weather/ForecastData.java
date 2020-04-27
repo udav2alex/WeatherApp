@@ -1,5 +1,7 @@
 package ru.gressor.weatherapp.weather;
 
+import java.util.Calendar;
+
 import ru.gressor.weatherapp.data_types.WeatherState;
 
 public class ForecastData {
@@ -23,6 +25,9 @@ public class ForecastData {
     }
 
     public WeatherState getForecastFor(int day) {
-        return new WeatherState(stub[day][0], stub[day][1]);
+        Calendar actualAt = Calendar.getInstance();
+        actualAt.add(Calendar.DATE, day);
+
+        return new WeatherState(stub[day][0], stub[day][1], actualAt);
     }
 }
