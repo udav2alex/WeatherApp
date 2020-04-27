@@ -1,52 +1,47 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
+import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
+import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String LOG_VERBOSE = "MY_LOG";
-
     WeatherState currentWeather;
-    DestinationPoint currentDestination;
+    PositionPoint currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init(savedInstanceState);
+    }
+
+    private void init(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             currentWeather = WeatherState.generateRandom();
-            currentDestination = new DestinationPoint(
+            currentPosition = new PositionPoint(
                     getApplicationContext().getResources().getString(R.string.town),
                     getApplicationContext().getResources().getString(R.string.site));
         }
-
-        logIt("protected void onCreate");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == SelectTown.GET_TOWN && resultCode == RESULT_OK && data != null) {
-            currentDestination = data.getParcelableExtra("destinationPoint");
-            logIt("onActivityResult, requestCode: " + requestCode);
+        if (requestCode == SelectTownActivity.GET_TOWN && resultCode == RESULT_OK && data != null) {
+            currentPosition = data.getParcelableExtra(PositionPoint.CURRENT_POSITION);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        logIt("protected void onStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        logIt("protected void onResume");
 
         setFragmentWeatherToday();
         setFragmentForecast();
@@ -57,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.fragmentWeatherToday);
 
         if (fragment == null
-                || !currentDestination.equals(fragment.getCurrentDestination())
+                || !currentPosition.equals(fragment.getCurrentPosition())
                 || !currentWeather.equals(fragment.getCurrentWeather())) {
-            fragment = FragmentWeatherToday.create(currentWeather, currentDestination);
+            fragment = FragmentWeatherToday.create(currentWeather, currentPosition);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentWeatherToday, fragment).commit();
@@ -70,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentForecast fragment = (FragmentForecast)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentForecast);
 
-        if (fragment == null || !currentDestination.equals(fragment.getCurrentDestination())) {
-            fragment = FragmentForecast.create(currentDestination);
+        if (fragment == null || !currentPosition.equals(fragment.getCurrentPosition())) {
+            fragment = FragmentForecast.create(currentPosition);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentForecast, fragment).commit();
@@ -79,47 +74,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        logIt("protected void onPause");
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        logIt("protected void onSaveInstanceState");
-
-        outState.putParcelable("currentDestination", currentDestination);
-        outState.putParcelable("currentWeather", currentWeather);
+        outState.putParcelable(PositionPoint.CURRENT_POSITION, currentPosition);
+        outState.putParcelable(WeatherState.CURRENT_WEATHER, currentWeather);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        logIt("protected void onRestoreInstanceState");
-
-        currentDestination = savedInstanceState.getParcelable("currentDestination");
-        currentWeather = savedInstanceState.getParcelable("currentWeather");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        logIt("protected void onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        logIt("protected void onDestroy");
-    }
-
-    private void logIt(String logString) {
-        Log.v(LOG_VERBOSE, logString);
+        currentPosition = savedInstanceState.getParcelable(PositionPoint.CURRENT_POSITION);
+        currentWeather = savedInstanceState.getParcelable(WeatherState.CURRENT_WEATHER);
     }
 }

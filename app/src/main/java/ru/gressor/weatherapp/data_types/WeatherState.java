@@ -1,25 +1,38 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.data_types;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class WeatherState implements Parcelable {
-    private int temperature;
-    private int tempFeelsLike;
-    private int clouds;
-    private int windSpeed;
-    private int windDirection;
+    public static final String CURRENT_WEATHER = "currentWeather";
+
+    private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
+
+    private Calendar actualAt;
+    private int temperature = -1000;
+    private int tempFeelsLike = -1000;
+    private int clouds = -1;
+    private int windSpeed = -1;
+    private int windDirection = -1;
     private int pressure = -1;
     private int humidity = -1;
     private int conditions = -1;
 
-    public WeatherState() {
+    private WeatherState() {
     }
 
-    public WeatherState(int temperature) {
+    public WeatherState(int temperature, int tempFeelsLike) {
         this.temperature = temperature;
+        this.tempFeelsLike = tempFeelsLike;
+    }
+
+    public WeatherState(int temperature, int tempFeelsLike, Calendar actualAt) {
+        this.temperature = temperature;
+        this.tempFeelsLike = tempFeelsLike;
+        this.actualAt = actualAt;
     }
 
     private WeatherState(Parcel parcel) {
@@ -31,6 +44,13 @@ public class WeatherState implements Parcelable {
         pressure = parcel.readInt();
         humidity = parcel.readInt();
         conditions = parcel.readInt();
+
+        boolean actualAtIsPresent = parcel.readInt() == 1;
+        long millis = parcel.readLong();
+        if (actualAtIsPresent) {
+            actualAt = Calendar.getInstance();
+            actualAt.setTimeInMillis(millis);
+        }
     }
 
     @Override
@@ -43,6 +63,14 @@ public class WeatherState implements Parcelable {
         parcel.writeInt(pressure);
         parcel.writeInt(humidity);
         parcel.writeInt(conditions);
+
+        if (actualAt == null) {
+            parcel.writeInt(0);
+            parcel.writeLong(0);
+        } else {
+            parcel.writeInt(1);
+            parcel.writeLong(actualAt.getTimeInMillis());
+        }
     }
 
     public static final Creator<WeatherState> CREATOR = new Creator<WeatherState>() {
@@ -72,12 +100,32 @@ public class WeatherState implements Parcelable {
         return weatherState;
     }
 
+    public static TemperatureScale getTemperatureScale() {
+        return temperatureScale;
+    }
+
+    public static void setTemperatureScale(TemperatureScale temperatureScale) {
+        WeatherState.temperatureScale = temperatureScale;
+    }
+
+    public Calendar getActualAt() {
+        return actualAt;
+    }
+
     public int getTemperature() {
         return temperature;
     }
 
+    public String getTemperatureScaled(String errorMessage) {
+        return temperatureScale.fromCelsius(temperature, errorMessage);
+    }
+
     public int getTempFeelsLike() {
         return tempFeelsLike;
+    }
+
+    public String getTempFeelsLikeScaled(String errorMessage) {
+        return temperatureScale.fromCelsius(temperature, errorMessage);
     }
 
     public int getClouds() {
@@ -98,42 +146,6 @@ public class WeatherState implements Parcelable {
 
     public int getHumidity() {
         return humidity;
-    }
-
-    public int getConditions() {
-        return conditions;
-    }
-
-    public void setTemperature(int temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setTempFeelsLike(int tempFeelsLike) {
-        this.tempFeelsLike = tempFeelsLike;
-    }
-
-    public void setClouds(int clouds) {
-        this.clouds = clouds;
-    }
-
-    public void setWindSpeed(int windSpeed) {
-        this.windSpeed = windSpeed;
-    }
-
-    public void setWindDirection(int windDirection) {
-        this.windDirection = windDirection;
-    }
-
-    public void setPressure(int pressure) {
-        this.pressure = pressure;
-    }
-
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
-    }
-
-    public void setConditions(int conditions) {
-        this.conditions = conditions;
     }
 
     @Override

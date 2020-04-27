@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.activities.SelectTownActivity;
+import ru.gressor.weatherapp.data_types.TemperatureScale;
+import ru.gressor.weatherapp.data_types.WeatherState;
+
 public class FragmentWeatherToday extends Fragment {
-    private static final String CURRENT_WEATHER = "currentWeather";
-    private static final String CURRENT_DESTINATION = "currentDestination";
-
-    private TScale tScale = TScale.CELSIUS;
-
     private View fragmentView;
 
     private TextView textViewTown;
@@ -32,12 +33,12 @@ public class FragmentWeatherToday extends Fragment {
     }
 
     public static FragmentWeatherToday create(WeatherState currentWeather,
-                                              DestinationPoint currentDestination) {
+                                              PositionPoint currentDestination) {
         FragmentWeatherToday fragmentWeatherToday = new FragmentWeatherToday();
 
         Bundle args = new Bundle();
-        args.putParcelable(CURRENT_WEATHER, currentWeather);
-        args.putParcelable(CURRENT_DESTINATION, currentDestination);
+        args.putParcelable(WeatherState.CURRENT_WEATHER, currentWeather);
+        args.putParcelable(PositionPoint.CURRENT_POSITION, currentDestination);
         fragmentWeatherToday.setArguments(args);
 
         return fragmentWeatherToday;
@@ -80,7 +81,8 @@ public class FragmentWeatherToday extends Fragment {
     private void populate() {
         Context context = fragmentView.getContext();
 
-        DestinationPoint currentDestination = getCurrentDestination();
+        TemperatureScale tScale = WeatherState.getTemperatureScale();
+        PositionPoint currentDestination = getCurrentPosition();
         WeatherState currentWeather = getCurrentWeather();
         String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
 
@@ -105,23 +107,23 @@ public class FragmentWeatherToday extends Fragment {
     }
 
     private View.OnClickListener textViewTownOnClickListener = (v) -> {
-        Intent intent = new Intent(fragmentView.getContext(), SelectTown.class);
+        Intent intent = new Intent(fragmentView.getContext(), SelectTownActivity.class);
         if (getActivity() != null) {
-            getActivity().startActivityForResult(intent, SelectTown.GET_TOWN);
+            getActivity().startActivityForResult(intent, SelectTownActivity.GET_TOWN);
         }
     };
 
     public WeatherState getCurrentWeather() {
         if (getArguments() != null) {
-            return getArguments().getParcelable(CURRENT_WEATHER);
+            return getArguments().getParcelable(WeatherState.CURRENT_WEATHER);
         } else {
             return null;
         }
     }
 
-    public DestinationPoint getCurrentDestination() {
+    public PositionPoint getCurrentPosition() {
         if (getArguments() != null) {
-            return getArguments().getParcelable(CURRENT_DESTINATION);
+            return getArguments().getParcelable(PositionPoint.CURRENT_POSITION);
         } else {
             return null;
         }

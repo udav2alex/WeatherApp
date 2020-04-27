@@ -1,6 +1,6 @@
-package ru.gressor.weatherapp;
+package ru.gressor.weatherapp.data_types;
 
-public enum TScale {
+public enum TemperatureScale {
     CELSIUS, FAHRENHEIT;
 
     public String fromCelsius(int value, String errorMessage) {
