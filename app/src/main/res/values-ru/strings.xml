@@ -42,4 +42,5 @@
     </string-array>
     <string name="more_details_on_website">Подробности в интернете…</string>
     <string name="settings_icon">Иконка настроек</string>
+    <string name="erase">Очистить</string>
 </resources>

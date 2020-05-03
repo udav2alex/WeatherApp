@@ -1,14 +1,15 @@
 package ru.gressor.weatherapp.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.data_types.PositionPoint;
@@ -64,7 +65,8 @@ public class SelectTownActivity extends AppCompatActivity {
 
     private void passResult(String result) {
         if (result == null) {
-            Toast.makeText(this, R.string.no_town_selected, Toast.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.townList),
+                    R.string.no_town_selected, Snackbar.LENGTH_LONG).show();
             return;
         }
 

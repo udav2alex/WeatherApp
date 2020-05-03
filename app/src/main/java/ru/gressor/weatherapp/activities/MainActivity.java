@@ -1,8 +1,10 @@
 package ru.gressor.weatherapp.activities;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import ru.gressor.weatherapp.R;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelectTownActivity.GET_TOWN && resultCode == RESULT_OK && data != null) {
             currentPosition = data.getParcelableExtra(PositionPoint.CURRENT_POSITION);
         }
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(PositionPoint.CURRENT_POSITION, currentPosition);
