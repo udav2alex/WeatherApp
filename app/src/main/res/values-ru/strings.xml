@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Погода</string>
-    <string name="hello_world">Привет мир!</string>
     <string name="town">Москва</string>
     <string name="site">Хорошево-Мневники</string>
     <string name="cloudy">Облачно</string>
@@ -10,11 +9,8 @@
     <string name="wind">Ветер</string>
     <string name="humidityValue">"%1$d%%"</string>
     <string name="windSpeed">"%1$d м/сек"</string>
-    <string name="todayDate">9 апреля</string>
-    <string name="today">Сегодня</string>
     <string name="condition_image">Картника погоды</string>
     <string name="error_unknown_scale">Ошибка! Неизвестная шкала!</string>
-    <string name="cloud_image">Картника погоды</string>
     <string name="enter_town_or_region">Укажите город или регион</string>
     <string name="select_town">Выбрать город</string>
     <string name="not_available">н/д</string>
@@ -41,5 +37,8 @@
         <item>Челябинск</item>
     </string-array>
     <string name="more_details_on_website">Подробности в интернете…</string>
-    <string name="settings_icon">Иконка настроек</string>
+    <string name="erase">Очистить</string>
+    <string name="about">О приложении</string>
+    <string name="author">Алексей Дородный</string>
+    <string name="close">Закрыть</string>
 </resources>

@@ -3,15 +3,12 @@ package ru.gressor.weatherapp.fragments.forecast;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.Objects;
 
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
@@ -52,14 +49,6 @@ public class FragmentForecast extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewForecast.setLayoutManager(layoutManager);
-
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(
-                Objects.requireNonNull(getActivity()),  LinearLayoutManager.VERTICAL);
-
-        itemDecoration.setDrawable(
-                Objects.requireNonNull(getActivity().getDrawable(R.drawable.forecast_separator)));
-        recyclerViewForecast.addItemDecoration(itemDecoration);
-
 
         ForecastListAdapter adapter = new ForecastListAdapter(new ForecastData());
         recyclerViewForecast.setAdapter(adapter);
