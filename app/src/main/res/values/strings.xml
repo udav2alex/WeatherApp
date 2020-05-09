@@ -42,4 +42,6 @@
     <string name="с_2020" translatable="false">© 2020</string>
     <string name="author">Aleksey Dorodnyy</string>
     <string name="close">Close</string>
+    <string name="connection_error_message">There is a error during acquiring weather data!</string>
+    <string name="provider_message_prescription">Data provider returns this message:</string>
 </resources>

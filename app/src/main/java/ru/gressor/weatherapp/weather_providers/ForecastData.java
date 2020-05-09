@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.weather;
+package ru.gressor.weatherapp.weather_providers;
 
 import java.util.Calendar;
 

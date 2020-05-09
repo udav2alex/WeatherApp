@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.weather.ForecastData;
+import ru.gressor.weatherapp.weather_providers.ForecastData;
 
 public class FragmentForecast extends Fragment {
 

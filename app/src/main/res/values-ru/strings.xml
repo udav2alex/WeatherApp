@@ -41,4 +41,6 @@
     <string name="about">О приложении</string>
     <string name="author">Алексей Дородный</string>
     <string name="close">Закрыть</string>
+    <string name="connection_error_message">При получении данных о погоде возникла ошибка!</string>
+    <string name="provider_message_prescription">Сообщение поставщика данных:</string>
 </resources>

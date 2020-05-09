@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Objects;
 
+import ru.gressor.weatherapp.data_types.weather_today.WeatherToday;
+
 public class WeatherState implements Parcelable {
     public static final String CURRENT_WEATHER = "currentWeather";
 
@@ -22,6 +24,15 @@ public class WeatherState implements Parcelable {
     private int conditions = -1;
 
     private WeatherState() {
+    }
+
+    public static WeatherState create(WeatherToday wt) {
+        WeatherState ws = new WeatherState(
+                Math.round(wt.getMain().getTemp()), Math.round(wt.getMain().getFeels_like()));
+        ws.humidity = Math.round(wt.getMain().getHumidity());
+        ws.pressure = Math.round(0.750062f * wt.getMain().getPressure());
+        ws.windSpeed = Math.round(wt.getWind().getSpeed());
+        return ws;
     }
 
     public WeatherState(int temperature, int tempFeelsLike) {
