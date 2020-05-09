@@ -44,4 +44,6 @@
     <string name="close">Close</string>
     <string name="connection_error_message">There is a error during acquiring weather data!</string>
     <string name="provider_message_prescription">Data provider returns this message:</string>
+    <string name="provider_message_not_found">Selected location not found</string>
+    <string name="message_connection_error">Connection error:</string>
 </resources>

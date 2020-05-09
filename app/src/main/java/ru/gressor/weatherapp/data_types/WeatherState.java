@@ -17,6 +17,7 @@ public class WeatherState implements Parcelable {
     private int temperature = -1000;
     private int tempFeelsLike = -1000;
     private int clouds = -1;
+    private String cloudsDescription;
     private int windSpeed = -1;
     private int windDirection = -1;
     private int pressure = -1;
@@ -26,13 +27,14 @@ public class WeatherState implements Parcelable {
     private WeatherState() {
     }
 
-    public static WeatherState create(WeatherToday wt) {
-        WeatherState ws = new WeatherState(
-                Math.round(wt.getMain().getTemp()), Math.round(wt.getMain().getFeels_like()));
-        ws.humidity = Math.round(wt.getMain().getHumidity());
-        ws.pressure = Math.round(0.750062f * wt.getMain().getPressure());
-        ws.windSpeed = Math.round(wt.getWind().getSpeed());
-        return ws;
+    public static WeatherState create(WeatherToday weatherToday) {
+        WeatherState weatherState = new WeatherState(
+                Math.round(weatherToday.getMain().getTemp()),
+                Math.round(weatherToday.getMain().getFeels_like()));
+        weatherState.humidity = Math.round(weatherToday.getMain().getHumidity());
+        weatherState.pressure = Math.round(0.750062f * weatherToday.getMain().getPressure());
+        weatherState.windSpeed = Math.round(weatherToday.getWind().getSpeed());
+        return weatherState;
     }
 
     public WeatherState(int temperature, int tempFeelsLike) {

@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showErrorMessage(String errorMessage) {
         Intent intent = new Intent(this, ErrorMessageActivity.class);
-        intent.putExtra(ErrorMessageActivity.PROVIDER_MESSAGE, errorMessage);
+        intent.putExtra(ErrorMessageActivity.ERROR_MESSAGE, errorMessage);
         startActivity(intent);
     }
 

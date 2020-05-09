@@ -10,7 +10,7 @@ import android.widget.TextView;
 import ru.gressor.weatherapp.R;
 
 public class ErrorMessageActivity extends AppCompatActivity {
-    public static final String PROVIDER_MESSAGE = "PROVIDER_MESSAGE";
+    public static final String ERROR_MESSAGE = "ERROR_MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class ErrorMessageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         ((TextView)findViewById(R.id.textViewProviderMessage))
-                .setText(intent.getStringExtra(PROVIDER_MESSAGE));
+                .setText(intent.getStringExtra(ERROR_MESSAGE));
 
         findViewById(R.id.buttonCloseErrorMessage).setOnClickListener(onClickListenerButtonClose);
     }

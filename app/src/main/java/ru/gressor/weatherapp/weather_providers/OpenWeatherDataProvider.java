@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -18,11 +19,14 @@ import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
 import ru.gressor.weatherapp.data_types.weather_today.WeatherToday;
 
+import ru.gressor.weatherapp.R;
+
 public class OpenWeatherDataProvider implements DataProvider {
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECT_TIMEOUT = 10000;
     private static final String API_CONNECTION_URL =
-            "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s";
+            "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s&lang="
+            + Locale.getDefault().getLanguage();
     // TODO extract API_KEY
     private static final String API_KEY =
             "c4b46b269a484630f9a27a8c115c5e86";
@@ -50,19 +54,24 @@ public class OpenWeatherDataProvider implements DataProvider {
                     if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
                         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                         String string = readLines(in);
-
                         Gson gson = new Gson();
+                        
                         final WeatherToday weatherToday = gson.fromJson(string, WeatherToday.class);
-
-                        handler.post(() ->
-                                activity.weatherUpdated(WeatherState.create(weatherToday)));
+                        handler.post(() -> activity.weatherUpdated(WeatherState.create(weatherToday)));
+                    } else if (connection.getResponseCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
+                        showMessage(handler,
+                                activity.getResources().getString(R.string.provider_message_prescription),
+                                activity.getResources().getString(R.string.provider_message_not_found));
                     } else {
-                        final String errorMessage = connection.getResponseMessage();
-                        handler.post(() ->
-                                activity.showErrorMessage(errorMessage));
+                        showMessage(handler,
+                                activity.getResources().getString(R.string.provider_message_prescription),
+                                connection.getResponseMessage());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    showMessage(handler,
+                            activity.getResources().getString(R.string.message_connection_error),
+                            e.getMessage());
                 } finally {
                     if (connection != null) {
                         connection.disconnect();
@@ -74,10 +83,15 @@ public class OpenWeatherDataProvider implements DataProvider {
         }
     }
 
+    private void showMessage(Handler handler, String preface, String message) {
+        final String errorMessage = preface + "\n\n" + message;
+        handler.post(() -> activity.showErrorMessage(errorMessage));
+    }
+
     private String getApiURL(PositionPoint position) {
         try {
             return String.format(API_CONNECTION_URL,
-                URLEncoder.encode(position.getTown(), "utf-8"), API_KEY);
+                    URLEncoder.encode(position.getTown(), "utf-8"), API_KEY);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

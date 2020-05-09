@@ -12,15 +12,7 @@
         android:id="@+id/textViewMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
         android:text="@string/connection_error_message" />
-
-    <TextView
-        android:id="@+id/textViewPre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/provider_message_prescription" />
 
     <TextView
         android:id="@+id/textViewProviderMessage"
