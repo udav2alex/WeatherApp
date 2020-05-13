@@ -97,6 +97,7 @@ public class FragmentWeatherToday extends Fragment {
         textViewCurrentTemperature.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
 
+        textViewConditions.setText(currentWeather.getConditionsDescription());
         textViewFeelsLike.setText(context.getString(R.string.feels_like,
                 tScale.fromCelsius(currentWeather.getTempFeelsLike(), errorMessage)));
 

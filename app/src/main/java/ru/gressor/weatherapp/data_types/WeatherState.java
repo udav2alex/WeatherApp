@@ -34,6 +34,7 @@ public class WeatherState implements Parcelable {
         weatherState.humidity = Math.round(weatherToday.getMain().getHumidity());
         weatherState.pressure = Math.round(0.750062f * weatherToday.getMain().getPressure());
         weatherState.windSpeed = Math.round(weatherToday.getWind().getSpeed());
+        weatherState.conditionsDescription = weatherToday.getWeather()[0].getDescription();
         return weatherState;
     }
 
