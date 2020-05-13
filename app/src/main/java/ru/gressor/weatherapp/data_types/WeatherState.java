@@ -15,6 +15,7 @@ public class WeatherState implements Parcelable {
 
     private Calendar actualAt;
     private int temperature = -1000;
+    private String iconFileName;
     private String conditionsDescription;
     private int tempFeelsLike = -1000;
     private int clouds = -1;
@@ -35,6 +36,7 @@ public class WeatherState implements Parcelable {
         weatherState.pressure = Math.round(0.750062f * weatherToday.getMain().getPressure());
         weatherState.windSpeed = Math.round(weatherToday.getWind().getSpeed());
         weatherState.conditionsDescription = weatherToday.getWeather()[0].getDescription();
+        weatherState.iconFileName = weatherToday.getWeather()[0].getIcon();
         return weatherState;
     }
 
@@ -51,6 +53,7 @@ public class WeatherState implements Parcelable {
 
     private WeatherState(Parcel parcel) {
         temperature = parcel.readInt();
+        iconFileName = parcel.readString();
         conditionsDescription = parcel.readString();
         tempFeelsLike = parcel.readInt();
         clouds = parcel.readInt();
@@ -65,6 +68,7 @@ public class WeatherState implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(temperature);
+        parcel.writeString(iconFileName);
         parcel.writeString(conditionsDescription);
         parcel.writeInt(tempFeelsLike);
         parcel.writeInt(clouds);
@@ -122,6 +126,10 @@ public class WeatherState implements Parcelable {
 
     public String getTemperatureScaled(String errorMessage) {
         return temperatureScale.fromCelsius(temperature, errorMessage);
+    }
+
+    public String getIconFileName() {
+        return iconFileName;
     }
 
     public String getConditionsDescription() {

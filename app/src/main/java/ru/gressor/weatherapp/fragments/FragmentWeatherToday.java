@@ -97,6 +97,8 @@ public class FragmentWeatherToday extends Fragment {
         textViewCurrentTemperature.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
 
+        setWeatherIcon(imageViewConditionsImage, context, currentWeather);
+
         textViewConditions.setText(currentWeather.getConditionsDescription());
         textViewFeelsLike.setText(context.getString(R.string.feels_like,
                 tScale.fromCelsius(currentWeather.getTempFeelsLike(), errorMessage)));
@@ -112,6 +114,17 @@ public class FragmentWeatherToday extends Fragment {
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
         textViewTempNext3H.setText(tScale.fromCelsius(7, errorMessage));
         textViewTempNext6H.setText(tScale.fromCelsius(5, errorMessage));
+    }
+
+    private void setWeatherIcon(ImageView imageView, Context context, WeatherState currentWeather) {
+        String iconFileName = currentWeather.getIconFileName();
+        if (iconFileName != null) {
+            String drawableName = context.getPackageName() + ":drawable/w" + iconFileName;
+            int id = context.getResources()
+                    .getIdentifier(drawableName, null, null);
+
+            if (id != 0) imageView.setImageDrawable(context.getDrawable(id));
+        }
     }
 
     private View.OnClickListener textViewTownOnClickListener = (v) -> {
