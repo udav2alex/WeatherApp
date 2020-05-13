@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ru.gressor.weatherapp.data_types.PositionPoint;
@@ -21,6 +22,8 @@ public class FragmentWeatherToday extends Fragment {
     private TextView textViewTown;
     private TextView textViewSite;
     private TextView textViewCurrentTemperature;
+    private ImageView imageViewConditionsImage;
+    private TextView textViewConditions;
     private TextView textViewFeelsLike;
     private TextView textViewWindSpeed;
     private TextView textViewPressureValue;
@@ -66,6 +69,8 @@ public class FragmentWeatherToday extends Fragment {
         textViewTown = fragmentView.findViewById(R.id.textViewTown);
         textViewSite = fragmentView.findViewById(R.id.textViewSite);
         textViewCurrentTemperature = fragmentView.findViewById(R.id.currentTemperature);
+        imageViewConditionsImage = fragmentView.findViewById(R.id.conditionsImage);
+        textViewConditions = fragmentView.findViewById(R.id.conditions);
         textViewFeelsLike = fragmentView.findViewById(R.id.feelsLike);
         textViewWindSpeed = fragmentView.findViewById(R.id.windSpeed);
         textViewPressureValue = fragmentView.findViewById(R.id.pressureValue);
@@ -91,17 +96,19 @@ public class FragmentWeatherToday extends Fragment {
 
         textViewCurrentTemperature.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
+
         textViewFeelsLike.setText(context.getString(R.string.feels_like,
                 tScale.fromCelsius(currentWeather.getTempFeelsLike(), errorMessage)));
+
         textViewWindSpeed.setText(context.getString(R.string.windSpeed,
                 currentWeather.getWindSpeed()));
         textViewPressureValue.setText(context.getString(R.string.pressureValue,
                 currentWeather.getPressure()));
         textViewHumidityValue.setText(context.getString(R.string.humidityValue,
                 currentWeather.getHumidity()));
+
         textViewTempNow.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
-
         textViewTempNext3H.setText(tScale.fromCelsius(7, errorMessage));
         textViewTempNext6H.setText(tScale.fromCelsius(5, errorMessage));
     }

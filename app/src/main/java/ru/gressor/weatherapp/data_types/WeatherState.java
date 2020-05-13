@@ -15,9 +15,9 @@ public class WeatherState implements Parcelable {
 
     private Calendar actualAt;
     private int temperature = -1000;
+    private String cloudsDescription;
     private int tempFeelsLike = -1000;
     private int clouds = -1;
-    private String cloudsDescription;
     private int windSpeed = -1;
     private int windDirection = -1;
     private int pressure = -1;
