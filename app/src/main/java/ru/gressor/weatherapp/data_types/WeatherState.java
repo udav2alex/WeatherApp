@@ -15,7 +15,7 @@ public class WeatherState implements Parcelable {
 
     private Calendar actualAt;
     private int temperature = -1000;
-    private String cloudsDescription;
+    private String conditionsDescription;
     private int tempFeelsLike = -1000;
     private int clouds = -1;
     private int windSpeed = -1;
@@ -50,6 +50,7 @@ public class WeatherState implements Parcelable {
 
     private WeatherState(Parcel parcel) {
         temperature = parcel.readInt();
+        conditionsDescription = parcel.readString();
         tempFeelsLike = parcel.readInt();
         clouds = parcel.readInt();
         windSpeed = parcel.readInt();
@@ -57,18 +58,13 @@ public class WeatherState implements Parcelable {
         pressure = parcel.readInt();
         humidity = parcel.readInt();
         conditions = parcel.readInt();
-
-        boolean actualAtIsPresent = parcel.readInt() == 1;
-        long millis = parcel.readLong();
-        if (actualAtIsPresent) {
-            actualAt = Calendar.getInstance();
-            actualAt.setTimeInMillis(millis);
-        }
+        actualAt = (Calendar) parcel.readSerializable();
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(temperature);
+        parcel.writeString(conditionsDescription);
         parcel.writeInt(tempFeelsLike);
         parcel.writeInt(clouds);
         parcel.writeInt(windSpeed);
@@ -76,14 +72,7 @@ public class WeatherState implements Parcelable {
         parcel.writeInt(pressure);
         parcel.writeInt(humidity);
         parcel.writeInt(conditions);
-
-        if (actualAt == null) {
-            parcel.writeInt(0);
-            parcel.writeLong(0);
-        } else {
-            parcel.writeInt(1);
-            parcel.writeLong(actualAt.getTimeInMillis());
-        }
+        parcel.writeSerializable(actualAt);
     }
 
     public static final Creator<WeatherState> CREATOR = new Creator<WeatherState>() {
@@ -102,6 +91,7 @@ public class WeatherState implements Parcelable {
         WeatherState weatherState = new WeatherState();
 
         weatherState.temperature = (int)(8 + Math.random() * 10);
+        weatherState.conditionsDescription = "";
         weatherState.tempFeelsLike = (int)(8 + Math.random() * 10);
         weatherState.clouds = 0;
         weatherState.windSpeed = (int)(Math.random() * 7);
@@ -131,6 +121,10 @@ public class WeatherState implements Parcelable {
 
     public String getTemperatureScaled(String errorMessage) {
         return temperatureScale.fromCelsius(temperature, errorMessage);
+    }
+
+    public String getConditionsDescription() {
+        return conditionsDescription;
     }
 
     public int getTempFeelsLike() {
