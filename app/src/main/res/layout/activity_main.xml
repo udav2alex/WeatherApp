@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fresh_spring_background"
+    android:background="@drawable/b1"
+    android:backgroundTint="#5DADED"
     tools:context=".activities.MainActivity">
 
     <FrameLayout
@@ -18,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/fragmentWeatherToday"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragmentWeatherToday" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

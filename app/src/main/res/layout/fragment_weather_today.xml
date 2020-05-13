@@ -40,52 +40,41 @@
 
         <LinearLayout
             android:id="@+id/weatherNow"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@id/conditions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewSite">
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/currentTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
+                android:layout_margin="12dp"
+                android:maxLines="1"
                 android:text="@string/not_available"
-                android:textAlignment="center"
+                android:textAlignment="textEnd"
                 android:textSize="54sp" />
 
             <ImageView
                 android:id="@+id/conditionsImage"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="18dp"
-                android:contentDescription="@string/condition_image"
-                android:adjustViewBounds="true"
+                android:scaleType="fitStart"
+                android:contentDescription="@string/not_available"
                 app:srcCompat="@android:drawable/ic_menu_view" />
 
-            <View
-                android:layout_width="10dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/conditions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/cloudy"
+            android:text="@string/not_available"
             android:textSize="21sp"
             app:layout_constraintBottom_toTopOf="@id/feelsLike"
             app:layout_constraintEnd_toEndOf="parent"

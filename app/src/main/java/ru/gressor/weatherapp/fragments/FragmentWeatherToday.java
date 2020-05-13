@@ -120,10 +120,13 @@ public class FragmentWeatherToday extends Fragment {
         String iconFileName = currentWeather.getIconFileName();
         if (iconFileName != null) {
             String drawableName = context.getPackageName() + ":drawable/w" + iconFileName;
-            int id = context.getResources()
+            int iconId = context.getResources()
                     .getIdentifier(drawableName, null, null);
 
-            if (id != 0) imageView.setImageDrawable(context.getDrawable(id));
+            if (iconId != 0) {
+                imageView.setImageDrawable(context.getDrawable(iconId));
+                imageView.setContentDescription(currentWeather.getConditionsDescription());
+            }
         }
     }
 
