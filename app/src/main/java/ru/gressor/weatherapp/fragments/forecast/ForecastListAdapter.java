@@ -12,7 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import ru.gressor.weatherapp.weather.ForecastData;
+import ru.gressor.weatherapp.weather_providers.ForecastData;
 import ru.gressor.weatherapp.R;
 
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {

@@ -15,10 +15,13 @@ import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
 import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
 import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
+import ru.gressor.weatherapp.weather_providers.DataProvider;
+import ru.gressor.weatherapp.weather_providers.OpenWeatherDataProvider;
 
 public class MainActivity extends AppCompatActivity {
     WeatherState currentWeather;
     PositionPoint currentPosition;
+    DataProvider dataProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(Bundle savedInstanceState) {
+        dataProvider = new OpenWeatherDataProvider(this);
+
         if (savedInstanceState == null) {
             currentWeather = WeatherState.generateRandom();
             currentPosition = new PositionPoint(
                     getApplicationContext().getResources().getString(R.string.town),
                     getApplicationContext().getResources().getString(R.string.site));
+            dataProvider.refreshCurrentWeather(currentPosition);
         }
     }
 
@@ -42,15 +48,24 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelectTownActivity.GET_TOWN && resultCode == RESULT_OK && data != null) {
             currentPosition = data.getParcelableExtra(PositionPoint.CURRENT_POSITION);
+            dataProvider.refreshCurrentWeather(currentPosition);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        showActualData();
+    }
 
+    private void showActualData() {
         setFragmentWeatherToday();
         setFragmentForecast();
+    }
+
+    public void weatherUpdated(WeatherState weatherState) {
+        currentWeather = weatherState;
+        showActualData();
     }
 
     private void setFragmentWeatherToday() {
@@ -95,6 +110,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showErrorMessage(String errorMessage) {
+        Intent intent = new Intent(this, ErrorMessageActivity.class);
+        intent.putExtra(ErrorMessageActivity.ERROR_MESSAGE, errorMessage);
+        startActivity(intent);
     }
 
     @Override
