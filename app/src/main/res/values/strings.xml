@@ -46,4 +46,5 @@
     <string name="provider_message_prescription">Data provider returns this message:</string>
     <string name="provider_message_not_found">Selected location not found</string>
     <string name="message_connection_error">Connection error:</string>
+    <string name="pressure">Pressure</string>
 </resources>

@@ -106,21 +106,23 @@
 
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="24dp"
+                    android:gravity="center_vertical"
+                    android:alpha="@dimen/alpha_for_black_icon"
                     android:contentDescription="@string/wind"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
+                    app:srcCompat="@drawable/wind_16dp" />
 
                 <TextView
                     android:id="@+id/windSpeed"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
                     android:text="@string/windSpeed" />
 
                 <TextView
@@ -151,21 +153,22 @@
 
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/wind"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
+                    android:layout_height="24dp"
+                    android:alpha="@dimen/alpha_for_black_icon"
+                    android:contentDescription="@string/pressure"
+                    app:srcCompat="@drawable/tmp" />
 
                 <TextView
                     android:id="@+id/pressureValue"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
                     android:text="@string/pressureValue" />
 
                 <ImageView
@@ -190,21 +193,22 @@
 
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="24dp"
                     android:contentDescription="@string/wind"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
+                    android:gravity="center_vertical"
+                    android:alpha="@dimen/alpha_for_black_icon"
+                    app:srcCompat="@drawable/humidity_16dp" />
 
                 <TextView
                     android:id="@+id/humidityValue"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:text="@string/humidityValue" />
 
                 <TextView

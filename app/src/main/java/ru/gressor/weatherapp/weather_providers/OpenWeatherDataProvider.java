@@ -46,18 +46,12 @@ public class OpenWeatherDataProvider implements DataProvider {
             new Thread(() -> {
                 HttpsURLConnection connection = null;
                 try {
-                    connection = (HttpsURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setReadTimeout(READ_TIMEOUT);
-                    connection.setConnectTimeout(CONNECT_TIMEOUT);
+                    connection = createConnection(url);
 
                     if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        String string = readLines(in);
-                        Gson gson = new Gson();
-                        
-                        final WeatherToday weatherToday = gson.fromJson(string, WeatherToday.class);
-                        handler.post(() -> activity.weatherUpdated(WeatherState.create(weatherToday)));
+                        final WeatherToday weatherToday = getWeather(connection);
+                        handler.post(() ->
+                                activity.weatherUpdated(WeatherState.create(weatherToday)));
                     } else if (connection.getResponseCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
                         showMessage(handler,
                                 activity.getResources().getString(R.string.provider_message_prescription),
@@ -81,6 +75,22 @@ public class OpenWeatherDataProvider implements DataProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private HttpsURLConnection createConnection(URL url) throws IOException {
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setReadTimeout(READ_TIMEOUT);
+        connection.setConnectTimeout(CONNECT_TIMEOUT);
+        return connection;
+    }
+
+    private WeatherToday getWeather(HttpsURLConnection connection) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String string = readLines(in);
+        Gson gson = new Gson();
+
+        return gson.fromJson(string, WeatherToday.class);
     }
 
     private void showMessage(Handler handler, String preface, String message) {
