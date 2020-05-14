@@ -24,9 +24,8 @@ import ru.gressor.weatherapp.R;
 public class OpenWeatherDataProvider implements DataProvider {
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECT_TIMEOUT = 10000;
-    private static final String API_CONNECTION_URL =
-            "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s&lang="
-            + Locale.getDefault().getLanguage();
+    private static final String API_URL_CURRENT_WEATHER =
+            "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s&lang=%s";
     // TODO extract API_KEY
     private static final String API_KEY =
             "c4b46b269a484630f9a27a8c115c5e86";
@@ -100,8 +99,9 @@ public class OpenWeatherDataProvider implements DataProvider {
 
     private String getApiURL(PositionPoint position) {
         try {
-            return String.format(API_CONNECTION_URL,
-                    URLEncoder.encode(position.getTown(), "utf-8"), API_KEY);
+            return String.format(API_URL_CURRENT_WEATHER,
+                    URLEncoder.encode(position.getTown(), "utf-8"),
+                    API_KEY, Locale.getDefault().getLanguage());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
