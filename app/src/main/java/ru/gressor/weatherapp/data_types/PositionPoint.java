@@ -9,6 +9,10 @@ public class PositionPoint implements Parcelable {
     public static final String CURRENT_POSITION = "currentPosition";
     private String town;
     private String site;
+    private String serviceTown;
+    private String serviceSite;
+    private float lat = -1f;
+    private float lon = -1f;
 
     public PositionPoint(String town, String site) {
         this.town = town;
@@ -18,6 +22,10 @@ public class PositionPoint implements Parcelable {
     public PositionPoint(Parcel parcel) {
         this.town = parcel.readString();
         this.site = parcel.readString();
+        this.serviceTown = parcel.readString();
+        this.serviceSite = parcel.readString();
+        this.lat = parcel.readFloat();
+        this.lon = parcel.readFloat();
     }
 
     public String getTown() {
@@ -48,19 +56,27 @@ public class PositionPoint implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(town);
         parcel.writeString(site);
+        parcel.writeString(serviceTown);
+        parcel.writeString(serviceSite);
+        parcel.writeFloat(lat);
+        parcel.writeFloat(lon);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PositionPoint)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         PositionPoint that = (PositionPoint) o;
-        return getTown().equals(that.getTown()) &&
-                getSite().equals(that.getSite());
+        return Float.compare(that.lat, lat) == 0 &&
+                Float.compare(that.lon, lon) == 0 &&
+                Objects.equals(town, that.town) &&
+                Objects.equals(site, that.site) &&
+                Objects.equals(serviceTown, that.serviceTown) &&
+                Objects.equals(serviceSite, that.serviceSite);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTown(), getSite());
+        return Objects.hash(town, site, serviceTown, serviceSite, lat, lon);
     }
 }
