@@ -11,8 +11,8 @@ public class PositionPoint implements Parcelable {
     private String site;
     private String serviceTown;
     private String serviceSite;
-    private float lat = -1f;
-    private float lon = -1f;
+    private float lat = -1000f;
+    private float lon = -1000f;
 
     public PositionPoint(String town, String site) {
         this.town = town;
@@ -34,6 +34,22 @@ public class PositionPoint implements Parcelable {
 
     public String getSite() {
         return site;
+    }
+
+    public String getServiceTown() {
+        return serviceTown;
+    }
+
+    public String getServiceSite() {
+        return serviceSite;
+    }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public float getLon() {
+        return lon;
     }
 
     public static final Parcelable.Creator<PositionPoint> CREATOR

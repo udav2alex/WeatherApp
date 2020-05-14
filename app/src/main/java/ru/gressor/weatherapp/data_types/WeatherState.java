@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Objects;
 
-import ru.gressor.weatherapp.data_types.weather_today.WeatherToday;
+import ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather;
 
 public class WeatherState implements Parcelable {
     public static final String CURRENT_WEATHER = "currentWeather";
@@ -28,15 +28,15 @@ public class WeatherState implements Parcelable {
     private WeatherState() {
     }
 
-    public static WeatherState create(WeatherToday weatherToday) {
+    public static WeatherState create(CurrentWeather currentWeather) {
         WeatherState weatherState = new WeatherState(
-                Math.round(weatherToday.getMain().getTemp()),
-                Math.round(weatherToday.getMain().getFeels_like()));
-        weatherState.humidity = Math.round(weatherToday.getMain().getHumidity());
-        weatherState.pressure = Math.round(0.750062f * weatherToday.getMain().getPressure());
-        weatherState.windSpeed = Math.round(weatherToday.getWind().getSpeed());
-        weatherState.conditionsDescription = weatherToday.getWeather()[0].getDescription();
-        weatherState.iconFileName = weatherToday.getWeather()[0].getIcon();
+                Math.round(currentWeather.getMain().getTemp()),
+                Math.round(currentWeather.getMain().getFeels_like()));
+        weatherState.humidity = Math.round(currentWeather.getMain().getHumidity());
+        weatherState.pressure = Math.round(0.750062f * currentWeather.getMain().getPressure());
+        weatherState.windSpeed = Math.round(currentWeather.getWind().getSpeed());
+        weatherState.conditionsDescription = currentWeather.getWeather()[0].getDescription();
+        weatherState.iconFileName = currentWeather.getWeather()[0].getIcon();
         return weatherState;
     }
 

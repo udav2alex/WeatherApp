@@ -17,7 +17,7 @@ import javax.net.ssl.HttpsURLConnection;
 import ru.gressor.weatherapp.activities.MainActivity;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
-import ru.gressor.weatherapp.data_types.weather_today.WeatherToday;
+import ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather;
 
 import ru.gressor.weatherapp.R;
 
@@ -49,9 +49,9 @@ public class OpenWeatherDataProvider implements DataProvider {
                     connection = createConnection(url);
 
                     if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                        final WeatherToday weatherToday = getWeather(connection);
+                        final CurrentWeather currentWeather = getWeather(connection);
                         handler.post(() ->
-                                activity.weatherUpdated(WeatherState.create(weatherToday)));
+                                activity.weatherUpdated(WeatherState.create(currentWeather)));
                     } else if (connection.getResponseCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
                         showMessage(handler,
                                 activity.getResources().getString(R.string.provider_message_prescription),
@@ -85,12 +85,12 @@ public class OpenWeatherDataProvider implements DataProvider {
         return connection;
     }
 
-    private WeatherToday getWeather(HttpsURLConnection connection) throws IOException {
+    private CurrentWeather getWeather(HttpsURLConnection connection) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String string = readLines(in);
         Gson gson = new Gson();
 
-        return gson.fromJson(string, WeatherToday.class);
+        return gson.fromJson(string, CurrentWeather.class);
     }
 
     private void showMessage(Handler handler, String preface, String message) {

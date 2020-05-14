@@ -1,6 +1,6 @@
-package ru.gressor.weatherapp.data_types.weather_today;
+package ru.gressor.weatherapp.data_types.openweather_current_weather;
 
-public class WeatherToday {
+public class CurrentWeather {
     private String name;
     private Main main;
     private Coord coord;
