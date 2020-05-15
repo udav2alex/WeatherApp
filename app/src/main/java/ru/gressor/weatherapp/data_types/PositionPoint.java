@@ -52,6 +52,14 @@ public class PositionPoint implements Parcelable {
         return lon;
     }
 
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+
     public static final Parcelable.Creator<PositionPoint> CREATOR
             = new Parcelable.Creator<PositionPoint>() {
         public PositionPoint createFromParcel(Parcel parcel) {

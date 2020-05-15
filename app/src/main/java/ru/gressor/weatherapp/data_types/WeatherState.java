@@ -23,7 +23,6 @@ public class WeatherState implements Parcelable {
     private int windDirection = -1;
     private int pressure = -1;
     private int humidity = -1;
-    private int conditions = -1;
 
     private WeatherState() {
     }
@@ -61,7 +60,6 @@ public class WeatherState implements Parcelable {
         windDirection = parcel.readInt();
         pressure = parcel.readInt();
         humidity = parcel.readInt();
-        conditions = parcel.readInt();
         actualAt = (Calendar) parcel.readSerializable();
     }
 
@@ -76,7 +74,6 @@ public class WeatherState implements Parcelable {
         parcel.writeInt(windDirection);
         parcel.writeInt(pressure);
         parcel.writeInt(humidity);
-        parcel.writeInt(conditions);
         parcel.writeSerializable(actualAt);
     }
 
@@ -103,7 +100,6 @@ public class WeatherState implements Parcelable {
         weatherState.windDirection = 0;
         weatherState.pressure = (int)(730 + Math.random() * 50);
         weatherState.humidity = (int)(40 + Math.random() * 61);
-        weatherState.conditions = 0;
 
         return weatherState;
     }
@@ -180,12 +176,11 @@ public class WeatherState implements Parcelable {
                 windSpeed == that.windSpeed &&
                 windDirection == that.windDirection &&
                 pressure == that.pressure &&
-                humidity == that.humidity &&
-                conditions == that.conditions;
+                humidity == that.humidity;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(temperature, tempFeelsLike, clouds, windSpeed, windDirection, pressure, humidity, conditions);
+        return Objects.hash(temperature, tempFeelsLike, clouds, windSpeed, windDirection, pressure, humidity);
     }
 }

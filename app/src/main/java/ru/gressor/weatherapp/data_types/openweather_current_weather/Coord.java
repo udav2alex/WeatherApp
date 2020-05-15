@@ -1,8 +1,8 @@
 package ru.gressor.weatherapp.data_types.openweather_current_weather;
 
 public class Coord {
-    private float lon;
-    private float lat;
+    private float lon = -1000f;
+    private float lat = -1000f;
 
     public float getLon() {
         return lon;
