@@ -7,8 +7,8 @@ import java.net.HttpURLConnection;
 
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.activities.MainActivity;
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
-import ru.gressor.weatherapp.data_types.local_dto.WeatherState;
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.data_types.WeatherState;
 
 public class DataController {
     private MainActivity activity;
@@ -27,7 +27,7 @@ public class DataController {
                 handler.post(() -> activity.weatherUpdated(weatherState));
 
             } catch (HttpWeatherError e) {
-                if (e.getCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                if (e.getHttpCode() == HttpURLConnection.HTTP_NOT_FOUND) {
                     showMessage(handler,
                             activity.getResources().getString(R.string.provider_message_prescription),
                             activity.getResources().getString(R.string.provider_message_not_found));

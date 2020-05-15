@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.weather_providers;
+package ru.gressor.weatherapp.weather_providers.openweather;
 
 import com.google.gson.Gson;
 
@@ -12,9 +12,10 @@ import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
-import ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather;
-import ru.gressor.weatherapp.data_types.openweather_one_call.OpenWeatherOneCall;
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.weather_providers.openweather.dto_current_weather.CurrentWeather;
+import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.OpenWeatherOneCall;
+import ru.gressor.weatherapp.weather_providers.HttpWeatherError;
 
 public class OpenWeatherDataProvider {
     private static final int READ_TIMEOUT = 10000;
@@ -27,14 +28,20 @@ public class OpenWeatherDataProvider {
     private static final String API_KEY =
             "c4b46b269a484630f9a27a8c115c5e86";
 
-    public OpenWeatherOneCall getWeatherAndForecasts(PositionPoint position) throws IOException {
+    public OpenWeatherOneCall getWeatherAndForecasts(PositionPoint position) throws IOException, HttpWeatherError {
         HttpsURLConnection connection = null;
 
         try {
             if (position.getLat() <= -1000 || position.getLon() <= -1000) {
                 connection = createConnection(new URL(getApiUrlCurrentWeather(position)));
-                CurrentWeather currentWeather = getWeather(connection);
 
+                if (connection.getResponseCode() != HttpsURLConnection.HTTP_OK) {
+                    String responseMessage = connection.getResponseMessage();
+                    int responseCode = connection.getResponseCode();
+                    throw new HttpWeatherError(responseMessage, responseCode);
+                }
+
+                CurrentWeather currentWeather = getWeather(connection);
                 position.setLat(currentWeather.getCoord().getLat());
                 position.setLon(currentWeather.getCoord().getLon());
             }
@@ -46,9 +53,6 @@ public class OpenWeatherDataProvider {
             } else {
                 throw new HttpWeatherError(connection.getResponseMessage(), connection.getResponseCode());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IOException(e.getMessage());
         } finally {
             if (connection != null) {
                 connection.disconnect();

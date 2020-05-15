@@ -1,15 +1,12 @@
-package ru.gressor.weatherapp.data_types.openweather_one_call;
+package ru.gressor.weatherapp.weather_providers.openweather.dto_one_call;
 
-public class Current {
+public class Hourly {
     private long dt;
-    private long sunrise;
-    private long sunset;
     private float temp;
     private float feels_like;
     private float pressure;
     private float humidity;
     private float dew_point;
-    private float uvi;
     private float clouds;
     private float visibility;
     private float wind_speed;
@@ -21,14 +18,6 @@ public class Current {
 
     public long getDt() {
         return dt;
-    }
-
-    public long getSunrise() {
-        return sunrise;
-    }
-
-    public long getSunset() {
-        return sunset;
     }
 
     public float getTemp() {
@@ -49,10 +38,6 @@ public class Current {
 
     public float getDew_point() {
         return dew_point;
-    }
-
-    public float getUvi() {
-        return uvi;
     }
 
     public float getClouds() {
@@ -81,14 +66,6 @@ public class Current {
         this.dt = dt;
     }
 
-    public void setSunrise(long sunrise) {
-        this.sunrise = sunrise;
-    }
-
-    public void setSunset(long sunset) {
-        this.sunset = sunset;
-    }
-
     public void setTemp(float temp) {
         this.temp = temp;
     }
@@ -107,10 +84,6 @@ public class Current {
 
     public void setDew_point(float dew_point) {
         this.dew_point = dew_point;
-    }
-
-    public void setUvi(float uvi) {
-        this.uvi = uvi;
     }
 
     public void setClouds(float clouds) {

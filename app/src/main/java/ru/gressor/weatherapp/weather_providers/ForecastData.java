@@ -2,8 +2,9 @@ package ru.gressor.weatherapp.weather_providers;
 
 import java.util.Calendar;
 
-import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
+import ru.gressor.weatherapp.data_types.CurrentWeather;
 
+// TODO Remove this class
 public class ForecastData {
     private static final int FORECAST_PERIOD = 10;
 

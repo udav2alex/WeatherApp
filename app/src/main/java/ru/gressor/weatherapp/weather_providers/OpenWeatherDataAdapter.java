@@ -3,15 +3,16 @@ package ru.gressor.weatherapp.weather_providers;
 import java.io.IOException;
 import java.util.Calendar;
 
-import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
-import ru.gressor.weatherapp.data_types.local_dto.WeatherState;
-import ru.gressor.weatherapp.data_types.openweather_one_call.OpenWeatherOneCall;
+import ru.gressor.weatherapp.data_types.CurrentWeather;
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.OpenWeatherOneCall;
+import ru.gressor.weatherapp.weather_providers.openweather.OpenWeatherDataProvider;
 
 public class OpenWeatherDataAdapter implements DataAdapter {
 
     @Override
-    public WeatherState getWeatherState(PositionPoint position) throws IOException {
+    public WeatherState getWeatherState(PositionPoint position) throws IOException, HttpWeatherError {
         OpenWeatherDataProvider provider = new OpenWeatherDataProvider();
 
         OpenWeatherOneCall in = provider.getWeatherAndForecasts(position);

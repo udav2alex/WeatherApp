@@ -1,11 +1,11 @@
-package ru.gressor.weatherapp.data_types.openweather_one_call;
+package ru.gressor.weatherapp.weather_providers.openweather.dto_one_call;
 
-public class Daily {
+public class Current {
     private long dt;
     private long sunrise;
     private long sunset;
-    private Temp temp;
-    private FeelsLike feels_like;
+    private float temp;
+    private float feels_like;
     private float pressure;
     private float humidity;
     private float dew_point;
@@ -31,11 +31,11 @@ public class Daily {
         return sunset;
     }
 
-    public Temp getTemp() {
+    public float getTemp() {
         return temp;
     }
 
-    public FeelsLike getFeels_like() {
+    public float getFeels_like() {
         return feels_like;
     }
 
@@ -77,7 +77,6 @@ public class Daily {
 
     // Setter Methods
 
-
     public void setDt(long dt) {
         this.dt = dt;
     }
@@ -90,11 +89,11 @@ public class Daily {
         this.sunset = sunset;
     }
 
-    public void setTemp(Temp temp) {
+    public void setTemp(float temp) {
         this.temp = temp;
     }
 
-    public void setFeels_like(FeelsLike feels_like) {
+    public void setFeels_like(float feels_like) {
         this.feels_like = feels_like;
     }
 

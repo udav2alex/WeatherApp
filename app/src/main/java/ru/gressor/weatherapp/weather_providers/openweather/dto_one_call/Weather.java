@@ -1,10 +1,11 @@
-package ru.gressor.weatherapp.data_types.openweather_current_weather;
+package ru.gressor.weatherapp.weather_providers.openweather.dto_one_call;
 
 public class Weather {
     private int id;
     private String main;
     private String description;
     private String icon;
+
 
     public int getId() {
         return id;

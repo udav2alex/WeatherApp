@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
+import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.weather_providers.ForecastData;
 

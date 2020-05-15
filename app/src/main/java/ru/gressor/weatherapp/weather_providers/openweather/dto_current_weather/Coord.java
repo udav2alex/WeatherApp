@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.data_types.openweather_current_weather;
+package ru.gressor.weatherapp.weather_providers.openweather.dto_current_weather;
 
 public class Coord {
     private float lon = -1000f;

@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
+import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.activities.SelectTownActivity;
-import ru.gressor.weatherapp.data_types.local_dto.TemperatureScale;
-import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
-import ru.gressor.weatherapp.data_types.local_dto.WeatherState;
+import ru.gressor.weatherapp.data_types.TemperatureScale;
+import ru.gressor.weatherapp.data_types.CurrentWeather;
+import ru.gressor.weatherapp.data_types.WeatherState;
 
 public class FragmentWeatherToday extends Fragment {
     private View fragmentView;

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.google.android.material.snackbar.Snackbar;
 
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
+import ru.gressor.weatherapp.data_types.PositionPoint;
 
 public class SelectTownActivity extends AppCompatActivity {
     public static final int GET_TOWN = 1;

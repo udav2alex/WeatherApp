@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.data_types.local_dto;
+package ru.gressor.weatherapp.data_types;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -36,19 +36,6 @@ public class CurrentWeather implements Parcelable {
         this.windDirection = windDirection;
         this.pressure = pressure;
         this.humidity = humidity;
-    }
-
-    // TODO Удалить
-    public static CurrentWeather create(ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather currentWeather) {
-        CurrentWeather currentWeatherState = new CurrentWeather(
-                Math.round(currentWeather.getMain().getTemp()),
-                Math.round(currentWeather.getMain().getFeels_like()));
-        currentWeatherState.humidity = Math.round(currentWeather.getMain().getHumidity());
-        currentWeatherState.pressure = Math.round(0.750062f * currentWeather.getMain().getPressure());
-        currentWeatherState.windSpeed = Math.round(currentWeather.getWind().getSpeed());
-        currentWeatherState.conditionsDescription = currentWeather.getWeather()[0].getDescription();
-        currentWeatherState.iconFileName = currentWeather.getWeather()[0].getIcon();
-        return currentWeatherState;
     }
 
     public CurrentWeather(int temperature, int tempFeelsLike) {

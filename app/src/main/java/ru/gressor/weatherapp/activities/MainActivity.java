@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
-import ru.gressor.weatherapp.data_types.local_dto.WeatherState;
+import ru.gressor.weatherapp.data_types.PositionPoint;
+import ru.gressor.weatherapp.data_types.WeatherState;
 import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
 import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
 import ru.gressor.weatherapp.weather_providers.DataController;

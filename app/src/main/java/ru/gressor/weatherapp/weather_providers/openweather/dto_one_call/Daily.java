@@ -1,12 +1,15 @@
-package ru.gressor.weatherapp.data_types.openweather_one_call;
+package ru.gressor.weatherapp.weather_providers.openweather.dto_one_call;
 
-public class Hourly {
+public class Daily {
     private long dt;
-    private float temp;
-    private float feels_like;
+    private long sunrise;
+    private long sunset;
+    private Temp temp;
+    private FeelsLike feels_like;
     private float pressure;
     private float humidity;
     private float dew_point;
+    private float uvi;
     private float clouds;
     private float visibility;
     private float wind_speed;
@@ -20,11 +23,19 @@ public class Hourly {
         return dt;
     }
 
-    public float getTemp() {
+    public long getSunrise() {
+        return sunrise;
+    }
+
+    public long getSunset() {
+        return sunset;
+    }
+
+    public Temp getTemp() {
         return temp;
     }
 
-    public float getFeels_like() {
+    public FeelsLike getFeels_like() {
         return feels_like;
     }
 
@@ -38,6 +49,10 @@ public class Hourly {
 
     public float getDew_point() {
         return dew_point;
+    }
+
+    public float getUvi() {
+        return uvi;
     }
 
     public float getClouds() {
@@ -62,15 +77,24 @@ public class Hourly {
 
     // Setter Methods
 
+
     public void setDt(long dt) {
         this.dt = dt;
     }
 
-    public void setTemp(float temp) {
+    public void setSunrise(long sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public void setSunset(long sunset) {
+        this.sunset = sunset;
+    }
+
+    public void setTemp(Temp temp) {
         this.temp = temp;
     }
 
-    public void setFeels_like(float feels_like) {
+    public void setFeels_like(FeelsLike feels_like) {
         this.feels_like = feels_like;
     }
 
@@ -84,6 +108,10 @@ public class Hourly {
 
     public void setDew_point(float dew_point) {
         this.dew_point = dew_point;
+    }
+
+    public void setUvi(float uvi) {
+        this.uvi = uvi;
     }
 
     public void setClouds(float clouds) {

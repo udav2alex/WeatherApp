@@ -1,16 +1,14 @@
 package ru.gressor.weatherapp.weather_providers;
 
-import java.io.IOException;
+public class HttpWeatherError extends Exception {
+    private int httpCode;
 
-public class HttpWeatherError extends IOException {
-    private int code;
-
-    public HttpWeatherError(String message, int code) {
+    public HttpWeatherError(String message, int httpCode) {
         super(message);
-        this.code = code;
+        this.httpCode = httpCode;
     }
 
-    public int getCode() {
-        return code;
+    public int getHttpCode() {
+        return httpCode;
     }
 }

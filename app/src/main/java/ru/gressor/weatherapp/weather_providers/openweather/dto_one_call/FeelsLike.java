@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.data_types.openweather_one_call;
+package ru.gressor.weatherapp.weather_providers.openweather.dto_one_call;
 
 public class FeelsLike {
     private float day;
