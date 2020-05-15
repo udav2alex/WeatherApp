@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.data_types;
+package ru.gressor.weatherapp.data_types.local_dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;

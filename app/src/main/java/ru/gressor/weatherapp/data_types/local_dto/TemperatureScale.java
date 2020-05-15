@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.data_types;
+package ru.gressor.weatherapp.data_types.local_dto;
 
 public enum TemperatureScale {
     CELSIUS, FAHRENHEIT;

@@ -2,7 +2,7 @@ package ru.gressor.weatherapp.weather_providers;
 
 import java.util.Calendar;
 
-import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
 
 public class ForecastData {
     private static final int FORECAST_PERIOD = 10;
@@ -24,10 +24,10 @@ public class ForecastData {
         return FORECAST_PERIOD;
     }
 
-    public WeatherState getForecastFor(int day) {
+    public CurrentWeather getForecastFor(int day) {
         Calendar actualAt = Calendar.getInstance();
         actualAt.add(Calendar.DATE, day);
 
-        return new WeatherState(stub[day][0], stub[day][1], actualAt);
+        return new CurrentWeather(stub[day][0], stub[day][1], actualAt);
     }
 }

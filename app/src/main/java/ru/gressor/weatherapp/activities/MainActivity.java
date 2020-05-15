@@ -11,15 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.data_types.PositionPoint;
-import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
+import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
 import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
 import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
 import ru.gressor.weatherapp.weather_providers.DataProvider;
 import ru.gressor.weatherapp.weather_providers.OpenWeatherDataProvider;
 
 public class MainActivity extends AppCompatActivity {
-    WeatherState currentWeather;
+    CurrentWeather currentWeather;
     PositionPoint currentPosition;
     DataProvider dataProvider;
 
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         dataProvider = new OpenWeatherDataProvider(this);
 
         if (savedInstanceState == null) {
-            currentWeather = WeatherState.generateRandom();
             currentPosition = new PositionPoint(
                     getApplicationContext().getResources().getString(R.string.town),
                     getApplicationContext().getResources().getString(R.string.site));
@@ -63,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         setFragmentForecast();
     }
 
-    public void weatherUpdated(WeatherState weatherState) {
-        currentWeather = weatherState;
+    public void weatherUpdated(CurrentWeather currentWeather) {
+        this.currentWeather = currentWeather;
         showActualData();
     }
 
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(PositionPoint.CURRENT_POSITION, currentPosition);
-        outState.putParcelable(WeatherState.CURRENT_WEATHER, currentWeather);
+        outState.putParcelable(CurrentWeather.CURRENT_WEATHER, currentWeather);
     }
 
     @Override
@@ -131,6 +130,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         currentPosition = savedInstanceState.getParcelable(PositionPoint.CURRENT_POSITION);
-        currentWeather = savedInstanceState.getParcelable(WeatherState.CURRENT_WEATHER);
+        currentWeather = savedInstanceState.getParcelable(CurrentWeather.CURRENT_WEATHER);
     }
 }

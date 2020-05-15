@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.data_types;
+package ru.gressor.weatherapp.data_types.local_dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Objects;
 
-import ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather;
-
-public class WeatherState implements Parcelable {
+public class CurrentWeather implements Parcelable {
     public static final String CURRENT_WEATHER = "currentWeather";
 
     private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
@@ -24,33 +22,33 @@ public class WeatherState implements Parcelable {
     private int pressure = -1;
     private int humidity = -1;
 
-    private WeatherState() {
+    private CurrentWeather() {
     }
 
-    public static WeatherState create(CurrentWeather currentWeather) {
-        WeatherState weatherState = new WeatherState(
+    public static CurrentWeather create(ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather currentWeather) {
+        CurrentWeather currentWeatherState = new CurrentWeather(
                 Math.round(currentWeather.getMain().getTemp()),
                 Math.round(currentWeather.getMain().getFeels_like()));
-        weatherState.humidity = Math.round(currentWeather.getMain().getHumidity());
-        weatherState.pressure = Math.round(0.750062f * currentWeather.getMain().getPressure());
-        weatherState.windSpeed = Math.round(currentWeather.getWind().getSpeed());
-        weatherState.conditionsDescription = currentWeather.getWeather()[0].getDescription();
-        weatherState.iconFileName = currentWeather.getWeather()[0].getIcon();
-        return weatherState;
+        currentWeatherState.humidity = Math.round(currentWeather.getMain().getHumidity());
+        currentWeatherState.pressure = Math.round(0.750062f * currentWeather.getMain().getPressure());
+        currentWeatherState.windSpeed = Math.round(currentWeather.getWind().getSpeed());
+        currentWeatherState.conditionsDescription = currentWeather.getWeather()[0].getDescription();
+        currentWeatherState.iconFileName = currentWeather.getWeather()[0].getIcon();
+        return currentWeatherState;
     }
 
-    public WeatherState(int temperature, int tempFeelsLike) {
+    public CurrentWeather(int temperature, int tempFeelsLike) {
         this.temperature = temperature;
         this.tempFeelsLike = tempFeelsLike;
     }
 
-    public WeatherState(int temperature, int tempFeelsLike, Calendar actualAt) {
+    public CurrentWeather(int temperature, int tempFeelsLike, Calendar actualAt) {
         this.temperature = temperature;
         this.tempFeelsLike = tempFeelsLike;
         this.actualAt = actualAt;
     }
 
-    private WeatherState(Parcel parcel) {
+    private CurrentWeather(Parcel parcel) {
         temperature = parcel.readInt();
         iconFileName = parcel.readString();
         conditionsDescription = parcel.readString();
@@ -77,31 +75,31 @@ public class WeatherState implements Parcelable {
         parcel.writeSerializable(actualAt);
     }
 
-    public static final Creator<WeatherState> CREATOR = new Creator<WeatherState>() {
+    public static final Creator<CurrentWeather> CREATOR = new Creator<CurrentWeather>() {
         @Override
-        public WeatherState createFromParcel(Parcel parcel) {
-            return new WeatherState(parcel);
+        public CurrentWeather createFromParcel(Parcel parcel) {
+            return new CurrentWeather(parcel);
         }
 
         @Override
-        public WeatherState[] newArray(int size) {
-            return new WeatherState[size];
+        public CurrentWeather[] newArray(int size) {
+            return new CurrentWeather[size];
         }
     };
 
-    public static WeatherState generateRandom() {
-        WeatherState weatherState = new WeatherState();
+    public static CurrentWeather generateRandom() {
+        CurrentWeather currentWeather = new CurrentWeather();
 
-        weatherState.temperature = (int)(8 + Math.random() * 10);
-        weatherState.conditionsDescription = "";
-        weatherState.tempFeelsLike = (int)(8 + Math.random() * 10);
-        weatherState.clouds = 0;
-        weatherState.windSpeed = (int)(Math.random() * 7);
-        weatherState.windDirection = 0;
-        weatherState.pressure = (int)(730 + Math.random() * 50);
-        weatherState.humidity = (int)(40 + Math.random() * 61);
+        currentWeather.temperature = (int)(8 + Math.random() * 10);
+        currentWeather.conditionsDescription = "";
+        currentWeather.tempFeelsLike = (int)(8 + Math.random() * 10);
+        currentWeather.clouds = 0;
+        currentWeather.windSpeed = (int)(Math.random() * 7);
+        currentWeather.windDirection = 0;
+        currentWeather.pressure = (int)(730 + Math.random() * 50);
+        currentWeather.humidity = (int)(40 + Math.random() * 61);
 
-        return weatherState;
+        return currentWeather;
     }
 
     public static TemperatureScale getTemperatureScale() {
@@ -109,7 +107,7 @@ public class WeatherState implements Parcelable {
     }
 
     public static void setTemperatureScale(TemperatureScale temperatureScale) {
-        WeatherState.temperatureScale = temperatureScale;
+        CurrentWeather.temperatureScale = temperatureScale;
     }
 
     public Calendar getActualAt() {
@@ -168,8 +166,8 @@ public class WeatherState implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof WeatherState)) return false;
-        WeatherState that = (WeatherState) o;
+        if (!(o instanceof CurrentWeather)) return false;
+        CurrentWeather that = (CurrentWeather) o;
         return temperature == that.temperature &&
                 tempFeelsLike == that.tempFeelsLike &&
                 clouds == that.clouds &&

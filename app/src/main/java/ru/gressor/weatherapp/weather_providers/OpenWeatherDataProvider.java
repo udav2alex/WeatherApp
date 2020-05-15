@@ -15,9 +15,8 @@ import java.util.Locale;
 import javax.net.ssl.HttpsURLConnection;
 
 import ru.gressor.weatherapp.activities.MainActivity;
-import ru.gressor.weatherapp.data_types.PositionPoint;
-import ru.gressor.weatherapp.data_types.WeatherState;
-import ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather;
+import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
+import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
 
 import ru.gressor.weatherapp.R;
 
@@ -26,6 +25,9 @@ public class OpenWeatherDataProvider implements DataProvider {
     private static final int CONNECT_TIMEOUT = 10000;
     private static final String API_URL_CURRENT_WEATHER =
             "https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric&appid=%s&lang=%s";
+    private static final String API_URL_ONE_CALL =
+            "https://api.openweathermap.org/data/2.5/onecall?lon=37.62&lat=55.75&exclude=minutely"
+                    + "&units=metric&appid=c4b46b269a484630f9a27a8c115c5e86&lang=ru";
     // TODO extract API_KEY
     private static final String API_KEY =
             "c4b46b269a484630f9a27a8c115c5e86";
@@ -38,42 +40,83 @@ public class OpenWeatherDataProvider implements DataProvider {
 
     @Override
     public void refreshCurrentWeather(PositionPoint position) {
-        try {
-            final URL url = new URL(getApiURL(position));
-            final Handler handler = new Handler();
+        final Handler handler = new Handler();
 
-            new Thread(() -> {
-                HttpsURLConnection connection = null;
-                try {
-                    connection = createConnection(url);
+        new Thread(() -> {
+            HttpsURLConnection connection = null;
+            try {
+                connection = createConnection(new URL(getApiUrlCurrentWeather(position)));
 
-                    if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                        final CurrentWeather currentWeather = getWeather(connection);
-                        handler.post(() ->
-                                activity.weatherUpdated(WeatherState.create(currentWeather)));
-                    } else if (connection.getResponseCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
-                        showMessage(handler,
-                                activity.getResources().getString(R.string.provider_message_prescription),
-                                activity.getResources().getString(R.string.provider_message_not_found));
-                    } else {
-                        showMessage(handler,
-                                activity.getResources().getString(R.string.provider_message_prescription),
-                                connection.getResponseMessage());
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+                    final ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather currentWeather = getWeather(connection);
+
+                    position.setLat(currentWeather.getCoord().getLat());
+                    position.setLon(currentWeather.getCoord().getLon());
+
+                    handler.post(() ->
+                            activity.weatherUpdated(CurrentWeather.create(currentWeather)));
+                } else if (connection.getResponseCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
                     showMessage(handler,
-                            activity.getResources().getString(R.string.message_connection_error),
-                            e.getMessage());
-                } finally {
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
+                            activity.getResources().getString(R.string.provider_message_prescription),
+                            activity.getResources().getString(R.string.provider_message_not_found));
+                } else {
+                    showMessage(handler,
+                            activity.getResources().getString(R.string.provider_message_prescription),
+                            connection.getResponseMessage());
                 }
-            }).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            } catch (IOException e) {
+                e.printStackTrace();
+                showMessage(handler,
+                        activity.getResources().getString(R.string.message_connection_error),
+                        e.getMessage());
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }).start();
+    }
+
+    public void refreshWeatherAndForecasts(PositionPoint position) {
+        final Handler handler = new Handler();
+
+        new Thread(() -> {
+            HttpsURLConnection connection = null;
+            try {
+                if (position.getLat() <= -1000 || position.getLon() <= -1000) {
+                    connection = createConnection(new URL(getApiUrlCurrentWeather(position)));
+                    ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather currentWeather = getWeather(connection);
+
+                    position.setLat(currentWeather.getCoord().getLat());
+                    position.setLon(currentWeather.getCoord().getLon());
+                }
+
+                connection = createConnection(new URL(getApiUrlOneCall(position)));
+
+                if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+                    final ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather currentWeather = getWeather(connection);
+                    handler.post(() ->
+                            activity.weatherUpdated(CurrentWeather.create(currentWeather)));
+                } else if (connection.getResponseCode() == HttpsURLConnection.HTTP_NOT_FOUND) {
+                    showMessage(handler,
+                            activity.getResources().getString(R.string.provider_message_prescription),
+                            activity.getResources().getString(R.string.provider_message_not_found));
+                } else {
+                    showMessage(handler,
+                            activity.getResources().getString(R.string.provider_message_prescription),
+                            connection.getResponseMessage());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                showMessage(handler,
+                        activity.getResources().getString(R.string.message_connection_error),
+                        e.getMessage());
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }).start();
     }
 
     private HttpsURLConnection createConnection(URL url) throws IOException {
@@ -84,12 +127,12 @@ public class OpenWeatherDataProvider implements DataProvider {
         return connection;
     }
 
-    private CurrentWeather getWeather(HttpsURLConnection connection) throws IOException {
+    private ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather getWeather(HttpsURLConnection connection) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String string = readLines(in);
         Gson gson = new Gson();
 
-        return gson.fromJson(string, CurrentWeather.class);
+        return gson.fromJson(string, ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather.class);
     }
 
     private void showMessage(Handler handler, String preface, String message) {
@@ -97,7 +140,7 @@ public class OpenWeatherDataProvider implements DataProvider {
         handler.post(() -> activity.showErrorMessage(errorMessage));
     }
 
-    private String getApiURL(PositionPoint position) {
+    private String getApiUrlCurrentWeather(PositionPoint position) {
         try {
             return String.format(API_URL_CURRENT_WEATHER,
                     URLEncoder.encode(position.getTown(), "utf-8"),
@@ -106,6 +149,11 @@ public class OpenWeatherDataProvider implements DataProvider {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String getApiUrlOneCall(PositionPoint position) {
+        // TODO Select correct parameters String.format()
+        return API_URL_ONE_CALL;
     }
 
     private String readLines(BufferedReader in) throws IOException {
