@@ -15,6 +15,7 @@ import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.activities.SelectTownActivity;
 import ru.gressor.weatherapp.data_types.local_dto.TemperatureScale;
 import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
+import ru.gressor.weatherapp.data_types.local_dto.WeatherState;
 
 public class FragmentWeatherToday extends Fragment {
     private View fragmentView;
@@ -35,12 +36,12 @@ public class FragmentWeatherToday extends Fragment {
     public FragmentWeatherToday() {
     }
 
-    public static FragmentWeatherToday create(CurrentWeather currentWeather,
+    public static FragmentWeatherToday create(WeatherState weatherState,
                                               PositionPoint currentDestination) {
         FragmentWeatherToday fragmentWeatherToday = new FragmentWeatherToday();
 
         Bundle args = new Bundle();
-        args.putParcelable(CurrentWeather.CURRENT_WEATHER, currentWeather);
+        args.putParcelable(WeatherState.WEATHER_STATE, weatherState);
         args.putParcelable(PositionPoint.CURRENT_POSITION, currentDestination);
         fragmentWeatherToday.setArguments(args);
 
@@ -88,7 +89,7 @@ public class FragmentWeatherToday extends Fragment {
 
         TemperatureScale tScale = CurrentWeather.getTemperatureScale();
         PositionPoint currentDestination = getCurrentPosition();
-        CurrentWeather currentWeather = getCurrentWeather();
+        CurrentWeather currentWeather = getWeatherState().getCurrentWeather();
         String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
 
         textViewTown.setText(currentDestination.getTown());
@@ -137,9 +138,9 @@ public class FragmentWeatherToday extends Fragment {
         }
     };
 
-    public CurrentWeather getCurrentWeather() {
+    public WeatherState getWeatherState() {
         if (getArguments() != null) {
-            return getArguments().getParcelable(CurrentWeather.CURRENT_WEATHER);
+            return getArguments().getParcelable(WeatherState.WEATHER_STATE);
         } else {
             return null;
         }

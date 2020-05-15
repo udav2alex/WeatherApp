@@ -10,6 +10,12 @@ public class HourForecast implements Parcelable {
     private int temperature = -1000;
     private String iconFileName;
 
+    public HourForecast(Calendar actualAt, int temperature, String iconFileName) {
+        this.actualAt = actualAt;
+        this.temperature = temperature;
+        this.iconFileName = iconFileName;
+    }
+
     protected HourForecast(Parcel parcel) {
         temperature = parcel.readInt();
         iconFileName = parcel.readString();

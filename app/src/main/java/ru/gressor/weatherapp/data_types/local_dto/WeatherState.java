@@ -4,11 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class WeatherState implements Parcelable {
+    public static final String WEATHER_STATE = "weatherState";
+
     CurrentWeather currentWeather;
     List<HourForecast> hourlyForecast;
     List<DayForecast> dailyForecast;
+
+    public WeatherState(CurrentWeather currentWeather,
+                        List<HourForecast> hourlyForecast, List<DayForecast> dailyForecast) {
+        this.currentWeather = currentWeather;
+        this.hourlyForecast = hourlyForecast;
+        this.dailyForecast = dailyForecast;
+    }
 
     protected WeatherState(Parcel parcel) {
         currentWeather = parcel.readParcelable(CurrentWeather.class.getClassLoader());
@@ -62,5 +72,20 @@ public class WeatherState implements Parcelable {
 
     public void setDailyForecast(List<DayForecast> dailyForecast) {
         this.dailyForecast = dailyForecast;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WeatherState that = (WeatherState) o;
+        return Objects.equals(currentWeather, that.currentWeather) &&
+                Objects.equals(hourlyForecast, that.hourlyForecast) &&
+                Objects.equals(dailyForecast, that.dailyForecast);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(currentWeather, hourlyForecast, dailyForecast);
     }
 }

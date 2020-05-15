@@ -11,6 +11,14 @@ public class DayForecast implements Parcelable {
     private int maxTemperature = -1000;
     private String iconFileName;
 
+    public DayForecast(Calendar actualAt, int minTemperature,
+                       int maxTemperature, String iconFileName) {
+        this.actualAt = actualAt;
+        this.minTemperature = minTemperature;
+        this.maxTemperature = maxTemperature;
+        this.iconFileName = iconFileName;
+    }
+
     protected DayForecast(Parcel parcel) {
         minTemperature = parcel.readInt();
         maxTemperature = parcel.readInt();

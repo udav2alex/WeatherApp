@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class CurrentWeather implements Parcelable {
-    public static final String CURRENT_WEATHER = "currentWeather";
-
     private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
 
     private Calendar actualAt;
@@ -25,6 +23,22 @@ public class CurrentWeather implements Parcelable {
     private CurrentWeather() {
     }
 
+    public CurrentWeather(Calendar actualAt, int temperature, String iconFileName,
+                          String conditionsDescription, int tempFeelsLike, int clouds,
+                          int windSpeed, int windDirection, int pressure, int humidity) {
+        this.actualAt = actualAt;
+        this.temperature = temperature;
+        this.iconFileName = iconFileName;
+        this.conditionsDescription = conditionsDescription;
+        this.tempFeelsLike = tempFeelsLike;
+        this.clouds = clouds;
+        this.windSpeed = windSpeed;
+        this.windDirection = windDirection;
+        this.pressure = pressure;
+        this.humidity = humidity;
+    }
+
+    // TODO Удалить
     public static CurrentWeather create(ru.gressor.weatherapp.data_types.openweather_current_weather.CurrentWeather currentWeather) {
         CurrentWeather currentWeatherState = new CurrentWeather(
                 Math.round(currentWeather.getMain().getTemp()),

@@ -12,16 +12,15 @@ import android.view.MenuItem;
 
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.data_types.local_dto.PositionPoint;
-import ru.gressor.weatherapp.data_types.local_dto.CurrentWeather;
+import ru.gressor.weatherapp.data_types.local_dto.WeatherState;
 import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
 import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
-import ru.gressor.weatherapp.weather_providers.DataProvider;
-import ru.gressor.weatherapp.weather_providers.OpenWeatherDataProvider;
+import ru.gressor.weatherapp.weather_providers.DataController;
 
 public class MainActivity extends AppCompatActivity {
-    CurrentWeather currentWeather;
+    WeatherState weatherState;
     PositionPoint currentPosition;
-    DataProvider dataProvider;
+    DataController dataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +31,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(Bundle savedInstanceState) {
-        dataProvider = new OpenWeatherDataProvider(this);
+        dataController = new DataController(this);
 
         if (savedInstanceState == null) {
             currentPosition = new PositionPoint(
                     getApplicationContext().getResources().getString(R.string.town),
                     getApplicationContext().getResources().getString(R.string.site));
-            dataProvider.refreshCurrentWeather(currentPosition);
+            dataController.refreshWeatherState(currentPosition);
         }
     }
 
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelectTownActivity.GET_TOWN && resultCode == RESULT_OK && data != null) {
             currentPosition = data.getParcelableExtra(PositionPoint.CURRENT_POSITION);
-            dataProvider.refreshCurrentWeather(currentPosition);
+            dataController.refreshWeatherState(currentPosition);
         }
     }
 
@@ -62,19 +61,21 @@ public class MainActivity extends AppCompatActivity {
         setFragmentForecast();
     }
 
-    public void weatherUpdated(CurrentWeather currentWeather) {
-        this.currentWeather = currentWeather;
+    public void weatherUpdated(WeatherState weatherState) {
+        this.weatherState = weatherState;
         showActualData();
     }
 
     private void setFragmentWeatherToday() {
+        if (weatherState == null) return;
+
         FragmentWeatherToday fragment = (FragmentWeatherToday)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentWeatherToday);
 
         if (fragment == null
                 || !currentPosition.equals(fragment.getCurrentPosition())
-                || !currentWeather.equals(fragment.getCurrentWeather())) {
-            fragment = FragmentWeatherToday.create(currentWeather, currentPosition);
+                || !weatherState.equals(fragment.getWeatherState())) {
+            fragment = FragmentWeatherToday.create(weatherState, currentPosition);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentWeatherToday, fragment).commit();
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragmentForecast() {
+        if (weatherState == null) return;
+
         FragmentForecast fragment = (FragmentForecast)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentForecast);
 
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(PositionPoint.CURRENT_POSITION, currentPosition);
-        outState.putParcelable(CurrentWeather.CURRENT_WEATHER, currentWeather);
+        outState.putParcelable(WeatherState.WEATHER_STATE, weatherState);
     }
 
     @Override
@@ -130,6 +133,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         currentPosition = savedInstanceState.getParcelable(PositionPoint.CURRENT_POSITION);
-        currentWeather = savedInstanceState.getParcelable(CurrentWeather.CURRENT_WEATHER);
+        weatherState = savedInstanceState.getParcelable(WeatherState.WEATHER_STATE);
     }
 }
