@@ -81,14 +81,14 @@ public class OpenWeatherDataProvider {
     }
 
     private String getApiUrlCurrentWeather(PositionPoint position) throws UnsupportedEncodingException {
-        return String.format(API_URL_CURRENT_WEATHER,
+        return String.format(Locale.ENGLISH, API_URL_CURRENT_WEATHER,
                 URLEncoder.encode(position.getTown(), "utf-8"),
                 API_KEY, Locale.getDefault().getLanguage());
     }
 
     private String getApiUrlOneCall(PositionPoint position) {
         // TODO Select correct parameters String.format() lon=37.62&lat=55.75
-        return String.format(API_URL_ONE_CALL, position.getLon(), position.getLat(),
+        return String.format(Locale.ENGLISH, API_URL_ONE_CALL, position.getLon(), position.getLat(),
                 API_KEY, Locale.getDefault().getLanguage());
     }
 
