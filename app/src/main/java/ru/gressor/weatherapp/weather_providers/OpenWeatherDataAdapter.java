@@ -34,7 +34,7 @@ public class OpenWeatherDataAdapter implements DataAdapter {
                 Math.round(in.getCurrent().getClouds()),
                 Math.round(in.getCurrent().getWind_speed()),
                 Math.round(in.getCurrent().getWind_deg()),
-                Math.round(in.getCurrent().getPressure()),
+                Math.round(0.750062f * in.getCurrent().getPressure()),
                 Math.round(in.getCurrent().getHumidity())
         );
 

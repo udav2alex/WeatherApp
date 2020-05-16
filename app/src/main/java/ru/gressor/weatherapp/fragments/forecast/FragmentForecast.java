@@ -63,8 +63,8 @@ public class FragmentForecast extends BaseFragment {
         recyclerViewForecast.setLayoutManager(layoutManager);
 
         if (getWeatherState() != null) {
-            recyclerViewForecast
-                    .setAdapter(new ForecastListAdapter(getWeatherState().getDailyForecast()));
+            recyclerViewForecast.setAdapter(
+                    new ForecastListAdapter(this, getWeatherState().getDailyForecast()));
         }
 
         return view;

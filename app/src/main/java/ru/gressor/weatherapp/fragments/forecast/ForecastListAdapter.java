@@ -16,11 +16,14 @@ import java.util.List;
 import ru.gressor.weatherapp.data_types.DayForecast;
 import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.fragments.BaseFragment;
 
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
     private List<DayForecast> forecastData;
+    private BaseFragment fragment;
 
-    public ForecastListAdapter(List<DayForecast> forecastData) {
+    public ForecastListAdapter(BaseFragment fragment, List<DayForecast> forecastData) {
+        this.fragment = fragment;
         this.forecastData = forecastData;
     }
 
@@ -44,14 +47,17 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
         viewHolder.getTextViewDate().setText(dateDF.format(actualAt.getTimeInMillis()));
         viewHolder.getTextViewDay().setText(sdf.format(actualAt.getTimeInMillis()));
+
         viewHolder.getTextViewTempHi().setText(
                 TemperatureScale.getTemperatureScaled(
                 forecastData.get(i).getMaxTemperature(), errorMessage));
+
         viewHolder.getTextViewTempLow().setText(
                 TemperatureScale.getTemperatureScaled(
                 forecastData.get(i).getMinTemperature(),errorMessage));
-//        TODO Set icon
-//        viewHolder.getWeatherIcon();
+
+        fragment.setDrawableByFileName(viewHolder.getWeatherIcon(),
+                fragment.getContext(), forecastData.get(i).getIconFileName());
     }
 
     @Override
