@@ -27,11 +27,11 @@ public class OpenWeatherOneCall {
         return current;
     }
 
-    public Hourly[] getHourly() {
+    public Hourly[] getHourlies() {
         return hourly;
     }
 
-    public Daily[] getDaily() {
+    public Daily[] getDailies() {
         return daily;
     }
 

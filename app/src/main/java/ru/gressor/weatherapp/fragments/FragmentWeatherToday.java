@@ -3,7 +3,9 @@ package ru.gressor.weatherapp.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,13 +89,18 @@ public class FragmentWeatherToday extends Fragment {
     private void populate() {
         Context context = fragmentView.getContext();
 
-        TemperatureScale tScale = CurrentWeather.getTemperatureScale();
         PositionPoint currentDestination = getCurrentPosition();
-        CurrentWeather currentWeather = getWeatherState().getCurrentWeather();
-        String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
-
         textViewTown.setText(currentDestination.getTown());
         textViewSite.setText(currentDestination.getSite());
+
+        WeatherState weatherState = getWeatherState();
+        if (weatherState == null) return;
+
+        CurrentWeather currentWeather = getWeatherState().getCurrentWeather();
+        if (currentWeather == null) return;
+
+        TemperatureScale tScale = CurrentWeather.getTemperatureScale();
+        String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
 
         textViewCurrentTemperature.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));

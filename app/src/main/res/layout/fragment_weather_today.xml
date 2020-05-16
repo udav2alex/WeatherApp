@@ -64,7 +64,7 @@
                 android:id="@+id/conditionsImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitStart"
+                android:scaleType="fitCenter"
                 android:contentDescription="@string/not_available"
                 app:srcCompat="@android:drawable/ic_menu_view" />
 

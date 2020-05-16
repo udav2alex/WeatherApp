@@ -12,21 +12,32 @@ import android.view.ViewGroup;
 
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.weather_providers.ForecastData;
+import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.data_types.getDailyForecast;
 
 public class FragmentForecast extends Fragment {
 
     public FragmentForecast() {
     }
 
-    public static FragmentForecast create(PositionPoint currentDestination) {
+    public static FragmentForecast create(WeatherState weatherState,
+                                          PositionPoint currentDestination) {
         FragmentForecast fragmentForecast = new FragmentForecast();
 
         Bundle args = new Bundle();
+        args.putParcelable(WeatherState.WEATHER_STATE, weatherState);
         args.putParcelable(PositionPoint.CURRENT_POSITION, currentDestination);
         fragmentForecast.setArguments(args);
 
         return fragmentForecast;
+    }
+
+    public WeatherState getWeatherState() {
+        if (getArguments() != null) {
+            return getArguments().getParcelable(WeatherState.WEATHER_STATE);
+        } else {
+            return null;
+        }
     }
 
     public PositionPoint getCurrentPosition() {
@@ -50,7 +61,7 @@ public class FragmentForecast extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewForecast.setLayoutManager(layoutManager);
 
-        ForecastListAdapter adapter = new ForecastListAdapter(new ForecastData());
+        ForecastListAdapter adapter = new ForecastListAdapter(new getDailyForecast());
         recyclerViewForecast.setAdapter(adapter);
 
         return view;

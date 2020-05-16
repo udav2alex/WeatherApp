@@ -67,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragmentWeatherToday() {
-        if (weatherState == null) return;
+//        if (weatherState == null) return;
 
         FragmentWeatherToday fragment = (FragmentWeatherToday)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentWeatherToday);
 
-        if (fragment == null
+        if (fragment == null || weatherState == null
                 || !currentPosition.equals(fragment.getCurrentPosition())
                 || !weatherState.equals(fragment.getWeatherState())) {
             fragment = FragmentWeatherToday.create(weatherState, currentPosition);
@@ -83,13 +83,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragmentForecast() {
-        if (weatherState == null) return;
+//        if (weatherState == null) return;
 
         FragmentForecast fragment = (FragmentForecast)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentForecast);
 
-        if (fragment == null || !currentPosition.equals(fragment.getCurrentPosition())) {
-            fragment = FragmentForecast.create(currentPosition);
+        if (fragment == null || weatherState == null
+                || !currentPosition.equals(fragment.getCurrentPosition())
+                || !weatherState.equals(fragment.getWeatherState())) {
+            fragment = FragmentForecast.create(weatherState, currentPosition);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentForecast, fragment).commit();

@@ -1,11 +1,11 @@
-package ru.gressor.weatherapp.weather_providers;
+package ru.gressor.weatherapp.data_types;
 
 import java.util.Calendar;
 
 import ru.gressor.weatherapp.data_types.CurrentWeather;
 
 // TODO Remove this class
-public class ForecastData {
+public class getDailyForecast {
     private static final int FORECAST_PERIOD = 10;
 
     private int[][] stub = {
