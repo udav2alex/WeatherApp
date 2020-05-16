@@ -7,21 +7,17 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class CurrentWeather implements Parcelable {
-    private static TemperatureScale temperatureScale = TemperatureScale.CELSIUS;
 
     private Calendar actualAt;
-    private int temperature = -1000;
+    private int temperature;
     private String iconFileName;
     private String conditionsDescription;
-    private int tempFeelsLike = -1000;
+    private int tempFeelsLike;
     private int clouds = -1;
     private int windSpeed = -1;
     private int windDirection = -1;
     private int pressure = -1;
     private int humidity = -1;
-
-    private CurrentWeather() {
-    }
 
     public CurrentWeather(Calendar actualAt, int temperature, String iconFileName,
                           String conditionsDescription, int tempFeelsLike, int clouds,
@@ -36,11 +32,6 @@ public class CurrentWeather implements Parcelable {
         this.windDirection = windDirection;
         this.pressure = pressure;
         this.humidity = humidity;
-    }
-
-    public CurrentWeather(int temperature, int tempFeelsLike) {
-        this.temperature = temperature;
-        this.tempFeelsLike = tempFeelsLike;
     }
 
     public CurrentWeather(int temperature, int tempFeelsLike, Calendar actualAt) {
@@ -88,39 +79,12 @@ public class CurrentWeather implements Parcelable {
         }
     };
 
-    public static CurrentWeather generateRandom() {
-        CurrentWeather currentWeather = new CurrentWeather();
-
-        currentWeather.temperature = (int)(8 + Math.random() * 10);
-        currentWeather.conditionsDescription = "";
-        currentWeather.tempFeelsLike = (int)(8 + Math.random() * 10);
-        currentWeather.clouds = 0;
-        currentWeather.windSpeed = (int)(Math.random() * 7);
-        currentWeather.windDirection = 0;
-        currentWeather.pressure = (int)(730 + Math.random() * 50);
-        currentWeather.humidity = (int)(40 + Math.random() * 61);
-
-        return currentWeather;
-    }
-
-    public static TemperatureScale getTemperatureScale() {
-        return temperatureScale;
-    }
-
-    public static void setTemperatureScale(TemperatureScale temperatureScale) {
-        CurrentWeather.temperatureScale = temperatureScale;
-    }
-
     public Calendar getActualAt() {
         return actualAt;
     }
 
     public int getTemperature() {
         return temperature;
-    }
-
-    public String getTemperatureScaled(String errorMessage) {
-        return temperatureScale.fromCelsius(temperature, errorMessage);
     }
 
     public String getIconFileName() {
@@ -133,10 +97,6 @@ public class CurrentWeather implements Parcelable {
 
     public int getTempFeelsLike() {
         return tempFeelsLike;
-    }
-
-    public String getTempFeelsLikeScaled(String errorMessage) {
-        return temperatureScale.fromCelsius(temperature, errorMessage);
     }
 
     public int getClouds() {

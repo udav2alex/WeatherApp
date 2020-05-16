@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.data_types.CurrentWeather;
 import ru.gressor.weatherapp.data_types.WeatherState;
 
-public class FragmentWeatherToday extends Fragment {
+public class FragmentWeatherToday extends BaseFragment {
     private View fragmentView;
 
     private TextView textViewTown;
@@ -99,13 +97,13 @@ public class FragmentWeatherToday extends Fragment {
         CurrentWeather currentWeather = getWeatherState().getCurrentWeather();
         if (currentWeather == null) return;
 
-        TemperatureScale tScale = CurrentWeather.getTemperatureScale();
+        TemperatureScale tScale = TemperatureScale.getScale();
         String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
 
         textViewCurrentTemperature.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
 
-        setWeatherIcon(imageViewConditionsImage, context, currentWeather);
+        setDrawableByFileName(imageViewConditionsImage, context, currentWeather.getIconFileName());
 
         textViewConditions.setText(currentWeather.getConditionsDescription());
         textViewFeelsLike.setText(context.getString(R.string.feels_like,
@@ -122,20 +120,6 @@ public class FragmentWeatherToday extends Fragment {
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
         textViewTempNext3H.setText(tScale.fromCelsius(7, errorMessage));
         textViewTempNext6H.setText(tScale.fromCelsius(5, errorMessage));
-    }
-
-    private void setWeatherIcon(ImageView imageView, Context context, CurrentWeather currentWeather) {
-        String iconFileName = currentWeather.getIconFileName();
-        if (iconFileName != null) {
-            String drawableName = context.getPackageName() + ":drawable/w" + iconFileName;
-            int iconId = context.getResources()
-                    .getIdentifier(drawableName, null, null);
-
-            if (iconId != 0) {
-                imageView.setImageDrawable(context.getDrawable(iconId));
-                imageView.setContentDescription(currentWeather.getConditionsDescription());
-            }
-        }
     }
 
     private View.OnClickListener textViewTownOnClickListener = (v) -> {

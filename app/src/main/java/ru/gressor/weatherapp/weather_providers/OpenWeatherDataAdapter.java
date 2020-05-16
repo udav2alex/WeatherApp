@@ -58,7 +58,7 @@ public class OpenWeatherDataAdapter implements DataAdapter {
             dailyForecast.add(new DayForecast(
                     actual,
                     Math.round(daily.getTemp().getMin()),
-                    Math.round(daily.getTemp().getMin()),
+                    Math.round(daily.getTemp().getMax()),
                     daily.getWeather()[0].getIcon()
             ));
         }

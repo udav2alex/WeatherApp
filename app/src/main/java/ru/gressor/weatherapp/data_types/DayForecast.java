@@ -7,8 +7,8 @@ import java.util.Calendar;
 
 public class DayForecast implements Parcelable {
     private Calendar actualAt;
-    private int minTemperature = -1000;
-    private int maxTemperature = -1000;
+    private int minTemperature;
+    private int maxTemperature;
     private String iconFileName;
 
     public DayForecast(Calendar actualAt, int minTemperature,
@@ -49,5 +49,21 @@ public class DayForecast implements Parcelable {
         parcel.writeInt(maxTemperature);
         parcel.writeString(iconFileName);
         parcel.writeSerializable(actualAt);
+    }
+
+    public Calendar getActualAt() {
+        return actualAt;
+    }
+
+    public int getMinTemperature() {
+        return minTemperature;
+    }
+
+    public int getMaxTemperature() {
+        return maxTemperature;
+    }
+
+    public String getIconFileName() {
+        return iconFileName;
     }
 }

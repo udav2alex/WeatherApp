@@ -11,14 +11,16 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
-import ru.gressor.weatherapp.data_types.getDailyForecast;
+import ru.gressor.weatherapp.data_types.DayForecast;
+import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.R;
 
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
-    private getDailyForecast forecastData;
+    private List<DayForecast> forecastData;
 
-    public ForecastListAdapter(getDailyForecast forecastData) {
+    public ForecastListAdapter(List<DayForecast> forecastData) {
         this.forecastData = forecastData;
     }
 
@@ -38,25 +40,29 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         DateFormat dateDF = DateFormat.getDateInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
 
-        Calendar actualAt = forecastData.getForecastFor(i).getActualAt();
+        Calendar actualAt = forecastData.get(i).getActualAt();
 
         viewHolder.getTextViewDate().setText(dateDF.format(actualAt.getTimeInMillis()));
         viewHolder.getTextViewDay().setText(sdf.format(actualAt.getTimeInMillis()));
         viewHolder.getTextViewTempHi().setText(
-                forecastData.getForecastFor(i).getTemperatureScaled(errorMessage));
+                TemperatureScale.getTemperatureScaled(
+                forecastData.get(i).getMaxTemperature(), errorMessage));
         viewHolder.getTextViewTempLow().setText(
-                forecastData.getForecastFor(i).getTempFeelsLikeScaled(errorMessage));
+                TemperatureScale.getTemperatureScaled(
+                forecastData.get(i).getMinTemperature(),errorMessage));
+//        TODO Set icon
+//        viewHolder.getWeatherIcon();
     }
 
     @Override
     public int getItemCount() {
-        return forecastData.getCount();
+        return forecastData.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewDate;
         private TextView textViewDay;
-        private ImageView weatherConditions;
+        private ImageView weatherIcon;
         private TextView textViewTempHi;
         private TextView textViewTempLow;
 
@@ -65,7 +71,7 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
             textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewDay  = itemView.findViewById(R.id.textViewDay);
-            weatherConditions = itemView.findViewById(R.id.weatherConditions);
+            weatherIcon = itemView.findViewById(R.id.weatherIcon);
             textViewTempHi = itemView.findViewById(R.id.textViewTempHi);
             textViewTempLow = itemView.findViewById(R.id.textViewTempLow);
         }
@@ -78,8 +84,8 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
             return textViewDay;
         }
 
-        public ImageView getWeatherConditions() {
-            return weatherConditions;
+        public ImageView getWeatherIcon() {
+            return weatherIcon;
         }
 
         public TextView getTextViewTempHi() {
