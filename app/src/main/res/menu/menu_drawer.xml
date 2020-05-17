@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
 
     <item
-        android:id="@+id/menu_item_1"
-        android:title="Item" />
+        android:id="@+id/menu_drawer_select"
+        android:title="@string/select_town" />
+
     <item
-        android:id="@+id/menu_item_2"
-        android:title="Item" />
+        android:id="@+id/menu_drawer_about"
+        android:title="@string/about" />
 </menu>

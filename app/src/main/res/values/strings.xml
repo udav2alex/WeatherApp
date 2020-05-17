@@ -47,4 +47,7 @@
     <string name="provider_message_not_found">Selected location not found</string>
     <string name="message_connection_error">Connection error:</string>
     <string name="pressure">Pressure</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+    <string name="favorites_and_history">Favorites &amp; history</string>
 </resources>

@@ -46,4 +46,7 @@
     <string name="provider_message_not_found">Выбранный город не найден</string>
     <string name="message_connection_error">Ошибка при подключении:</string>
     <string name="pressure">Давление</string>
+    <string name="navigation_drawer_open">История открыта</string>
+    <string name="navigation_drawer_close">История закрыта</string>
+    <string name="favorites_and_history">Избранные и история</string>
 </resources>
