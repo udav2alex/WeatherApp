@@ -5,9 +5,23 @@
 
     <item
         android:id="@+id/menu_drawer_select"
+        android:orderInCategory="0"
+        android:icon="@android:drawable/ic_menu_mylocation"
         android:title="@string/select_town" />
+
+    <group android:id="@+id/menu_group_history">
+
+        <item
+            android:id="@+id/menu_drawer_add_favorite"
+            android:orderInCategory="1"
+            android:icon="@android:drawable/star_off"
+            android:title="@string/add_favorite" />
+    </group>
 
     <item
         android:id="@+id/menu_drawer_about"
+        android:orderInCategory="1000"
+        android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/about" />
+
 </menu>
