@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.activities.MainActivity;
+import ru.gressor.weatherapp.ui.MainActivity;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
 

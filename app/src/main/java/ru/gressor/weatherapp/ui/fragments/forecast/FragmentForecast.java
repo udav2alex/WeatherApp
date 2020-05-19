@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.fragments.forecast;
+package ru.gressor.weatherapp.ui.fragments.forecast;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.data_types.WeatherState;
-import ru.gressor.weatherapp.fragments.BaseFragment;
+import ru.gressor.weatherapp.ui.fragments.BaseFragment;
 
 public class FragmentForecast extends BaseFragment {
 

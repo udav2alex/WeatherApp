@@ -50,4 +50,5 @@
     <string name="navigation_drawer_close">История закрыта</string>
     <string name="favorites_and_history">Избранные и история</string>
     <string name="add_favorite">Закрепить</string>
+    <string name="remove_favorite">Открепить</string>
 </resources>

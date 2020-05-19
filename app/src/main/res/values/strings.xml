@@ -51,4 +51,5 @@
     <string name="navigation_drawer_close">navigation_drawer_close</string>
     <string name="favorites_and_history">Favorites &amp; history</string>
     <string name="add_favorite">Add to favorites</string>
+    <string name="remove_favorite">Remove from favorites</string>
 </resources>

@@ -13,16 +13,16 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <activity
-            android:name=".activities.ErrorMessageActivity"
+            android:name=".ui.ErrorMessageActivity"
             android:theme="@style/AboutTheme" />
 
         <activity
-            android:name=".activities.AboutActivity"
+            android:name=".ui.AboutActivity"
             android:theme="@style/AboutTheme" />
 
-        <activity android:name=".activities.SelectTownActivity" />
+        <activity android:name=".ui.SelectTownActivity" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

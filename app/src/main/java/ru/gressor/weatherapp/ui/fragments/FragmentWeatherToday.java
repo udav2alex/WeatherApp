@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.fragments;
+package ru.gressor.weatherapp.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.activities.SelectTownActivity;
 import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.data_types.CurrentWeather;
 import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.ui.SelectTownActivity;
 
 public class FragmentWeatherToday extends BaseFragment {
     private View fragmentView;
@@ -103,7 +103,7 @@ public class FragmentWeatherToday extends BaseFragment {
         textViewCurrentTemperature.setText(
                 tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
 
-        setDrawableByFileName(imageViewConditionsImage, context, currentWeather.getIconFileName());
+        setImageByFileName(imageViewConditionsImage, context, currentWeather.getIconFileName());
 
         textViewConditions.setText(currentWeather.getConditionsDescription());
         textViewFeelsLike.setText(context.getString(R.string.feels_like,

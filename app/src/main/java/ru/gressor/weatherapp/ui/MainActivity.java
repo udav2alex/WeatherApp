@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.activities;
+package ru.gressor.weatherapp.ui;
 
 import android.content.Intent;
 
@@ -9,14 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -25,8 +24,8 @@ import ru.gressor.weatherapp.data_types.HistoryItem;
 import ru.gressor.weatherapp.data_types.HistoryStorage;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
-import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
-import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
+import ru.gressor.weatherapp.ui.fragments.forecast.FragmentForecast;
+import ru.gressor.weatherapp.ui.fragments.FragmentWeatherToday;
 import ru.gressor.weatherapp.weather_providers.DataController;
 
 public class MainActivity extends AppCompatActivity implements
@@ -49,6 +48,20 @@ public class MainActivity extends AppCompatActivity implements
         init(savedInstanceState);
     }
 
+    private void init(Bundle savedInstanceState) {
+        dataController = new DataController(this);
+        historyStorage = new HistoryStorage();
+
+        if (savedInstanceState == null) {
+            currentPosition = new PositionPoint(
+                    getApplicationContext().getResources().getString(R.string.town),
+                    getApplicationContext().getResources().getString(R.string.site));
+            historyStorage.push(new HistoryItem(null, currentPosition));
+            setupDrawerMenu();
+            dataController.refreshWeatherState(currentPosition);
+        }
+    }
+
     private Toolbar initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,17 +78,14 @@ public class MainActivity extends AppCompatActivity implements
 
         navigationView.setNavigationItemSelectedListener(this);
         drawerMenu = navigationView.getMenu();
-//        drawerMenu.add()
     }
 
     private void setupDrawerMenu() {
         List<HistoryItem> historyItems = historyStorage.getItemsList();
-
-        MenuItem menuItem = drawerMenu.findItem(R.id.menu_drawer_add_favorite);
-        menuItem.setTitle(getResources().getString(R.string.add_favorite)
-                + " : " + currentPosition.getTown());
+        setupFirstDrawerMenuHistoryItem(historyItems.get(0));
 
         for (int i = 1; i < historyItems.size(); i++) {
+            MenuItem menuItem;
             menuItem = drawerMenu.findItem(10000 + i);
 
             if (menuItem != null) {
@@ -85,23 +95,24 @@ public class MainActivity extends AppCompatActivity implements
                         historyItems.get(i).getPositionPoint().getTown());
 
                 menuItem = drawerMenu.findItem(10000 + i);
-                menuItem.setIcon(android.R.drawable.star_off);
             }
+
+            menuItem.setIcon(getHistoryIcon(historyItems.get(i).isFavorite()));
         }
     }
 
-    private void init(Bundle savedInstanceState) {
-        dataController = new DataController(this);
-        historyStorage = new HistoryStorage();
+    private void setupFirstDrawerMenuHistoryItem(HistoryItem historyItem) {
+        MenuItem menuItem = drawerMenu.findItem(R.id.menu_drawer_add_favorite);
 
-        if (savedInstanceState == null) {
-            currentPosition = new PositionPoint(
-                    getApplicationContext().getResources().getString(R.string.town),
-                    getApplicationContext().getResources().getString(R.string.site));
-            historyStorage.push(new HistoryItem(null, currentPosition));
-            setupDrawerMenu();
-            dataController.refreshWeatherState(currentPosition);
-        }
+        menuItem.setTitle((historyItem.isFavorite() ?
+                getResources().getString(R.string.remove_favorite)
+                : getResources().getString(R.string.add_favorite))
+                + " : " + historyItem.getPositionPoint().getTown());
+        menuItem.setIcon(getHistoryIcon(historyItem.isFavorite()));
+    }
+
+    private int getHistoryIcon(boolean isFavorite) {
+        return isFavorite ? android.R.drawable.star_big_on : android.R.drawable.star_off;
     }
 
     @Override
@@ -114,11 +125,15 @@ public class MainActivity extends AppCompatActivity implements
             Intent intent = new Intent(getApplicationContext(), SelectTownActivity.class);
             startActivityForResult(intent, SelectTownActivity.GET_TOWN);
         } else if (item.getItemId() == R.id.menu_drawer_add_favorite) {
-            Snackbar.make(findViewById(R.id.fragmentForecast),
-                    "Функция пока не реализована", Snackbar.LENGTH_LONG).show();
-        }else if (item.getGroupId() == R.id.menu_group_history) {
-            currentPosition = new PositionPoint(item.getTitle().toString(), null);
+            List<HistoryItem> historyItems = historyStorage.getItemsList();
+            historyItems.get(0).setFavorite(!historyItems.get(0).isFavorite());
+            setupDrawerMenu();
+            return true;
+        } else if (item.getGroupId() == R.id.menu_group_history) {
+            List<HistoryItem> historyItems = historyStorage.getItemsList();
+            currentPosition = historyItems.get(item.getItemId() - 10000).getPositionPoint();
             positionUpdated();
+            return true;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
