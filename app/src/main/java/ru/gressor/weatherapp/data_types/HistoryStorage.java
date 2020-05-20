@@ -1,13 +1,38 @@
 package ru.gressor.weatherapp.data_types;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HistoryStorage {
-    public final int MAX_SIZE = 10;
-    public final int MAX_FAVORITES = 5;
+public class HistoryStorage implements Parcelable {
+    public static final int MAX_SIZE = 10;
+    public static final int MAX_FAVORITES = 5;
+    public static final String HISTORY_STORAGE = "HistoryStorage";
 
     private LinkedList<HistoryItem> historyItems = new LinkedList<>();
+
+    public HistoryStorage() {
+    }
+
+    protected HistoryStorage(Parcel parcel) {
+        HistoryItem[] array = (HistoryItem[]) parcel.readArray(HistoryItem.class.getClassLoader());
+        historyItems = new LinkedList<>(Arrays.asList(array));
+    }
+
+    public static final Creator<HistoryStorage> CREATOR = new Creator<HistoryStorage>() {
+        @Override
+        public HistoryStorage createFromParcel(Parcel parcel) {
+            return new HistoryStorage(parcel);
+        }
+
+        @Override
+        public HistoryStorage[] newArray(int size) {
+            return new HistoryStorage[size];
+        }
+    };
 
     public void push(HistoryItem historyItem) {
         boolean isFavorite = removeSimilar(historyItem);
@@ -15,26 +40,40 @@ public class HistoryStorage {
 
         historyItems.push(historyItem);
 
-        LinkedList<HistoryItem> favorites = getFavoritesFrom1(true);
-        if (favorites.size() > MAX_SIZE || favorites.size() > MAX_FAVORITES) {
+        LinkedList<HistoryItem> favorites = getSublistFirstExcluded(true);
+        int favoritesCount = favorites.size() + (historyItem.isFavorite() ? 1 : 0);
+        if (favoritesCount > MAX_FAVORITES) {
             favorites.get(favorites.size() - 1).setFavorite(false);
         }
 
         if (historyItems.size() > MAX_SIZE) {
-            LinkedList<HistoryItem> nonFavorites = getFavoritesFrom1(false);
+            LinkedList<HistoryItem> nonFavorites = getSublistFirstExcluded(false);
             removeSimilar(nonFavorites.get(nonFavorites.size() - 1));
         }
     }
 
+    public void invalidate() {
+        push(historyItems.get(0));
+    }
+
     public List<HistoryItem> getItemsList() {
-        List<HistoryItem> result = getFavoritesFrom1(true);
-        result.addAll(getFavoritesFrom1(false));
+        List<HistoryItem> result = getSublistFirstExcluded(true);
+        result.addAll(getSublistFirstExcluded(false));
         result.add(0, historyItems.get(0));
         return result;
     }
 
+    public PositionPoint getCurrentPosition() {
+        return historyItems.get(0).getPositionPoint();
+    }
+
+    public WeatherState getCurrentWeather() {
+        return historyItems.get(0).getWeatherState();
+    }
+
     private boolean removeSimilar(HistoryItem historyItem) {
-        for (HistoryItem item : historyItems) {
+        for (int i = 0; i < historyItems.size(); i++) {
+            HistoryItem item = historyItems.get(i);
             if (item.getPositionPoint().getTown().equals(historyItem.getPositionPoint().getTown())) {
                 boolean isFavorite = item.isFavorite();
                 historyItems.remove(item);
@@ -44,7 +83,7 @@ public class HistoryStorage {
         return false;
     }
 
-    private LinkedList<HistoryItem> getFavoritesFrom1(boolean isFavorite) {
+    private LinkedList<HistoryItem> getSublistFirstExcluded(boolean isFavorite) {
         LinkedList<HistoryItem> result = new LinkedList<>();
 
         for (int i = 1; i < historyItems.size(); i++) {
@@ -53,5 +92,16 @@ public class HistoryStorage {
             }
         }
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        HistoryItem[] array = new HistoryItem[historyItems.size()];
+        parcel.writeParcelableArray(historyItems.toArray(array), flags);
     }
 }

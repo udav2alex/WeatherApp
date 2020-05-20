@@ -9,19 +9,19 @@ import java.util.Objects;
 public class WeatherState implements Parcelable {
     public static final String WEATHER_STATE = "weatherState";
 
-    CurrentWeather currentWeather;
+    ActualWeather actualWeather;
     List<HourForecast> hourlyForecast;
     List<DayForecast> dailyForecast;
 
-    public WeatherState(CurrentWeather currentWeather,
+    public WeatherState(ActualWeather actualWeather,
                         List<HourForecast> hourlyForecast, List<DayForecast> dailyForecast) {
-        this.currentWeather = currentWeather;
+        this.actualWeather = actualWeather;
         this.hourlyForecast = hourlyForecast;
         this.dailyForecast = dailyForecast;
     }
 
     protected WeatherState(Parcel parcel) {
-        currentWeather = parcel.readParcelable(CurrentWeather.class.getClassLoader());
+        actualWeather = parcel.readParcelable(ActualWeather.class.getClassLoader());
         hourlyForecast = parcel.createTypedArrayList(HourForecast.CREATOR);
         dailyForecast = parcel.createTypedArrayList(DayForecast.CREATOR);
     }
@@ -45,17 +45,17 @@ public class WeatherState implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(currentWeather, i);
+        parcel.writeParcelable(actualWeather, i);
         parcel.writeTypedList(hourlyForecast);
         parcel.writeTypedList(dailyForecast);
     }
 
-    public CurrentWeather getCurrentWeather() {
-        return currentWeather;
+    public ActualWeather getActualWeather() {
+        return actualWeather;
     }
 
-    public void setCurrentWeather(CurrentWeather currentWeather) {
-        this.currentWeather = currentWeather;
+    public void setActualWeather(ActualWeather actualWeather) {
+        this.actualWeather = actualWeather;
     }
 
     public List<HourForecast> getHourlyForecast() {
@@ -79,13 +79,13 @@ public class WeatherState implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WeatherState that = (WeatherState) o;
-        return Objects.equals(currentWeather, that.currentWeather) &&
+        return Objects.equals(actualWeather, that.actualWeather) &&
                 Objects.equals(hourlyForecast, that.hourlyForecast) &&
                 Objects.equals(dailyForecast, that.dailyForecast);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(currentWeather, hourlyForecast, dailyForecast);
+        return Objects.hash(actualWeather, hourlyForecast, dailyForecast);
     }
 }

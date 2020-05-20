@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import ru.gressor.weatherapp.data_types.CurrentWeather;
+import ru.gressor.weatherapp.data_types.ActualWeather;
 import ru.gressor.weatherapp.data_types.DayForecast;
 import ru.gressor.weatherapp.data_types.HourForecast;
 import ru.gressor.weatherapp.data_types.PositionPoint;
@@ -25,7 +25,7 @@ public class OpenWeatherDataAdapter implements DataAdapter {
         Calendar actualAt = Calendar.getInstance();
         actualAt.setTimeInMillis(in.getCurrent().getDt() * 1000);
 
-        CurrentWeather currentWeather = new CurrentWeather(
+        ActualWeather actualWeather = new ActualWeather(
                 actualAt,
                 Math.round(in.getCurrent().getTemp()),
                 in.getCurrent().getWeather()[0].getIcon(),
@@ -63,6 +63,6 @@ public class OpenWeatherDataAdapter implements DataAdapter {
             ));
         }
 
-        return new WeatherState(currentWeather, hourlyForecast, dailyForecast);
+        return new WeatherState(actualWeather, hourlyForecast, dailyForecast);
     }
 }

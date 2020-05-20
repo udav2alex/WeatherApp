@@ -24,10 +24,8 @@ import ru.gressor.weatherapp.weather_providers.DataController;
 
 public class MainActivity extends AppCompatActivity {
 
-    private WeatherState weatherState;
-    private PositionPoint currentPosition;
-    private DataController dataController;
     private HistoryStorage historyStorage;
+    private DataController dataController;
     private TownDrawer drawer;
 
     @Override
@@ -41,22 +39,23 @@ public class MainActivity extends AppCompatActivity {
     private void init(Bundle savedInstanceState) {
         dataController = new DataController(this);
 
-        Toolbar toolbar = initToolbar();
-        drawer = new TownDrawer(this, toolbar, historyStorage);
-
         if (savedInstanceState == null) {
             setup();
+        } else {
+            historyStorage = savedInstanceState.getParcelable(HistoryStorage.HISTORY_STORAGE);
         }
+
+        Toolbar toolbar = initToolbar();
+        drawer = new TownDrawer(this, toolbar, historyStorage);
     }
 
     private void setup() {
         historyStorage = new HistoryStorage();
-        currentPosition = new PositionPoint(
+        historyStorage.push(new HistoryItem(null,
+                new PositionPoint(
                 getApplicationContext().getResources().getString(R.string.town),
-                getApplicationContext().getResources().getString(R.string.site));
-        historyStorage.push(new HistoryItem(null, currentPosition));
-        drawer.updateDrawerMenu();
-        dataController.refreshWeatherState(currentPosition);
+                getApplicationContext().getResources().getString(R.string.site))));
+        dataController.refreshWeatherState(historyStorage.getCurrentPosition());
     }
 
     private Toolbar initToolbar() {
@@ -78,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SelectTownActivity.GET_TOWN && resultCode == RESULT_OK && data != null) {
-            currentPosition = data.getParcelableExtra(PositionPoint.CURRENT_POSITION);
-            positionUpdated();
+            positionUpdated(data.getParcelableExtra(PositionPoint.CURRENT_POSITION));
         }
     }
 
@@ -90,23 +88,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showActualData() {
+        drawer.updateDrawerMenu();
         setFragmentWeatherToday();
         setFragmentForecast();
     }
 
-    private void positionUpdated() {
-        positionUpdated(currentPosition);
-    }
-
     public void positionUpdated(PositionPoint positionPoint) {
-        historyStorage.push(new HistoryItem(null, currentPosition));
+        historyStorage.push(new HistoryItem(null, positionPoint));
         dataController.refreshWeatherState(positionPoint);
+        showActualData();
     }
 
     public void weatherUpdated(WeatherState weatherState) {
-        this.weatherState = weatherState;
-        historyStorage.push(new HistoryItem(null, currentPosition));
-        drawer.updateDrawerMenu();
+        historyStorage.push(new HistoryItem(weatherState, getCurrentPosition()));
         showActualData();
     }
 
@@ -114,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentWeatherToday fragment = (FragmentWeatherToday)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentWeatherToday);
 
-        if (fragment == null || weatherState == null
-                || !currentPosition.equals(fragment.getCurrentPosition())
-                || !weatherState.equals(fragment.getWeatherState())) {
-            fragment = FragmentWeatherToday.create(weatherState, currentPosition);
+        if (fragment == null || getCurrentWeather() == null
+                || !getCurrentPosition().equals(fragment.getPositionPoint())
+                || !getCurrentWeather().equals(fragment.getWeatherState())) {
+            fragment = FragmentWeatherToday.create(getCurrentWeather(), getCurrentPosition());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentWeatherToday, fragment).commit();
@@ -128,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentForecast fragment = (FragmentForecast)
                 getSupportFragmentManager().findFragmentById(R.id.fragmentForecast);
 
-        if (fragment == null || weatherState == null
-                || !currentPosition.equals(fragment.getCurrentPosition())
-                || !weatherState.equals(fragment.getWeatherState())) {
-            fragment = FragmentForecast.create(weatherState, currentPosition);
+        if (fragment == null || getCurrentWeather() == null
+                || !getCurrentPosition().equals(fragment.getPositionPoint())
+                || !getCurrentWeather().equals(fragment.getWeatherState())) {
+            fragment = FragmentForecast.create(getCurrentWeather(), getCurrentPosition());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentForecast, fragment).commit();
@@ -152,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -166,15 +159,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putParcelable(PositionPoint.CURRENT_POSITION, currentPosition);
-        outState.putParcelable(WeatherState.WEATHER_STATE, weatherState);
+        outState.putParcelable(HistoryStorage.HISTORY_STORAGE, historyStorage);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
+    private WeatherState getCurrentWeather() {
+        return historyStorage.getCurrentWeather();
+    }
 
-        currentPosition = savedInstanceState.getParcelable(PositionPoint.CURRENT_POSITION);
-        weatherState = savedInstanceState.getParcelable(WeatherState.WEATHER_STATE);
+    private PositionPoint getCurrentPosition() {
+        return historyStorage.getCurrentPosition();
     }
 }

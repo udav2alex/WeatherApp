@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class CurrentWeather implements Parcelable {
+public class ActualWeather implements Parcelable {
 
     private Calendar actualAt;
     private int temperature;
@@ -19,9 +19,9 @@ public class CurrentWeather implements Parcelable {
     private int pressure = -1;
     private int humidity = -1;
 
-    public CurrentWeather(Calendar actualAt, int temperature, String iconFileName,
-                          String conditionsDescription, int tempFeelsLike, int clouds,
-                          int windSpeed, int windDirection, int pressure, int humidity) {
+    public ActualWeather(Calendar actualAt, int temperature, String iconFileName,
+                         String conditionsDescription, int tempFeelsLike, int clouds,
+                         int windSpeed, int windDirection, int pressure, int humidity) {
         this.actualAt = actualAt;
         this.temperature = temperature;
         this.iconFileName = iconFileName;
@@ -34,13 +34,13 @@ public class CurrentWeather implements Parcelable {
         this.humidity = humidity;
     }
 
-    public CurrentWeather(int temperature, int tempFeelsLike, Calendar actualAt) {
+    public ActualWeather(int temperature, int tempFeelsLike, Calendar actualAt) {
         this.temperature = temperature;
         this.tempFeelsLike = tempFeelsLike;
         this.actualAt = actualAt;
     }
 
-    private CurrentWeather(Parcel parcel) {
+    private ActualWeather(Parcel parcel) {
         temperature = parcel.readInt();
         iconFileName = parcel.readString();
         conditionsDescription = parcel.readString();
@@ -67,15 +67,15 @@ public class CurrentWeather implements Parcelable {
         parcel.writeSerializable(actualAt);
     }
 
-    public static final Creator<CurrentWeather> CREATOR = new Creator<CurrentWeather>() {
+    public static final Creator<ActualWeather> CREATOR = new Creator<ActualWeather>() {
         @Override
-        public CurrentWeather createFromParcel(Parcel parcel) {
-            return new CurrentWeather(parcel);
+        public ActualWeather createFromParcel(Parcel parcel) {
+            return new ActualWeather(parcel);
         }
 
         @Override
-        public CurrentWeather[] newArray(int size) {
-            return new CurrentWeather[size];
+        public ActualWeather[] newArray(int size) {
+            return new ActualWeather[size];
         }
     };
 
@@ -127,8 +127,8 @@ public class CurrentWeather implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CurrentWeather)) return false;
-        CurrentWeather that = (CurrentWeather) o;
+        if (!(o instanceof ActualWeather)) return false;
+        ActualWeather that = (ActualWeather) o;
         return temperature == that.temperature &&
                 tempFeelsLike == that.tempFeelsLike &&
                 clouds == that.clouds &&

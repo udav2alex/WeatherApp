@@ -43,6 +43,7 @@ public class TownDrawer
         NavigationView navigationView = activity.findViewById(R.id.drawer_navigation);
         navigationView.setNavigationItemSelectedListener(this);
         drawerMenu = navigationView.getMenu();
+        updateDrawerMenu();
     }
 
     private void updateFirstDrawerMenuHistoryItem(HistoryItem historyItem) {
@@ -92,6 +93,7 @@ public class TownDrawer
         } else if (item.getItemId() == R.id.menu_drawer_add_favorite) {
             List<HistoryItem> historyItems = historyStorage.getItemsList();
             historyItems.get(0).setFavorite(!historyItems.get(0).isFavorite());
+            historyStorage.invalidate();
             updateDrawerMenu();
             return true;
         } else if (item.getGroupId() == R.id.menu_group_history) {
