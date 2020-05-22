@@ -72,15 +72,29 @@ public class HistoryStorage implements Parcelable {
     }
 
     private boolean removeSimilar(HistoryItem historyItem) {
+        return removeSimilar(historyItem.getPositionPoint().getTown());
+    }
+
+    private boolean removeSimilar(String townName) {
         for (int i = 0; i < historyItems.size(); i++) {
             HistoryItem item = historyItems.get(i);
-            if (item.getPositionPoint().getTown().equals(historyItem.getPositionPoint().getTown())) {
+            if (item.getPositionPoint().getTown().equals(townName)) {
                 boolean isFavorite = item.isFavorite();
                 historyItems.remove(item);
                 return isFavorite;
             }
         }
         return false;
+    }
+
+    public void clear(String[] townList) {
+        for (String townName : townList) {
+            if (townName != null) removeSimilar(townName);
+        }
+    }
+
+    public int size() {
+        return historyItems.size();
     }
 
     private LinkedList<HistoryItem> getSublistFirstExcluded(boolean isFavorite) {

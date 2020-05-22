@@ -52,4 +52,11 @@
     <string name="favorites_and_history">Favorites &amp; history</string>
     <string name="add_favorite">Add to favorites</string>
     <string name="remove_favorite">Remove from favorites</string>
+    <string name="clear_dialog_title">Clear history</string>
+    <string name="clear_dialog_cancel_message">Clear history cancelled</string>
+    <string name="clear_dialog_skip">History is empty</string>
+    <string name="clear_history">Clear history</string>
+    <string name="clear_dialog_clear_all">Clear all</string>
+    <string name="clear_dialog_clear_selected">Clear selected</string>
+    <string name="clear_dialog_message">Select towns to delete or press \"Clear all\".</string>
 </resources>
