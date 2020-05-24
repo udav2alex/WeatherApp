@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:alpha="@dimen/alpha_for_black_icon"
+            android:contentDescription="@string/wind"
+            app:srcCompat="@drawable/wind_16dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:alpha="@dimen/alpha_for_black_icon"
+            android:contentDescription="@string/pressure"
+            app:srcCompat="@drawable/pressure_16dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:contentDescription="@string/wind"
+            android:gravity="center_vertical"
+            android:alpha="@dimen/alpha_for_black_icon"
+            app:srcCompat="@drawable/humidity_16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/today_weather_wind_speed"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:text="@string/windSpeed" />
+
+        <TextView
+            android:id="@+id/today_weather_pressure"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/pressureValue" />
+
+        <TextView
+            android:id="@+id/today_weather_humidity"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:text="@string/humidityValue" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.fragments;
+package ru.gressor.weatherapp.fragments.today;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.activities.SelectTownActivity;
 import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.data_types.CurrentWeather;
 import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.fragments.BaseFragment;
 
 public class FragmentWeatherToday extends BaseFragment {
     private View fragmentView;
@@ -26,12 +30,6 @@ public class FragmentWeatherToday extends BaseFragment {
     private ImageView imageViewConditionsImage;
     private TextView textViewConditions;
     private TextView textViewFeelsLike;
-    private TextView textViewWindSpeed;
-    private TextView textViewPressureValue;
-    private TextView textViewHumidityValue;
-    private TextView textViewTempNow;
-    private TextView textViewTempNext3H;
-    private TextView textViewTempNext6H;
 
     public FragmentWeatherToday() {
     }
@@ -54,7 +52,8 @@ public class FragmentWeatherToday extends BaseFragment {
         fragmentView = inflater.inflate(R.layout.fragment_weather_today,
                 container, false);
 
-        init();
+        init(fragmentView);
+        initRecyclerView(fragmentView);
 
         return fragmentView;
     }
@@ -66,22 +65,30 @@ public class FragmentWeatherToday extends BaseFragment {
         populate();
     }
 
-    private void init() {
-        textViewTown = fragmentView.findViewById(R.id.textViewTown);
-        textViewSite = fragmentView.findViewById(R.id.textViewSite);
-        textViewCurrentTemperature = fragmentView.findViewById(R.id.currentTemperature);
-        imageViewConditionsImage = fragmentView.findViewById(R.id.conditionsImage);
-        textViewConditions = fragmentView.findViewById(R.id.conditions);
-        textViewFeelsLike = fragmentView.findViewById(R.id.feelsLike);
-        textViewWindSpeed = fragmentView.findViewById(R.id.windSpeed);
-        textViewPressureValue = fragmentView.findViewById(R.id.pressureValue);
-        textViewHumidityValue = fragmentView.findViewById(R.id.humidityValue);
-        textViewTempNow = fragmentView.findViewById(R.id.tempNow);
-        textViewTempNext3H = fragmentView.findViewById(R.id.tempNext3H);
-        textViewTempNext6H = fragmentView.findViewById(R.id.tempNext6H);
+    private void init(View view) {
+        textViewTown = view.findViewById(R.id.textViewTown);
+        textViewSite = view.findViewById(R.id.textViewSite);
+        textViewCurrentTemperature = view.findViewById(R.id.currentTemperature);
+        imageViewConditionsImage = view.findViewById(R.id.conditionsImage);
+        textViewConditions = view.findViewById(R.id.conditions);
+        textViewFeelsLike = view.findViewById(R.id.feelsLike);
 
         textViewTown.setOnClickListener(textViewTownOnClickListener);
         textViewSite.setOnClickListener(textViewTownOnClickListener);
+    }
+
+    private void initRecyclerView(View view) {
+        RecyclerView recyclerViewTodayWeather = view.findViewById(R.id.recycler_view_today);
+        recyclerViewTodayWeather.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
+        recyclerViewTodayWeather.setLayoutManager(layoutManager);
+
+        if (getWeatherState() != null) {
+            recyclerViewTodayWeather.setAdapter(new TodayWeatherListAdapter(this,
+                    getWeatherState().getCurrentWeather(), getWeatherState().getHourlyForecast()));
+        }
     }
 
     private void populate() {
@@ -108,18 +115,6 @@ public class FragmentWeatherToday extends BaseFragment {
         textViewConditions.setText(currentWeather.getConditionsDescription());
         textViewFeelsLike.setText(context.getString(R.string.feels_like,
                 tScale.fromCelsius(currentWeather.getTempFeelsLike(), errorMessage)));
-
-        textViewWindSpeed.setText(context.getString(R.string.windSpeed,
-                currentWeather.getWindSpeed()));
-        textViewPressureValue.setText(context.getString(R.string.pressureValue,
-                currentWeather.getPressure()));
-        textViewHumidityValue.setText(context.getString(R.string.humidityValue,
-                currentWeather.getHumidity()));
-
-        textViewTempNow.setText(
-                tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
-        textViewTempNext3H.setText(tScale.fromCelsius(7, errorMessage));
-        textViewTempNext6H.setText(tScale.fromCelsius(5, errorMessage));
     }
 
     private View.OnClickListener textViewTownOnClickListener = (v) -> {

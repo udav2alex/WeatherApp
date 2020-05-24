@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +25,7 @@ import ru.gressor.weatherapp.data_types.HistoryStorage;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
 import ru.gressor.weatherapp.fragments.forecast.FragmentForecast;
-import ru.gressor.weatherapp.fragments.FragmentWeatherToday;
+import ru.gressor.weatherapp.fragments.today.FragmentWeatherToday;
 import ru.gressor.weatherapp.weather_providers.DataController;
 
 public class MainActivity extends AppCompatActivity implements
