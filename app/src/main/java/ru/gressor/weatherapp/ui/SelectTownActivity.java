@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.activities;
+package ru.gressor.weatherapp.ui;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;

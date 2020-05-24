@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SelectTownActivity">
+    tools:context=".ui.SelectTownActivity">
 
     <ImageView
         android:id="@+id/imageViewBack"

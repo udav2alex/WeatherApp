@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.fragments;
+package ru.gressor.weatherapp.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.activities.SelectTownActivity;
 import ru.gressor.weatherapp.data_types.TemperatureScale;
-import ru.gressor.weatherapp.data_types.CurrentWeather;
+import ru.gressor.weatherapp.data_types.ActualWeather;
 import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.ui.SelectTownActivity;
 
 public class FragmentWeatherToday extends BaseFragment {
     private View fragmentView;
@@ -37,12 +37,12 @@ public class FragmentWeatherToday extends BaseFragment {
     }
 
     public static FragmentWeatherToday create(WeatherState weatherState,
-                                              PositionPoint currentDestination) {
+                                              PositionPoint positionPoint) {
         FragmentWeatherToday fragmentWeatherToday = new FragmentWeatherToday();
 
         Bundle args = new Bundle();
         args.putParcelable(WeatherState.WEATHER_STATE, weatherState);
-        args.putParcelable(PositionPoint.CURRENT_POSITION, currentDestination);
+        args.putParcelable(PositionPoint.CURRENT_POSITION, positionPoint);
         fragmentWeatherToday.setArguments(args);
 
         return fragmentWeatherToday;
@@ -87,37 +87,37 @@ public class FragmentWeatherToday extends BaseFragment {
     private void populate() {
         Context context = fragmentView.getContext();
 
-        PositionPoint currentDestination = getCurrentPosition();
-        textViewTown.setText(currentDestination.getTown());
-        textViewSite.setText(currentDestination.getSite());
+        PositionPoint positionPoint = getPositionPoint();
+        textViewTown.setText(positionPoint.getTown());
+        textViewSite.setText(positionPoint.getSite());
 
         WeatherState weatherState = getWeatherState();
         if (weatherState == null) return;
 
-        CurrentWeather currentWeather = getWeatherState().getCurrentWeather();
-        if (currentWeather == null) return;
+        ActualWeather actualWeather = getWeatherState().getActualWeather();
+        if (actualWeather == null) return;
 
         TemperatureScale tScale = TemperatureScale.getScale();
         String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
 
         textViewCurrentTemperature.setText(
-                tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
+                tScale.fromCelsius(actualWeather.getTemperature(), errorMessage));
 
-        setDrawableByFileName(imageViewConditionsImage, context, currentWeather.getIconFileName());
+        setImageByFileName(imageViewConditionsImage, context, actualWeather.getIconFileName());
 
-        textViewConditions.setText(currentWeather.getConditionsDescription());
+        textViewConditions.setText(actualWeather.getConditionsDescription());
         textViewFeelsLike.setText(context.getString(R.string.feels_like,
-                tScale.fromCelsius(currentWeather.getTempFeelsLike(), errorMessage)));
+                tScale.fromCelsius(actualWeather.getTempFeelsLike(), errorMessage)));
 
         textViewWindSpeed.setText(context.getString(R.string.windSpeed,
-                currentWeather.getWindSpeed()));
+                actualWeather.getWindSpeed()));
         textViewPressureValue.setText(context.getString(R.string.pressureValue,
-                currentWeather.getPressure()));
+                actualWeather.getPressure()));
         textViewHumidityValue.setText(context.getString(R.string.humidityValue,
-                currentWeather.getHumidity()));
+                actualWeather.getHumidity()));
 
         textViewTempNow.setText(
-                tScale.fromCelsius(currentWeather.getTemperature(), errorMessage));
+                tScale.fromCelsius(actualWeather.getTemperature(), errorMessage));
         textViewTempNext3H.setText(tScale.fromCelsius(7, errorMessage));
         textViewTempNext6H.setText(tScale.fromCelsius(5, errorMessage));
     }
@@ -137,7 +137,7 @@ public class FragmentWeatherToday extends BaseFragment {
         }
     }
 
-    public PositionPoint getCurrentPosition() {
+    public PositionPoint getPositionPoint() {
         if (getArguments() != null) {
             return getArguments().getParcelable(PositionPoint.CURRENT_POSITION);
         } else {

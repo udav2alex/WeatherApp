@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.fragments.forecast;
+package ru.gressor.weatherapp.ui.fragments.forecast;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
-import ru.gressor.weatherapp.fragments.BaseFragment;
+import ru.gressor.weatherapp.ui.fragments.BaseFragment;
 
 public class FragmentForecast extends BaseFragment {
 
@@ -22,12 +22,12 @@ public class FragmentForecast extends BaseFragment {
     }
 
     public static FragmentForecast create(WeatherState weatherState,
-                                          PositionPoint currentDestination) {
+                                          PositionPoint positionPoint) {
         FragmentForecast fragmentForecast = new FragmentForecast();
 
         Bundle args = new Bundle();
         args.putParcelable(WeatherState.WEATHER_STATE, weatherState);
-        args.putParcelable(PositionPoint.CURRENT_POSITION, currentDestination);
+        args.putParcelable(PositionPoint.CURRENT_POSITION, positionPoint);
         fragmentForecast.setArguments(args);
 
         return fragmentForecast;
@@ -41,7 +41,7 @@ public class FragmentForecast extends BaseFragment {
         }
     }
 
-    public PositionPoint getCurrentPosition() {
+    public PositionPoint getPositionPoint() {
         if (getArguments() != null) {
             return getArguments().getParcelable(PositionPoint.CURRENT_POSITION);
         } else {
@@ -71,13 +71,13 @@ public class FragmentForecast extends BaseFragment {
     }
 
     private View.OnClickListener textLinkToSiteOnClickListener = (v) -> {
-        PositionPoint currentDestination = getCurrentPosition();
+        PositionPoint positionPoint = getPositionPoint();
 
-        if (currentDestination != null) {
+        if (positionPoint != null) {
             String query = String.format("%s %s %s",
                     getResources().getString(R.string.weather),
-                    currentDestination.getTown(),
-                    currentDestination.getSite());
+                    positionPoint.getTown(),
+                    positionPoint.getSite());
             Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
             intent.putExtra(SearchManager.QUERY, query);
 

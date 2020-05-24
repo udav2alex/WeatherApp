@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.fragments.forecast;
+package ru.gressor.weatherapp.ui.fragments.forecast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +16,7 @@ import java.util.List;
 import ru.gressor.weatherapp.data_types.DayForecast;
 import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.R;
-import ru.gressor.weatherapp.fragments.BaseFragment;
+import ru.gressor.weatherapp.ui.fragments.BaseFragment;
 
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
     private List<DayForecast> forecastData;
@@ -56,7 +56,7 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
                 TemperatureScale.getTemperatureScaled(
                 forecastData.get(i).getMinTemperature(),errorMessage));
 
-        fragment.setDrawableByFileName(viewHolder.getWeatherIcon(),
+        fragment.setImageByFileName(viewHolder.getWeatherIcon(),
                 fragment.getContext(), forecastData.get(i).getIconFileName());
     }
 
