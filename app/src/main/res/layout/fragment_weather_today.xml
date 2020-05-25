@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.FragmentWeatherToday">
+    tools:context=".ui.fragments.today.FragmentWeatherToday">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/upperPart"
@@ -95,159 +95,13 @@
             app:layout_constraintTop_toBottomOf="@id/conditions"
             app:layout_constraintVertical_bias="1.0" />
 
-        <TableLayout
-            android:id="@+id/todayTable"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_today"
+            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:stretchColumns="*"
-            app:layout_constraintTop_toBottomOf="@id/feelsLike">
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="2dp"
-                    android:gravity="center_vertical"
-                    android:alpha="@dimen/alpha_for_black_icon"
-                    android:contentDescription="@string/wind"
-                    app:srcCompat="@drawable/wind_16dp" />
-
-                <TextView
-                    android:id="@+id/windSpeed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/windSpeed" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
-                    android:text="@string/now" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="15:00" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="18:00" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="2dp"
-                    android:alpha="@dimen/alpha_for_black_icon"
-                    android:contentDescription="@string/pressure"
-                    app:srcCompat="@drawable/tmp" />
-
-                <TextView
-                    android:id="@+id/pressureValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/pressureValue" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/wind"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/wind"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/wind"
-                    app:srcCompat="@android:drawable/ic_menu_view" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginEnd="2dp"
-                    android:contentDescription="@string/wind"
-                    android:gravity="center_vertical"
-                    android:alpha="@dimen/alpha_for_black_icon"
-                    app:srcCompat="@drawable/humidity_16dp" />
-
-                <TextView
-                    android:id="@+id/humidityValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:text="@string/humidityValue" />
-
-                <TextView
-                    android:id="@+id/tempNow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
-                    android:text="@string/not_available"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tempNext3H"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/not_available"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tempNext6H"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/not_available"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </TableRow>
-        </TableLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/feelsLike"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

@@ -56,7 +56,7 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
                 TemperatureScale.getTemperatureScaled(
                 forecastData.get(i).getMinTemperature(),errorMessage));
 
-        fragment.setImageByFileName(viewHolder.getWeatherIcon(),
+        fragment.setDrawableByFileName(viewHolder.getWeatherIcon(),
                 fragment.getContext(), forecastData.get(i).getIconFileName());
     }
 
