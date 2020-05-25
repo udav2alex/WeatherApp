@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 
 public class BaseFragment extends Fragment {
 
-    public void setImageByFileName(ImageView imageView, Context context, String imageFileName) {
+    public void setDrawableByFileName(ImageView imageView, Context context, String imageFileName) {
         if (imageFileName != null) {
             String drawableName = context.getPackageName() + ":drawable/w" + imageFileName;
             int iconId = context.getResources()

@@ -19,7 +19,7 @@ import ru.gressor.weatherapp.data_types.HistoryStorage;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
 import ru.gressor.weatherapp.ui.fragments.forecast.FragmentForecast;
-import ru.gressor.weatherapp.ui.fragments.FragmentWeatherToday;
+import ru.gressor.weatherapp.ui.fragments.today.FragmentWeatherToday;
 import ru.gressor.weatherapp.weather_providers.DataController;
 
 public class MainActivity extends AppCompatActivity {

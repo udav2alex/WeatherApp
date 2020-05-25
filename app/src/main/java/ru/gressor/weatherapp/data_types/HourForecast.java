@@ -45,4 +45,16 @@ public class HourForecast implements Parcelable {
         parcel.writeString(iconFileName);
         parcel.writeSerializable(actualAt);
     }
+
+    public Calendar getActualAt() {
+        return actualAt;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public String getIconFileName() {
+        return iconFileName;
+    }
 }
