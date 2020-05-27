@@ -60,6 +60,14 @@ public class PositionPoint implements Parcelable {
         this.lon = lon;
     }
 
+    public void setServiceTown(String serviceTown) {
+        this.serviceTown = serviceTown;
+    }
+
+    public void setServiceSite(String serviceSite) {
+        this.serviceSite = serviceSite;
+    }
+
     public static final Parcelable.Creator<PositionPoint> CREATOR
             = new Parcelable.Creator<PositionPoint>() {
         public PositionPoint createFromParcel(Parcel parcel) {

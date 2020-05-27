@@ -9,6 +9,7 @@ import ru.gressor.weatherapp.data_types.DayForecast;
 import ru.gressor.weatherapp.data_types.HourForecast;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.weather_providers.openweather.OpenWeatherRetrofitDataProvider;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.Daily;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.Hourly;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.OpenWeatherOneCall;
@@ -22,6 +23,15 @@ public class OpenWeatherDataAdapter implements DataAdapter {
 
         OpenWeatherOneCall in = provider.getWeatherAndForecasts(position);
 
+        // TODO Test call for Retrofit
+        OpenWeatherRetrofitDataProvider provider1 = new OpenWeatherRetrofitDataProvider();
+        provider1.getWeatherAndForecasts(position);
+        // TODO Test call for Retrofit
+
+        return getWeatherState(in);
+    }
+
+    private WeatherState getWeatherState(OpenWeatherOneCall in) {
         Calendar actualAt = Calendar.getInstance();
         actualAt.setTimeInMillis(in.getCurrent().getDt() * 1000);
 

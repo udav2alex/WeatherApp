@@ -2,7 +2,9 @@
   <dictionary name="udav2alex">
     <words>
       <w>appid</w>
+      <w>coords</w>
       <w>gressor</w>
+      <w>onecall</w>
       <w>openweathermap</w>
       <w>snackbar</w>
       <w>weatherapp</w>
