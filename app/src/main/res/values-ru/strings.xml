@@ -58,4 +58,6 @@
     <string name="clear_dialog_clear_all">Очистить все</string>
     <string name="clear_dialog_clear_selected">Очистить</string>
     <string name="clear_dialog_message">Выберите города, которые нужно удалить, или нажмите \"Очистить все\"</string>
+    <string name="provider_message_unauthorized">Ключ аутентификации не подходит</string>
+    <string name="provider_message_internal_error">Внутренняя ошибка:</string>
 </resources>

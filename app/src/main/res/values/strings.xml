@@ -59,4 +59,6 @@
     <string name="clear_dialog_clear_all">Clear all</string>
     <string name="clear_dialog_clear_selected">Clear selected</string>
     <string name="clear_dialog_message">Select towns to delete or press \"Clear all\".</string>
+    <string name="provider_message_unauthorized">Wrong authentication key</string>
+    <string name="provider_message_internal_error">Internal error:</string>
 </resources>

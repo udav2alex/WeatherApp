@@ -1,11 +1,13 @@
-package ru.gressor.weatherapp.weather_providers.openweather;
+package ru.gressor.weatherapp.weather_providers.openweather.retro;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,12 +18,12 @@ import ru.gressor.weatherapp.data_types.DayForecast;
 import ru.gressor.weatherapp.data_types.HourForecast;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.data_types.WeatherState;
+import ru.gressor.weatherapp.weather_providers.DataController;
+import ru.gressor.weatherapp.weather_providers.HttpWeatherError;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_current_weather.CurrentWeather;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.Daily;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.Hourly;
 import ru.gressor.weatherapp.weather_providers.openweather.dto_one_call.OpenWeatherOneCall;
-import ru.gressor.weatherapp.weather_providers.openweather.retro.OpenWeatherCallCurrent;
-import ru.gressor.weatherapp.weather_providers.openweather.retro.OpenWeatherCallOneCall;
 
 public class OpenWeatherRetrofitDataProvider {
     public static final String BASE_URL = "https://api.openweathermap.org/";
@@ -30,49 +32,69 @@ public class OpenWeatherRetrofitDataProvider {
     public static final String UNITS = "metric";
     private static final String API_KEY = "c4b46b269a484630f9a27a8c115c5e86";
 
+    private DataController dataController;
+
     private Retrofit retrofit;
     private OpenWeatherCallCurrent callCurrent;
     private OpenWeatherCallOneCall callOneCall;
 
+    public OpenWeatherRetrofitDataProvider(DataController dataController) {
+        this.dataController = dataController;
+    }
 
     public void getWeatherAndForecasts(PositionPoint position) {
         initRetrofit();
-        enqueueWeatherByCityName("Moscow");
+        callOneCall = retrofit.create(OpenWeatherCallOneCall.class);
+
+        if (position.getLon() <= -360f || position.getLat() < -360f) {
+            callCurrent = retrofit.create(OpenWeatherCallCurrent.class);
+            enqueueWeather(position.getTown());
+        } else {
+            enqueueWeather(position);
+        }
     }
 
     private void initRetrofit() {
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(1, TimeUnit.SECONDS)
+                .readTimeout(1, TimeUnit.SECONDS)
+                .writeTimeout(1, TimeUnit.SECONDS)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        callCurrent = retrofit.create(OpenWeatherCallCurrent.class);
-        callOneCall = retrofit.create(OpenWeatherCallOneCall.class);
     }
 
-    private void enqueueWeatherByCityName(String cityName) {
+    private void enqueueWeather(String cityName) {
         callCurrent
                 .loadCurrentWeather(cityName, UNITS, API_KEY, Locale.getDefault().getLanguage())
                 .enqueue(new Callback<CurrentWeather>() {
                     @Override
-                    public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
+                    public void onResponse(
+                            @NonNull Call<CurrentWeather> call,
+                            @NonNull Response<CurrentWeather> response) {
                         if (response.body() != null) {
                             CurrentWeather currentWeather = response.body();
                             PositionPoint positionPoint = getNewPopulatedPosition(cityName, currentWeather);
 
-                            // TODO testing
-                            Log.v("CurrentWeatherLON", Double.toString(currentWeather.getCoord().getLon()));
-                            enqueueWeatherByCoords(positionPoint);
+                            enqueueWeather(positionPoint);
+                        } else {
+                            dataController.updateWeatherFailure(
+                                    new HttpWeatherError(response.message(), response.code()));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<CurrentWeather> call, Throwable t) {
-
+                    public void onFailure(
+                            @NonNull Call<CurrentWeather> call, @NonNull Throwable throwable) {
+                        dataController.updateWeatherFailure(throwable);
                     }
                 });
     }
 
-    private void enqueueWeatherByCoords(PositionPoint positionPoint) {
+    private void enqueueWeather(PositionPoint positionPoint) {
         callOneCall
                 .loadOpenWeatherOneCall(
                 positionPoint.getLon(), positionPoint.getLat(),
@@ -80,19 +102,23 @@ public class OpenWeatherRetrofitDataProvider {
                 .enqueue(new Callback<OpenWeatherOneCall>() {
                     @Override
                     public void onResponse(
-                            Call<OpenWeatherOneCall> call, Response<OpenWeatherOneCall> response) {
+                            @NonNull Call<OpenWeatherOneCall> call,
+                            @NonNull Response<OpenWeatherOneCall> response) {
                         if(response.body() != null) {
                             OpenWeatherOneCall weatherRaw = response.body();
                             WeatherState weatherState = getWeatherState(weatherRaw);
 
-                            // TODO testing
-                            Log.v("CurrentWeather", weatherState.getActualWeather().getIconFileName());
+                            dataController.updateWeather(weatherState);
+                        } else {
+                            dataController.updateWeatherFailure(
+                                    new HttpWeatherError(response.message(), response.code()));
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<OpenWeatherOneCall> call, Throwable t) {
-
+                    public void onFailure(
+                            @NonNull Call<OpenWeatherOneCall> call, @NonNull Throwable throwable) {
+                        dataController.updateWeatherFailure(throwable);
                     }
                 });
     }
