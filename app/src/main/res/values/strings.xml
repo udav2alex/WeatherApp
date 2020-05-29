@@ -49,7 +49,7 @@
     <string name="pressure">Pressure</string>
     <string name="navigation_drawer_open">navigation_drawer_open</string>
     <string name="navigation_drawer_close">navigation_drawer_close</string>
-    <string name="favorites_and_history">Favorites &amp; history</string>
+    <string name="favorites_and_history">Locations</string>
     <string name="add_favorite">Add to favorites</string>
     <string name="remove_favorite">Remove from favorites</string>
     <string name="clear_dialog_title">Clear history</string>
@@ -61,4 +61,6 @@
     <string name="clear_dialog_message">Select towns to delete or press \"Clear all\".</string>
     <string name="provider_message_unauthorized">Wrong authentication key</string>
     <string name="provider_message_internal_error">Internal error:</string>
+    <string name="provider_message_no_internet">There is no internet connection!</string>
+    <string name="provider_message_internet_check">Please check networks settings!</string>
 </resources>

@@ -1,5 +1,9 @@
 package ru.gressor.weatherapp.weather_providers;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.net.HttpURLConnection;
 
 import ru.gressor.weatherapp.R;
@@ -18,7 +22,13 @@ public class DataController {
     }
 
     public void refreshWeatherState(PositionPoint position) {
-        provider.getWeatherAndForecasts(position);
+        if (isOnline(activity)) {
+            provider.getWeatherAndForecasts(position);
+        } else {
+            showMessage(
+                    activity.getResources().getString(R.string.provider_message_no_internet),
+                    activity.getResources().getString(R.string.provider_message_internet_check));
+        }
     }
 
     public void updateWeather(WeatherState weatherState) {
@@ -53,5 +63,14 @@ public class DataController {
     private void showMessage(String preface, String message) {
         final String errorMessage = preface + "\n\n" + message;
         activity.showErrorMessage(errorMessage);
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

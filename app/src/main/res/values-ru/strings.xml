@@ -48,7 +48,7 @@
     <string name="pressure">Давление</string>
     <string name="navigation_drawer_open">История открыта</string>
     <string name="navigation_drawer_close">История закрыта</string>
-    <string name="favorites_and_history">Избранные и история</string>
+    <string name="favorites_and_history">Локации</string>
     <string name="add_favorite">Закрепить</string>
     <string name="remove_favorite">Открепить</string>
     <string name="clear_dialog_title">Очистить историю</string>
@@ -60,4 +60,6 @@
     <string name="clear_dialog_message">Выберите города, которые нужно удалить, или нажмите \"Очистить все\"</string>
     <string name="provider_message_unauthorized">Ключ аутентификации не подходит</string>
     <string name="provider_message_internal_error">Внутренняя ошибка:</string>
+    <string name="provider_message_no_internet">Интернет отсутствует!</string>
+    <string name="provider_message_internet_check">Пожалуйста, проверьте настройки сетей!</string>
 </resources>

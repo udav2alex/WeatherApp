@@ -69,13 +69,15 @@ public class OpenWeatherRetrofitDataProvider {
 
     private void enqueueWeather(String cityName) {
         callCurrent
-                .loadCurrentWeather(cityName, UNITS, API_KEY, Locale.getDefault().getLanguage())
+                .loadCurrentWeather(
+                        cityName,
+                        UNITS, API_KEY, Locale.getDefault().getLanguage())
                 .enqueue(new Callback<CurrentWeather>() {
                     @Override
                     public void onResponse(
                             @NonNull Call<CurrentWeather> call,
                             @NonNull Response<CurrentWeather> response) {
-                        if (response.body() != null) {
+                        if (response.body() != null && response.isSuccessful()) {
                             CurrentWeather currentWeather = response.body();
                             PositionPoint positionPoint = getNewPopulatedPosition(cityName, currentWeather);
 
@@ -97,14 +99,14 @@ public class OpenWeatherRetrofitDataProvider {
     private void enqueueWeather(PositionPoint positionPoint) {
         callOneCall
                 .loadOpenWeatherOneCall(
-                positionPoint.getLon(), positionPoint.getLat(),
-                UNITS, API_KEY, Locale.getDefault().getLanguage())
+                        positionPoint.getLon(), positionPoint.getLat(),
+                        UNITS, API_KEY, Locale.getDefault().getLanguage())
                 .enqueue(new Callback<OpenWeatherOneCall>() {
                     @Override
                     public void onResponse(
                             @NonNull Call<OpenWeatherOneCall> call,
                             @NonNull Response<OpenWeatherOneCall> response) {
-                        if(response.body() != null) {
+                        if (response.body() != null && response.isSuccessful()) {
                             OpenWeatherOneCall weatherRaw = response.body();
                             WeatherState weatherState = getWeatherState(weatherRaw);
 
