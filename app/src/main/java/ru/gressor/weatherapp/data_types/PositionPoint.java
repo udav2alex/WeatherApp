@@ -11,8 +11,7 @@ public class PositionPoint implements Parcelable {
     private String site;
     private String serviceTown;
     private String serviceSite;
-    private float lat = -1000f;
-    private float lon = -1000f;
+    private Coord coord;
 
     public PositionPoint(String town, String site) {
         this.town = town;
@@ -24,8 +23,7 @@ public class PositionPoint implements Parcelable {
         this.site = parcel.readString();
         this.serviceTown = parcel.readString();
         this.serviceSite = parcel.readString();
-        this.lat = parcel.readFloat();
-        this.lon = parcel.readFloat();
+        this.coord = parcel.readParcelable(Coord.class.getClassLoader());
     }
 
     public String getTown() {
@@ -44,20 +42,12 @@ public class PositionPoint implements Parcelable {
         return serviceSite;
     }
 
-    public float getLat() {
-        return lat;
+    public Coord getCoord() {
+        return coord;
     }
 
-    public float getLon() {
-        return lon;
-    }
-
-    public void setLat(float lat) {
-        this.lat = lat;
-    }
-
-    public void setLon(float lon) {
-        this.lon = lon;
+    public void setCoord(Coord coord) {
+        this.coord = coord;
     }
 
     public void setServiceTown(String serviceTown) {
@@ -90,8 +80,7 @@ public class PositionPoint implements Parcelable {
         parcel.writeString(site);
         parcel.writeString(serviceTown);
         parcel.writeString(serviceSite);
-        parcel.writeFloat(lat);
-        parcel.writeFloat(lon);
+        parcel.writeParcelable(coord, i);
     }
 
     @Override
@@ -99,16 +88,15 @@ public class PositionPoint implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PositionPoint that = (PositionPoint) o;
-        return Float.compare(that.lat, lat) == 0 &&
-                Float.compare(that.lon, lon) == 0 &&
-                Objects.equals(town, that.town) &&
+        return Objects.equals(town, that.town) &&
                 Objects.equals(site, that.site) &&
                 Objects.equals(serviceTown, that.serviceTown) &&
-                Objects.equals(serviceSite, that.serviceSite);
+                Objects.equals(serviceSite, that.serviceSite) &&
+                Objects.equals(coord, that.coord);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(town, site, serviceTown, serviceSite, lat, lon);
+        return Objects.hash(town, site, serviceTown, serviceSite, coord);
     }
 }
