@@ -73,7 +73,11 @@ public class OpenWeatherRetrofitDataProvider {
                 .loadCurrentWeather(
                         cityName,
                         UNITS, API_KEY, Locale.getDefault().getLanguage())
-                .enqueue(new WeatherRequestCallBack<>());
+                .enqueue(new WeatherRequestCallBack<>(
+                        rawData -> {
+                            positionPoint = getNewPopulatedPosition(cityName, rawData);
+                            coordsGot();
+                        }));
     }
 
     private void coordsGot() {
@@ -85,21 +89,27 @@ public class OpenWeatherRetrofitDataProvider {
                 .loadOpenWeatherOneCall(
                         positionPoint.getCoord().getLon(), positionPoint.getCoord().getLat(),
                         UNITS, API_KEY, Locale.getDefault().getLanguage())
-                .enqueue(new WeatherRequestCallBack<>());
+                .enqueue(new WeatherRequestCallBack<>(
+                        rawData ->
+                                dataController.updateWeather(createWeatherState(rawData))));
+    }
+
+    private interface Runner<T> {
+        void processIt(T rawData);
     }
 
     private class WeatherRequestCallBack<T> implements Callback<T> {
+        private Runner<T> runner;
+
+        public WeatherRequestCallBack(Runner<T> runner) {
+            this.runner = runner;
+        }
+
         @Override
         public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
             if (response.body() != null && response.isSuccessful()) {
                 T rawData = response.body();
-
-                if (rawData instanceof CurrentWeather) {
-                    positionPoint = getNewPopulatedPosition(cityName, (CurrentWeather) rawData);
-                    coordsGot();
-                } else if (rawData instanceof OpenWeatherOneCall) {
-                    dataController.updateWeather(createWeatherState((OpenWeatherOneCall) rawData));
-                }
+                runner.processIt(rawData);
             } else {
                 dataController.updateWeatherFailure(
                         new HttpWeatherError(response.message(), response.code()));
