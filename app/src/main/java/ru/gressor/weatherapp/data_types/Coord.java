@@ -8,8 +8,8 @@ public class Coord implements Parcelable {
     private float lat;
 
     public Coord(float lon, float lat) {
-        this.lon = lon;
-        this.lat = lat;
+        this.lon = lon % 360;
+        this.lat = lat % 360;
     }
 
     protected Coord(Parcel in) {

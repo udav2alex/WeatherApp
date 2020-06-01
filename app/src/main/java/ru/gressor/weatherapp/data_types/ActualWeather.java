@@ -34,9 +34,8 @@ public class ActualWeather implements Parcelable {
         this.humidity = humidity;
     }
 
-    public ActualWeather(int temperature, int tempFeelsLike, Calendar actualAt) {
+    public ActualWeather(int temperature, Calendar actualAt) {
         this.temperature = temperature;
-        this.tempFeelsLike = tempFeelsLike;
         this.actualAt = actualAt;
     }
 
