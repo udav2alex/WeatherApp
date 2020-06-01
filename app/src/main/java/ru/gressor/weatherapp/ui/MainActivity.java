@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setup() {
         historyStorage = new HistoryStorage();
-        historyStorage.push(new HistoryItem(null,
-                new PositionPoint(
-                getApplicationContext().getResources().getString(R.string.town),
-                getApplicationContext().getResources().getString(R.string.site))));
         dataController.refreshWeatherState(historyStorage.getCurrentPosition());
     }
 

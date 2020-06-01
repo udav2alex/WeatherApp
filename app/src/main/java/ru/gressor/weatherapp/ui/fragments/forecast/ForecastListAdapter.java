@@ -62,6 +62,7 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
     @Override
     public int getItemCount() {
+        if (forecastData == null) return 0;
         return forecastData.size();
     }
 

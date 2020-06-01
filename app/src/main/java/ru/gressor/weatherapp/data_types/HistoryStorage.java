@@ -1,5 +1,7 @@
 package ru.gressor.weatherapp.data_types;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,6 +10,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.db.City;
 import ru.gressor.weatherapp.db.WeatherDao;
 import ru.gressor.weatherapp.ui.App;
@@ -17,17 +20,44 @@ public class HistoryStorage implements Parcelable {
     public static final int MAX_FAVORITES = 5;
     public static final String HISTORY_STORAGE = "HistoryStorage";
 
-    private LinkedList<HistoryItem> historyItems;
+    public static final String LAST_STATE = "weatherLastState";
+    public static final String LAST_STATE_TOWN = "lastStateTown";
+    public static final String LAST_STATE_SITE = "lastStateSite";
+
+    private LinkedList<HistoryItem> historyItems = new LinkedList<>();
     private WeatherDao weatherDao;
 
     public HistoryStorage() {
+        loadLastItem();
         initDao();
-        historyItems = loadHistory();
+        loadHistory();
     }
 
-    private LinkedList<HistoryItem> loadHistory() {
+    private void loadLastItem() {
+        SharedPreferences sharedPreferences = App.getInstance().getApplicationContext()
+                .getSharedPreferences(LAST_STATE, Context.MODE_PRIVATE);
+
+        String town = sharedPreferences.getString(LAST_STATE_TOWN,
+                App.getInstance().getApplicationContext().getResources().getString(R.string.town));
+        String site = sharedPreferences.getString(LAST_STATE_SITE,
+                App.getInstance().getApplicationContext().getResources().getString(R.string.site));
+
+        historyItems.push(new HistoryItem(null, new PositionPoint(town, site)));
+    }
+
+    private void saveLastItem(HistoryItem item) {
+        SharedPreferences sharedPreferences = App.getInstance().getApplicationContext()
+                .getSharedPreferences(LAST_STATE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(LAST_STATE_TOWN, item.getPositionPoint().getTown());
+        editor.putString(LAST_STATE_SITE, item.getPositionPoint().getSite());
+
+        editor.apply();
+    }
+
+    private void loadHistory() {
         List<City> cities = weatherDao.getAllCities();
-        LinkedList<HistoryItem> historyItems = new LinkedList<>();
 
         for (int i = 0; i < cities.size(); i++) {
             City city = cities.get(i);
@@ -43,8 +73,6 @@ public class HistoryStorage implements Parcelable {
 
             historyItems.push(item);
         }
-
-        return historyItems;
     }
 
     private void initDao() {
@@ -58,6 +86,7 @@ public class HistoryStorage implements Parcelable {
         if (isFavorite) historyItem.setFavorite(true);
 
         historyItems.push(historyItem);
+        saveLastItem(historyItem);
         weatherDao.insertCity(createCity(historyItem));
 
         LinkedList<HistoryItem> favorites = getSublistFirstExcluded(true);
@@ -159,7 +188,7 @@ public class HistoryStorage implements Parcelable {
 
     protected HistoryStorage(Parcel parcel) {
         HistoryItem[] array = (HistoryItem[]) parcel.readArray(HistoryItem.class.getClassLoader());
-        historyItems = new LinkedList<>(Arrays.asList(array));
+        if (array != null) historyItems = new LinkedList<>(Arrays.asList(array));
         initDao();
     }
 

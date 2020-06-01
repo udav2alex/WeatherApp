@@ -90,6 +90,7 @@ public class TodayWeatherListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
+        if (forecastData == null) return 1;
         return forecastData.size() + 1;
     }
 
