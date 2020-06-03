@@ -62,4 +62,7 @@
     <string name="provider_message_internal_error">Внутренняя ошибка:</string>
     <string name="provider_message_no_internet">Интернет отсутствует!</string>
     <string name="provider_message_internet_check">Пожалуйста, проверьте настройки сетей!</string>
+    <string name="battery_ok">Батарея ОК</string>
+    <string name="battery_low">Низкий заряд!</string>
+    <string name="battery_connected">Подключено</string>
 </resources>

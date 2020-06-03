@@ -16,10 +16,6 @@ public class BaseFragment extends Fragment {
             int iconId = context.getResources()
                     .getIdentifier(drawableName, null, null);
 
-//            if (iconId != 0) {
-//                imageView.setImageDrawable(context.getDrawable(iconId));
-//            }
-
             if (iconId == 0)
                 iconId = android.R.drawable.ic_menu_view;
 
