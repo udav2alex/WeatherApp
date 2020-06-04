@@ -24,10 +24,6 @@ public class DataController {
     public void refreshWeatherState(PositionPoint position) {
         if (isOnline(activity)) {
             provider.getWeatherAndForecasts(position);
-        } else {
-            showMessage(
-                    activity.getResources().getString(R.string.provider_message_no_internet),
-                    activity.getResources().getString(R.string.provider_message_internet_check));
         }
     }
 
@@ -40,29 +36,24 @@ public class DataController {
             HttpWeatherError e = (HttpWeatherError) throwable;
 
             if (e.getHttpCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                showMessage(
+                activity.showMessage(
                         activity.getResources().getString(R.string.provider_message_prescription),
                         activity.getResources().getString(R.string.provider_message_not_found));
             } else if (e.getHttpCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                showMessage(
+                activity.showMessage(
                         activity.getResources().getString(R.string.provider_message_prescription),
                         activity.getResources().getString(R.string.provider_message_unauthorized));
             } else {
-                showMessage(
+                activity.showMessage(
                         activity.getResources().getString(R.string.provider_message_prescription),
                         e.getMessage());
             }
         } else {
             throwable.printStackTrace();
-            showMessage(
+            activity.showMessage(
                     activity.getResources().getString(R.string.provider_message_internal_error),
                     throwable.getMessage());
         }
-    }
-
-    private void showMessage(String preface, String message) {
-        final String errorMessage = preface + "\n\n" + message;
-        activity.showErrorMessage(errorMessage);
     }
 
     public static boolean isOnline(Context context) {

@@ -11,23 +11,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ru.gressor.weatherapp.battery_tools.BatteryObserver;
-import ru.gressor.weatherapp.battery_tools.BatteryPublisherProvider;
+import ru.gressor.weatherapp.tools.battery.BatteryObserver;
+import ru.gressor.weatherapp.tools.battery.BatteryPublisherProvider;
 import ru.gressor.weatherapp.data_types.PositionPoint;
 import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.tools.connectivity.ConnectivityObserver;
+import ru.gressor.weatherapp.tools.connectivity.ConnectivityPublisherProvider;
 import ru.gressor.weatherapp.ui.App;
+import ru.gressor.weatherapp.ui.MainActivity;
 import ru.gressor.weatherapp.ui.SelectTownActivity;
 import ru.gressor.weatherapp.data_types.TemperatureScale;
 import ru.gressor.weatherapp.data_types.ActualWeather;
 import ru.gressor.weatherapp.data_types.WeatherState;
 import ru.gressor.weatherapp.ui.fragments.BaseFragment;
+import ru.gressor.weatherapp.weather_providers.DataController;
 
-public class FragmentWeatherToday extends BaseFragment implements BatteryObserver {
+public class FragmentWeatherToday extends BaseFragment
+        implements BatteryObserver, ConnectivityObserver {
     private View fragmentView;
 
     private TextView textViewTown;
@@ -37,6 +41,7 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
     private TextView textViewConditions;
     private TextView textViewFeelsLike;
     private TextView textViewBatteryState;
+    private TextView textViewConnectivityState;
 
     public FragmentWeatherToday() {
     }
@@ -53,6 +58,9 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
         ((BatteryPublisherProvider) App.getInstance())
                 .getBatteryPublisher().registerBatteryObserver(fragmentWeatherToday);
 
+        ((ConnectivityPublisherProvider) App.getInstance())
+                .getConnectivityPublisher().registerConnectivityObserver(fragmentWeatherToday);
+
         return fragmentWeatherToday;
     }
 
@@ -64,6 +72,8 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
 
         init(fragmentView);
         initRecyclerView(fragmentView);
+
+        updateConnectivityIndicator();
 
         return fragmentView;
     }
@@ -83,6 +93,7 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
         textViewConditions = view.findViewById(R.id.conditions);
         textViewFeelsLike = view.findViewById(R.id.feelsLike);
         textViewBatteryState = view.findViewById(R.id.batteryState);
+        textViewConnectivityState = view.findViewById(R.id.connectivityState);
 
         textViewTown.setOnClickListener(textViewTownOnClickListener);
         textViewSite.setOnClickListener(textViewTownOnClickListener);
@@ -111,8 +122,9 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
 
         updateBatteryIndicator();
 
+        if (getWeatherState() == null) return;
         ActualWeather actualWeather = getWeatherState().getActualWeather();
-        if (getWeatherState() == null || actualWeather == null) return;
+        if (actualWeather == null) return;
 
         TemperatureScale tScale = TemperatureScale.getScale();
         String errorMessage = context.getResources().getString(R.string.error_unknown_scale);
@@ -173,8 +185,6 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
         if (context == null) return;
 
         String action = intent.getAction();
-        Toast.makeText(context, action, Toast.LENGTH_LONG).show();
-
         String state = null;
         if (    "android.intent.action.ACTION_POWER_DISCONNECTED".equals(action) ||
                 "android.intent.action.BATTERY_OKAY".equals(action)) {
@@ -184,6 +194,33 @@ public class FragmentWeatherToday extends BaseFragment implements BatteryObserve
         }
 
         updateBatteryIndicator(state);
+    }
+
+    @Override
+    public void connectivityUpdated(Intent intent) {
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity == null) return;
+        
+        if (DataController.isOnline(activity)) {
+            showConnectivityState(activity.getString(R.string.network_online), android.R.drawable.presence_online);
+        } else {
+            showConnectivityState(activity.getString(R.string.network_offline), android.R.drawable.presence_offline);
+            if (intent != null) {
+                activity.showMessage(
+                        getActivity().getResources().getString(R.string.provider_message_no_internet),
+                        getActivity().getResources().getString(R.string.provider_message_internet_check));
+            }
+        }
+    }
+
+    private void showConnectivityState(String string, int drawableRes) {
+        textViewConnectivityState.setText(string);
+        textViewConnectivityState.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,0 ,drawableRes,0);
+    }
+
+    private void updateConnectivityIndicator() {
+        connectivityUpdated(null);
     }
 
     private View.OnClickListener textViewTownOnClickListener = (v) -> {

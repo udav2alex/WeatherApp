@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.battery_tools;
+package ru.gressor.weatherapp.tools.battery;
 
 public interface BatteryPublisherProvider {
     BatteryPublisher getBatteryPublisher();

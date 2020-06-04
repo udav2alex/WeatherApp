@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.battery_tools;
+package ru.gressor.weatherapp.tools.battery;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

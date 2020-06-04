@@ -65,4 +65,6 @@
     <string name="battery_ok">Батарея ОК</string>
     <string name="battery_low">Низкий заряд!</string>
     <string name="battery_connected">Подключено</string>
+    <string name="network_online">Online</string>
+    <string name="network_offline">Offline</string>
 </resources>

@@ -66,4 +66,6 @@
     <string name="battery_ok">Battery OK</string>
     <string name="battery_low">Battery low!</string>
     <string name="battery_connected">Connected</string>
+    <string name="network_offline">Offline</string>
+    <string name="network_online">Online</string>
 </resources>

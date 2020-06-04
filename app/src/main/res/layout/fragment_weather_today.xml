@@ -25,6 +25,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/connectivityState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@android:drawable/stat_notify_sync"
+            android:drawablePadding="4dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="@string/not_available"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/textViewTown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

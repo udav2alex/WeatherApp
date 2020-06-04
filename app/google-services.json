@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "143395289089",
+    "firebase_url": "https://weather-app-e3900.firebaseio.com",
+    "project_id": "weather-app-e3900",
+    "storage_bucket": "weather-app-e3900.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143395289089:android:8f3d61a07915e008f6a800",
+        "android_client_info": {
+          "package_name": "ru.gressor.weatherapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143395289089-nnvuvo5cn689b07in9inau1j3sb9nmmi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.gressor.weatherapp",
+            "certificate_hash": "5b3dfaeab675a4678ae092684f7d58529be57e62"
+          }
+        },
+        {
+          "client_id": "143395289089-avakvfvenmqh3an4oe4hklmeh4adp325.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5wTrNeW37GSsszs85gDD7Sd4F1nCZghk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143395289089-avakvfvenmqh3an4oe4hklmeh4adp325.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

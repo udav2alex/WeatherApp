@@ -145,6 +145,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void showMessage(String preface, String message) {
+        final String errorMessage = preface + "\n\n" + message;
+        showErrorMessage(errorMessage);
+    }
+
     public void showErrorMessage(String errorMessage) {
         Intent intent = new Intent(getApplicationContext(), ErrorMessageActivity.class);
         intent.putExtra(ErrorMessageActivity.ERROR_MESSAGE, errorMessage);

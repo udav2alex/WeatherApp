@@ -1,25 +1,39 @@
 package ru.gressor.weatherapp.ui;
 
 import android.app.Application;
-import android.content.Intent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.IntentFilter;
+import android.os.Build;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
-import ru.gressor.weatherapp.battery_tools.BatteryObserver;
-import ru.gressor.weatherapp.battery_tools.BatteryPublisher;
-import ru.gressor.weatherapp.battery_tools.BatteryPublisherProvider;
+import ru.gressor.weatherapp.tools.battery.BatteryPublisher;
+import ru.gressor.weatherapp.tools.battery.BatteryPublisherProvider;
 import ru.gressor.weatherapp.db.WeatherDao;
 import ru.gressor.weatherapp.db.WeatherDatabase;
-import ru.gressor.weatherapp.battery_tools.BatteryBroadcastReceiver;
+import ru.gressor.weatherapp.tools.battery.BatteryBroadcastReceiver;
+import ru.gressor.weatherapp.tools.FirebaseService;
+import ru.gressor.weatherapp.tools.battery.MyBatteryPublisher;
+import ru.gressor.weatherapp.tools.connectivity.ConnectivityBroadcastReceiver;
+import ru.gressor.weatherapp.tools.connectivity.ConnectivityPublisher;
+import ru.gressor.weatherapp.tools.connectivity.ConnectivityPublisherProvider;
+import ru.gressor.weatherapp.tools.connectivity.MyConnectivityPublisher;
 
-public class App extends Application implements BatteryPublisher, BatteryPublisherProvider {
+public class App extends Application
+        implements BatteryPublisherProvider, ConnectivityPublisherProvider {
     private static App instance;
     private WeatherDatabase db;
-    private List<BatteryObserver> batteryObservers = new ArrayList<>();
+    private BatteryPublisher batteryPublisher = new MyBatteryPublisher();
+    private ConnectivityPublisher connectivityPublisher = new MyConnectivityPublisher();
 
     public static App getInstance() {
         return instance;
@@ -35,7 +49,24 @@ public class App extends Application implements BatteryPublisher, BatteryPublish
                 .allowMainThreadQueries()
                 .build();
 
+        initNotificationChannel();
         registerBatteryBroadcastReceiver();
+        registerConnectivityBroadcastReceiver();
+//        writeFirebaseTokenToLog();
+    }
+
+    private void initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            NotificationChannel channel = new NotificationChannel(
+                    FirebaseService.CHANNEL_ID, "name",
+                    NotificationManager.IMPORTANCE_LOW);
+
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void registerBatteryBroadcastReceiver() {
@@ -50,29 +81,42 @@ public class App extends Application implements BatteryPublisher, BatteryPublish
         this.registerReceiver(new BatteryBroadcastReceiver(), intentFilter);
     }
 
+    private void registerConnectivityBroadcastReceiver() {
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        this.registerReceiver(new ConnectivityBroadcastReceiver(), intentFilter);
+    }
+
     public WeatherDao getWeatherDao() {
         return db.getWeatherDao();
     }
 
     @Override
-    public void registerBatteryObserver(BatteryObserver batteryObserver) {
-        batteryObservers.add(batteryObserver);
-    }
-
-    @Override
-    public void batteryUpdated(Intent intent) {
-        for (int i = batteryObservers.size() - 1; i >= 0; i--) {
-            BatteryObserver batteryObserver = batteryObservers.get(i);
-            if (batteryObserver == null) {
-                batteryObservers.remove(i);
-                continue;
-            }
-            batteryObserver.batteryUpdated(intent);
-        }
-    }
-
-    @Override
     public BatteryPublisher getBatteryPublisher() {
-        return this;
+        return batteryPublisher;
     }
+
+    @Override
+    public ConnectivityPublisher getConnectivityPublisher() {
+        return connectivityPublisher;
+    }
+
+    private void writeFirebaseTokenToLog() {
+        String TAG = "MyPushToken";
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    if (task.getResult() == null) {
+                        Log.w(TAG, "getInstanceId result is null");
+                        return;
+                    }
+
+                    String token = task.getResult().getToken();
+                    Log.d(TAG, "Token: " + token);
+                });
+    }
+
 }
