@@ -1,4 +1,4 @@
-package ru.gressor.weatherapp.tools;
+package ru.gressor.weatherapp.tools.firebase;
 
 import android.app.NotificationManager;
 import android.content.Context;

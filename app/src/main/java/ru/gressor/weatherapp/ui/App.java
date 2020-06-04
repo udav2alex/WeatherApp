@@ -8,20 +8,16 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.room.Room;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import ru.gressor.weatherapp.tools.battery.BatteryPublisher;
 import ru.gressor.weatherapp.tools.battery.BatteryPublisherProvider;
 import ru.gressor.weatherapp.db.WeatherDao;
 import ru.gressor.weatherapp.db.WeatherDatabase;
 import ru.gressor.weatherapp.tools.battery.BatteryBroadcastReceiver;
-import ru.gressor.weatherapp.tools.FirebaseService;
+import ru.gressor.weatherapp.tools.firebase.FirebaseService;
 import ru.gressor.weatherapp.tools.battery.MyBatteryPublisher;
 import ru.gressor.weatherapp.tools.connectivity.ConnectivityBroadcastReceiver;
 import ru.gressor.weatherapp.tools.connectivity.ConnectivityPublisher;
