@@ -10,6 +10,8 @@ import android.util.Log;
 
 import androidx.room.Room;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import ru.gressor.weatherapp.tools.battery.BatteryPublisher;
@@ -46,8 +48,11 @@ public class App extends Application
                 .build();
 
         initNotificationChannel();
+
         registerBatteryBroadcastReceiver();
         registerConnectivityBroadcastReceiver();
+
+//        updateFirebaseConnection();
 //        writeFirebaseTokenToLog();
     }
 
@@ -96,6 +101,15 @@ public class App extends Application
         return connectivityPublisher;
     }
 
+    private void updateFirebaseConnection() {
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setApplicationId("") // Required for Analytics.
+                .setProjectId("") // Required for Firebase Installations.
+                .setApiKey("") // Required for Auth.
+                .build();
+        FirebaseApp.initializeApp(this, options, "ru.gressor.weatherapp");
+    }
+
     private void writeFirebaseTokenToLog() {
         String TAG = "MyPushToken";
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -114,5 +128,4 @@ public class App extends Application
                     Log.d(TAG, "Token: " + token);
                 });
     }
-
 }
