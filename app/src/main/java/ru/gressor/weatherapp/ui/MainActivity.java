@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -144,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMessage(String preface, String message) {
+        final String errorMessage = preface + "\n\n" + message;
+        showErrorMessage(errorMessage);
     }
 
     public void showErrorMessage(String errorMessage) {

@@ -13,9 +13,34 @@
         app:layout_constraintTop_toBottomOf="@id/fragmentWeatherToday">
 
         <TextView
+            android:id="@+id/batteryState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@android:drawable/ic_lock_idle_charging"
+            android:drawablePadding="4dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="@string/battery_ok"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/connectivityState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@android:drawable/stat_notify_sync"
+            android:drawablePadding="4dp"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:text="@string/not_available"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/textViewTown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/town"
             android:textSize="42sp"
             app:layout_constraintBottom_toTopOf="@id/textViewSite"
@@ -64,8 +89,8 @@
                 android:id="@+id/conditionsImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
                 android:contentDescription="@string/not_available"
+                android:scaleType="fitCenter"
                 app:srcCompat="@android:drawable/ic_menu_view" />
 
         </LinearLayout>
@@ -97,11 +122,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_today"
-            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/feelsLike"/>
+            app:layout_constraintTop_toBottomOf="@id/feelsLike" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
