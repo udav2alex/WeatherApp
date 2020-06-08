@@ -9,11 +9,17 @@
         android:icon="@android:drawable/ic_menu_mylocation"
         android:title="@string/select_town" />
 
+    <item
+        android:id="@+id/menu_drawer_current_location"
+        android:orderInCategory="5"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="@string/current_location" />
+
     <group android:id="@+id/menu_group_history">
 
         <item
             android:id="@+id/menu_drawer_add_favorite"
-            android:orderInCategory="1"
+            android:orderInCategory="10"
             android:icon="@android:drawable/star_off"
             android:title="@string/add_favorite" />
     </group>

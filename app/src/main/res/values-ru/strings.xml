@@ -67,4 +67,5 @@
     <string name="battery_connected">Подключено</string>
     <string name="network_online">Online</string>
     <string name="network_offline">Offline</string>
+    <string name="current_location">Текущее положение</string>
 </resources>
