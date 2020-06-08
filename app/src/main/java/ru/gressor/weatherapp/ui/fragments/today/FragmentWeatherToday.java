@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Objects;
+
 import ru.gressor.weatherapp.tools.battery.BatteryObserver;
 import ru.gressor.weatherapp.tools.battery.BatteryPublisherProvider;
 import ru.gressor.weatherapp.data_types.PositionPoint;
@@ -116,9 +118,18 @@ public class FragmentWeatherToday extends BaseFragment
     private void populate() {
         Context context = fragmentView.getContext();
 
-        PositionPoint currentDestination = getPositionPoint();
-        textViewTown.setText(currentDestination.getTown());
-        textViewSite.setText(currentDestination.getSite());
+        PositionPoint currentPosition = getPositionPoint();
+        if (currentPosition.getTown() == null) {
+            textViewTown.setText(Objects.requireNonNull(getActivity())
+                    .getResources().getString(R.string.current_location));
+            textViewSite.setText(String.format(Objects.requireNonNull(getActivity())
+                    .getResources().getString(R.string.lon_lat_description),
+                    currentPosition.getCoord().getLon(),
+                    currentPosition.getCoord().getLat()));
+        } else {
+            textViewTown.setText(currentPosition.getTown());
+            textViewSite.setText(currentPosition.getSite());
+        }
 
         updateBatteryIndicator();
 

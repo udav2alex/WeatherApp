@@ -68,4 +68,6 @@
     <string name="battery_connected">Connected</string>
     <string name="network_offline">Offline</string>
     <string name="network_online">Online</string>
+    <string name="current_location">Current location</string>
+    <string name="lon_lat_description">lon: %1$f / lat: %2$f</string>
 </resources>

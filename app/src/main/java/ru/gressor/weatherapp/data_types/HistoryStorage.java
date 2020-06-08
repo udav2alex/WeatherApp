@@ -28,9 +28,9 @@ public class HistoryStorage implements Parcelable {
     private WeatherDao weatherDao;
 
     public HistoryStorage() {
-        loadLastItem();
         initDao();
         loadHistory();
+        loadLastItem();
     }
 
     private void loadLastItem() {
@@ -42,7 +42,7 @@ public class HistoryStorage implements Parcelable {
         String site = sharedPreferences.getString(LAST_STATE_SITE,
                 App.getInstance().getApplicationContext().getResources().getString(R.string.site));
 
-        historyItems.push(new HistoryItem(null, new PositionPoint(town, site)));
+        push(new HistoryItem(null, new PositionPoint(town, site)));
     }
 
     private void saveLastItem(HistoryItem item) {
@@ -61,8 +61,8 @@ public class HistoryStorage implements Parcelable {
 
         for (int i = 0; i < cities.size(); i++) {
             City city = cities.get(i);
-            PositionPoint positionPoint = new PositionPoint(city.getCityName(), null);
-            positionPoint.setCoord(city.getCoord());
+            PositionPoint positionPoint =
+                    new PositionPoint(city.getCityName(), null, city.getCoord());
 
             WeatherState weatherState = new WeatherState(
                     new ActualWeather(city.getTemperature(), city.getActualAt()),
@@ -82,6 +82,12 @@ public class HistoryStorage implements Parcelable {
     }
 
     public void push(HistoryItem historyItem) {
+        if (historyItems.get(0) != null &&
+                historyItems.get(0).getPositionPoint().getTown() == null) {
+            historyItems.remove(0);
+            weatherDao.deleteEmpty();
+        }
+
         boolean isFavorite = removeSimilar(historyItem);
         if (isFavorite) historyItem.setFavorite(true);
 
@@ -91,6 +97,7 @@ public class HistoryStorage implements Parcelable {
 
         LinkedList<HistoryItem> favorites = getSublistFirstExcluded(true);
         int favoritesCount = favorites.size() + (historyItem.isFavorite() ? 1 : 0);
+
         if (favoritesCount > MAX_FAVORITES) {
             favorites.get(favorites.size() - 1).setFavorite(false);
         }
@@ -127,27 +134,20 @@ public class HistoryStorage implements Parcelable {
         return result;
     }
 
-    public PositionPoint getCurrentPosition() {
-        return historyItems.get(0).getPositionPoint();
-    }
-
-    public WeatherState getCurrentWeather() {
-        return historyItems.get(0).getWeatherState();
-    }
-
     private boolean removeSimilar(HistoryItem historyItem) {
         return removeSimilar(historyItem.getPositionPoint().getTown());
     }
 
     private boolean removeSimilar(String townName) {
         weatherDao.deleteCity(townName);
-
-        for (int i = 0; i < historyItems.size(); i++) {
-            HistoryItem item = historyItems.get(i);
-            if (item.getPositionPoint().getTown().equals(townName)) {
-                boolean isFavorite = item.isFavorite();
-                historyItems.remove(item);
-                return isFavorite;
+        if (townName != null) {
+            for (int i = 0; i < historyItems.size(); i++) {
+                HistoryItem item = historyItems.get(i);
+                if (townName.equals(item.getPositionPoint().getTown())) {
+                    boolean isFavorite = item.isFavorite();
+                    historyItems.remove(item);
+                    return isFavorite;
+                }
             }
         }
         return false;
@@ -172,6 +172,14 @@ public class HistoryStorage implements Parcelable {
             }
         }
         return result;
+    }
+
+    public PositionPoint getCurrentPosition() {
+        return historyItems.get(0).getPositionPoint();
+    }
+
+    public WeatherState getCurrentWeather() {
+        return historyItems.get(0).getWeatherState();
     }
 
     public static final Creator<HistoryStorage> CREATOR = new Creator<HistoryStorage>() {

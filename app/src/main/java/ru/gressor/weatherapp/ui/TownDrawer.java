@@ -1,10 +1,8 @@
 package ru.gressor.weatherapp.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -20,16 +18,19 @@ import java.util.List;
 import ru.gressor.weatherapp.R;
 import ru.gressor.weatherapp.data_types.HistoryItem;
 import ru.gressor.weatherapp.data_types.HistoryStorage;
+import ru.gressor.weatherapp.tools.location.LocationProvider;
 
 public class TownDrawer
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static int TOWN_LIST_OFFSET = 10000;
+    public static final int PERMISSION_REQUEST_CODE = 10;
+    private static final int TOWN_LIST_OFFSET = 10000;
 
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private MainActivity activity;
     private HistoryStorage historyStorage;
     private Menu drawerMenu;
+    private LocationProvider locationProvider;
 
     public TownDrawer(MainActivity activity, Toolbar toolbar, HistoryStorage historyStorage) {
         this.drawer = activity.findViewById(R.id.drawer_layout);
@@ -55,11 +56,16 @@ public class TownDrawer
     private void updateFirstDrawerMenuHistoryItem(HistoryItem historyItem) {
         MenuItem menuItem = drawerMenu.findItem(R.id.menu_drawer_add_favorite);
 
-        menuItem.setTitle((historyItem.isFavorite() ?
-                activity.getResources().getString(R.string.remove_favorite)
-                : activity.getResources().getString(R.string.add_favorite))
-                + " : " + historyItem.getPositionPoint().getTown());
-        menuItem.setIcon(getHistoryIcon(historyItem.isFavorite()));
+        if (historyItem.getPositionPoint().getTown() == null) {
+            menuItem.setTitle(R.string.current_location);
+            menuItem.setIcon(null);
+        } else {
+            menuItem.setTitle((historyItem.isFavorite() ?
+                    activity.getResources().getString(R.string.remove_favorite)
+                    : activity.getResources().getString(R.string.add_favorite))
+                    + " : " + historyItem.getPositionPoint().getTown());
+            menuItem.setIcon(getHistoryIcon(historyItem.isFavorite()));
+        }
     }
 
     public void updateDrawerMenu() {
@@ -109,6 +115,9 @@ public class TownDrawer
             Intent intent = new Intent(activity, AboutActivity.class);
             activity.startActivity(intent);
 
+        } else if (id == R.id.menu_drawer_current_location) {
+            getCurrentLocation();
+
         } else if (id == R.id.menu_drawer_clear) {
             callClearDialog();
 
@@ -131,6 +140,18 @@ public class TownDrawer
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void getCurrentLocation() {
+        if (locationProvider == null) {
+            locationProvider = new LocationProvider(activity);
+        }
+
+        locationProvider.requestCurrentLocation();
+    }
+
+    public void permissionsGranted() {
+        getCurrentLocation();
     }
 
     private void callClearDialog() {

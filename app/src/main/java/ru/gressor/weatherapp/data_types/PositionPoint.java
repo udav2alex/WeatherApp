@@ -18,6 +18,12 @@ public class PositionPoint implements Parcelable {
         this.site = site;
     }
 
+    public PositionPoint(String town, String site, Coord coord) {
+        this.town = town;
+        this.site = site;
+        this.coord = coord;
+    }
+
     public PositionPoint(Parcel parcel) {
         this.town = parcel.readString();
         this.site = parcel.readString();

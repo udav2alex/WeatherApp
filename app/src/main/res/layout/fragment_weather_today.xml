@@ -41,6 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:singleLine="true"
+
             android:text="@string/town"
             android:textSize="42sp"
             app:layout_constraintBottom_toTopOf="@id/textViewSite"
@@ -55,6 +57,7 @@
             android:id="@+id/textViewSite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="@string/site"
             android:textSize="21sp"
             app:layout_constraintBottom_toTopOf="@id/weatherNow"
