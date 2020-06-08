@@ -82,7 +82,8 @@ public class HistoryStorage implements Parcelable {
     }
 
     public void push(HistoryItem historyItem) {
-        if (historyItems.get(0).getPositionPoint().getTown() == null) {
+        if (historyItems.get(0) != null &&
+                historyItems.get(0).getPositionPoint().getTown() == null) {
             historyItems.remove(0);
             weatherDao.deleteEmpty();
         }
