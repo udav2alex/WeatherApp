@@ -27,6 +27,9 @@ public interface WeatherDao {
     @Query("DELETE FROM cities WHERE city_name = :name")
     void deleteCity(String name);
 
+    @Query("DELETE FROM cities WHERE city_name IS NULL")
+    void deleteEmpty();
+
     @Query("SELECT * FROM cities")
     List<City> getAllCities();
 
