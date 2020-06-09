@@ -30,6 +30,49 @@
       "api_key": [
         {
           "current_key": "AIzaSyBecuntU3APz2yC4ofMq0BxE1tr43Bf6Sg"
+        },
+        {
+          "current_key": "AIzaSyC6lQZm-jknsr7qf27Vq1u34xUHh0hV5bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960960496822-0n41gqc8ip6uouaisnd29rkfncul2281.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960960496822:android:58479cd8ee4064df431217",
+        "android_client_info": {
+          "package_name": "ru.gressor.weatherapp.without_geo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960960496822-n9bl1dpsacu4hh155cgct34l7guae2tg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.gressor.weatherapp.without_geo",
+            "certificate_hash": "5b3dfaeab675a4678ae092684f7d58529be57e62"
+          }
+        },
+        {
+          "client_id": "960960496822-0n41gqc8ip6uouaisnd29rkfncul2281.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBecuntU3APz2yC4ofMq0BxE1tr43Bf6Sg"
+        },
+        {
+          "current_key": "AIzaSyC6lQZm-jknsr7qf27Vq1u34xUHh0hV5bw"
         }
       ],
       "services": {
