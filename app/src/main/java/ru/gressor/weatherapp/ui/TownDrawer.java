@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 
 import ru.gressor.weatherapp.R;
+import ru.gressor.weatherapp.config.Config;
 import ru.gressor.weatherapp.data_types.HistoryItem;
 import ru.gressor.weatherapp.data_types.HistoryStorage;
 import ru.gressor.weatherapp.tools.location.LocationProvider;
@@ -50,7 +51,15 @@ public class TownDrawer
         NavigationView navigationView = activity.findViewById(R.id.drawer_navigation);
         navigationView.setNavigationItemSelectedListener(this);
         drawerMenu = navigationView.getMenu();
+        configMenu(drawerMenu);
+
         updateDrawerMenu();
+    }
+
+    private void configMenu(Menu drawerMenu) {
+        if (!Config.GEO_ENABLED) {
+            drawerMenu.removeItem(R.id.menu_drawer_current_location);
+        }
     }
 
     private void updateFirstDrawerMenuHistoryItem(HistoryItem historyItem) {
@@ -146,7 +155,6 @@ public class TownDrawer
         if (locationProvider == null) {
             locationProvider = new LocationProvider(activity);
         }
-
         locationProvider.requestCurrentLocation();
     }
 

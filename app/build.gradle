@@ -25,6 +25,19 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+    flavorDimensions 'geo'
+    productFlavors {
+        with_geo {
+            dimension 'geo'
+            versionNameSuffix '.with_geo'
+        }
+        without_geo {
+            dimension 'geo'
+            versionNameSuffix '.without_geo'
+            applicationIdSuffix '.without_geo'
+        }
+    }
 }
 
 dependencies {
